@@ -1,32 +1,81 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.3
+import QtQuick.Dialogs 1.1
 
 Item {
-    width: 884
-    height: 1010
+    x: -425
+    y: 18
     objectName: "pageFileLoad"
-
 
     signal openFileClick
 
+    Rectangle{
+        x: 19
+        y: 131
+        width: 815
+        height: 388
+        color: "#f8fafb"
 
-    CustButton {
-        id: drop_open
-        x: 0
-        y: 0
-        height: 270
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.top: parent.top
-        anchors.topMargin: 20
-        normalSrc: "elements/file_normal.png"
-        hoverSrc: "elements/file_hovered.png"
-        clickedSrc: "elements/file_normal.png"
-        onClicked: fileDialog.open();
+        SwipeView{
+            id: view
+            anchors.fill: parent
+            currentIndex: 0
+            spacing: 10
+            interactive: false
+
+
+            Item{
+                id: page1
+
+                Text{
+                x: 12 //-18
+                y: 28 //-131
+                text: "Путь к файлу"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 64
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+
+                Text{
+                x: 12
+                y: 88
+                text: "Строк в файле"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 132
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+                CustButton{
+                    x: 10
+                    y: 151
+                    width: 795
+                    height: 225
+                    normalSrc: "elements/file_normal.png"
+                    hoverSrc: "elements/file_hovered.png"
+                    clickedSrc: "elements/file_hovered.png"
+                    onClicked: fileDialog.open();
 
        FileDialog {
             id: fileDialog
@@ -56,166 +105,324 @@ Item {
 
             onDropped: console.log("Droparea dropped")
         }
+                }
+
+            }
+
+            Item{
+                id: page2
+
+                function unclipall(){
+                    rad1.unclip();
+                    rad2.unclip();
+                    rad3.unclip();
+                    rad4.unclip();
+                }
+
+                CustRadio{
+                    id: rad1
+                    x: 12
+                    y: 16
+                    normalSrc: "elements/gr_normal.png"
+                    hoverSrc: "elements/gr_hover.png"
+                    clickedSrc: "elements/gr_normal.png"
+                    onClicked: { page2.unclipall(); rad1.clip();}
+                }
+
+                CustRadio{
+                    id: rad2
+                    x: 12
+                    y: 84
+                    normalSrc: "elements/gr_normal.png"
+                    hoverSrc: "elements/gr_hover.png"
+                    clickedSrc: "elements/gr_normal.png"
+                    onClicked: {page2.unclipall(); rad2.clip();}
+                }
+
+                CustRadio{
+                    id: rad3
+                    x: 12
+                    y: 152
+                    normalSrc: "elements/gr_normal.png"
+                    hoverSrc: "elements/gr_hover.png"
+                    clickedSrc: "elements/gr_normal.png"
+                    onClicked: {page2.unclipall(); rad3.clip();}
+                }
+
+                CustRadio{
+                    id: rad4
+                    x: 12
+                    y: 220
+                    normalSrc: "elements/gr_normal.png"
+                    hoverSrc: "elements/gr_hover.png"
+                    clickedSrc: "elements/gr_normal.png"
+                    onClicked: {page2.unclipall(); rad4.clip();}
+                }
+
+                Text{
+                x: 68 //-18
+                y: 26 //-131
+                text: "Табуляция"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 64
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+
+                Text{
+                x: 68
+                y: 94
+                text: "Пробел"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 132
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+                Text{
+                x: 68
+                y: 162
+                text: "Фикс. ширина"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 200
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+                Text{
+                x: 68
+                y: 230
+                text: "Символ"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 268
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+            }
+
+            Item{
+                id: page3
+
+                CustCheck{
+                    id: ch1
+                    x: 12
+                    y: 16
+                    normalSrc: "elements/check_normal_checked.png"
+                    hoverSrc: "elements/hover_check.png"
+                    clickedSrc: "elements/check_normal_checked.png"
+                    onClicked: { ch1.clip();}
+                }
+
+                Text{
+                x: 68 //-18
+                y: 26 //-131
+                text: "Первая строка является загловком"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 64
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 132
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+                Input{
+                    x: 13
+                    y: 100
+                    caption: "Имя столбца X"
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 200
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+                Input{
+                    x: 13
+                    y: 168
+                    caption: "Имя столбца Y"
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 268
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+                Text{
+                x: 12 //-18
+                y: 236 //-131
+                text: "Разделять доли символом:"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+                }
+
+            }
+
+        }
     }
 
-    Item {
-        id: menuList
-        x: 0
-        width: 884
-        height: 624
-        anchors.top: drop_open.bottom
-        anchors.topMargin: 10
-        clip: false
+    Image{
+        x: -53
+        y: -19
+        width: 952
+        height: 720
+        source: "elements/table_back_new.png"
+    }
+
+    Image{
+        x: -30
+        y: -18
+        source: "elements/layer_shadow.png"
+    }
+
+    Image{
+        id: swipe_element
+        x: 50
+        y: 24
+        source: "elements/table_swipe.png"
+
+        NumberAnimation on x{
+            id: to0
+            to: 50
+        }
+        NumberAnimation on x{
+            id: to1
+            to: 298
+        }
+        NumberAnimation on x{
+            id: to2
+            to: 540
+        }
+    }
 
 
-        Image {
-            id: imInfo
-            source: "elements/table_title.png"
-            Text {
-                text: "Информация о файле"
-                anchors.left: parent.left
-                anchors.leftMargin: 50
-                anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: 32
-                font.family: "JohnSans Lite Pro"
-                color: "#ffffff"
-            }
+    Button{
+        x: 50
+        y: 24
+        width: 214
+        height: 62
+        Text{
+        x: 14
+        y: 18
+        text: "Основные сведения"
+        color: "white"
+        font.family: "Roboto Regular"
+        font.pixelSize: 20
         }
-        Image {
-            id: imPath
-            anchors.top: imInfo.bottom
-            anchors.topMargin: 0
-            source: "elements/table_row.png"
-            Input {
-                id: pathFile
-                objectName: "pathFile"
-                anchors.topMargin: 10
-                anchors.leftMargin: 20
-                anchors.fill: parent
-                caption: "Путь к файлу"
-            }
-        }
-        Image {
-            id: imNumStrok
-            anchors.top: imPath.bottom
-            anchors.topMargin: 0
-            source: "elements/table_row.png"
-            Input {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.top: parent.top
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-                caption: "Строк в файле"
-            }
-        }
-        Image {
-            id: imHaveTitle
-            anchors.top: imNumStrok.bottom
-            anchors.topMargin: 0
-            source: "elements/table_row.png"
-            Text {
-                id: txtFirstStr
-                font.family: "JohnSans Lite Pro"
-                font.pixelSize: 32
-                color: "#525f70"
-                text: "Первая строка является заголовком"
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-            }
+        background: Rectangle { opacity: 0}
+        onClicked: { view.currentIndex = 0; to0.start() }
+    }
 
-            Custslider {
-                anchors.top: txtFirstStr.top
-                anchors.topMargin: 2
-                anchors.left: txtFirstStr.right
-                anchors.leftMargin: 50
-                checked: true
-            }
+    Button{
+        x: 303
+        y: 24
+        width: 214
+        height: 62
+        Text{
+        x: 14
+        y: 18
+        text: "Опции разделителя"
+        color: "white"
+        font.family: "Roboto Regular"
+        font.pixelSize: 20
         }
-        Image {
-            id: imCol_1
-            anchors.top: imHaveTitle.bottom
-            anchors.topMargin: 0
-            source: "elements/table_row.png"
-            Input {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.top: parent.top
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-                caption: "Столбец 1"
-            }
+        background: Rectangle { opacity: 0}
+        onClicked: { view.currentIndex = 1; to1.start() }
+    }
+
+    Button{
+        x: 567
+        y: 24
+        width: 214
+        height: 62
+        Text{
+        x: 14
+        y: 18
+        text: "Опции данных"
+        color: "white"
+        font.family: "Roboto Regular"
+        font.pixelSize: 20
         }
-        Image {
-            id: imCol_2
-            anchors.top: imCol_1.bottom
-            anchors.topMargin: 0
-            source: "elements/table_row.png"
-            Input {
-                anchors.top: parent.top
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-                caption: "Столбец 2"
-            }
-        }
-        Image {
-            id: imSpacer
-            anchors.top: imCol_2.bottom
-            anchors.topMargin: 0
-            source: "elements/table_row.png"
-            Text {
-                font.family: "JohnSans Lite Pro"
-                font.pixelSize: 20
-                color: "#525f70"
-                text: "Разделитель"
-                anchors.leftMargin: 20
-                anchors.topMargin: 10
-                anchors.fill: parent
-            }
-        }
-        Image {
-            id: imDot
-            anchors.top: imSpacer.bottom
-            anchors.topMargin: 0
-            source: "elements/table_row.png"
-            Text {
-                font.family: "JohnSans Lite Pro"
-                font.pixelSize: 20
-                color: "#525f70"
-                text: "Символ отделения целых"
-                anchors.leftMargin: 20
-                anchors.topMargin: 10
-                anchors.fill: parent
-            }
-        }
-        Image {
-            id: imLast
-            anchors.top: imDot.bottom
-            anchors.topMargin: 0
-            source: "elements/last_row.png"
-            Input {
-                anchors.leftMargin: 20
-                anchors.topMargin: 10
-                anchors.fill: parent
-                caption: "Доп 4"
-            }
-        }
+        background: Rectangle { opacity: 0}
+        onClicked: { view.currentIndex = 2; to2.start() }
     }
 
     CustButton{
-        id: upload
-        width: 328
-        height: 76
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: menuList.bottom
-        anchors.topMargin: 0
-        normalSrc: "elements/button_normal.png"
-        hoverSrc: "elements/button_hover.png"
-        clickedSrc: "elements/button_clicked.png"
-        caption: "Загрузить"
-        b_icon: "elements/Regression_icon.png"
-        onClicked: openFileClick()
+       id: load
+       x: 270
+       y: 580
+       width: 328
+       height: 68
+       normalSrc: "elements/btn_1.png"
+       hoverSrc: "elements/btn_2.png"
+       clickedSrc: "elements/btn_1.png"
+       caption: "Загрузить"
+       textcolor: "white"
+       posx: 117
+       posy: 23
     }
+
+
 }

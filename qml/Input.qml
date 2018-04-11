@@ -8,10 +8,10 @@ Item{
 
 	Rectangle{
 		id: underline
-		x: -5
-		y: 42
-		width: 835
-		height: 3
+        x: 0
+        y: 32
+        width: 795
+        height: 1
 		color: "#009788"
 		scale: 0
 	}
@@ -19,9 +19,10 @@ Item{
 	Text{
 		id: obj
 		text: caption
-		font.family: "JohnSans White Pro"
-		font.pixelSize: 32
-		color: "#525f70"
+        color: "black"
+        font.family: robotoLight.name
+        font.weight: Font.Light
+        font.pixelSize: 20
 
 		ParallelAnimation{
 			running: false
@@ -30,13 +31,13 @@ Item{
 				target: obj
 				property: "y"
 				from: 0
-				to: -20
+                to: -25
 			}
 			NumberAnimation{
 				target: obj
 				property: "font.pixelSize"
-				from: 32
-				to: 20
+                from: 20
+                to: 14
 			}
 			NumberAnimation{
 				target: underline
@@ -52,15 +53,15 @@ Item{
 			NumberAnimation{
 				target: obj
 				property: "y"
-				from: -20
+                from: -25
 				to: 0
 			}
 
 			NumberAnimation{
 				target: obj
 				property: "font.pixelSize"
-				from: 20
-				to: 32
+                from: 14
+                to: 20
 			}
 			NumberAnimation{
 				target: underline
@@ -77,9 +78,10 @@ Item{
 		width: 835
 		maximumLength: 52
 		height: 65
-		font.family: "JohnSans White Pro"
-		font.pixelSize: 30
-		color: "#525f70"
+        color: "black"
+        font.family: robotoLight.name
+        font.weight: Font.Light
+        font.pixelSize: 20
 
 		
 		onActiveFocusChanged:  if (obj1.activeFocus) t_anim1.start(); else if (obj1.text == "") t_anim2.start();

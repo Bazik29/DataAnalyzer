@@ -23,6 +23,17 @@ ApplicationWindow {
         source: "fonts/John_Sans_White_Pro.otf"
     }
 
+    FontLoader {
+        name: "Roboto Regular"
+        source: "fonts/Roboto-Regular.ttf"
+    }
+
+    FontLoader {
+        id: robotoLight
+        source: "fonts/Roboto-Light.ttf"
+    }
+
+
     MenuGroup {
         id: menuGroup
         selected: file
@@ -36,8 +47,35 @@ ApplicationWindow {
     }
 
     Rectangle {
+        id: content
+
+        anchors.left: sidebar.right
+        anchors.leftMargin: 0
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        color: "#eeeeee"
+
+        Flickable {
+            id: flickable
+            ScrollBar.vertical: ScrollBar { }
+            boundsBehavior: Flickable.StopAtBounds
+            anchors.fill: parent
+
+            contentHeight: pageLoader.height
+            Loader {
+                id: pageLoader
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+        }
+    }
+
+    Rectangle {
         id: sidebar
-        width: menuGroup_col.width
+        width: 372
 
         anchors.left: parent.left
         anchors.leftMargin: 0
@@ -45,14 +83,9 @@ ApplicationWindow {
         anchors.bottomMargin: 0
         anchors.top: parent.top
         anchors.topMargin: 0
+        //color: "black"
 
         layer.enabled: true
-        layer.effect: DropShadow {
-            horizontalOffset: 4
-            samples: 4
-            radius: 4
-            color: "#ABABAB"
-        }
 
         Text {
             id: logo
@@ -70,7 +103,7 @@ ApplicationWindow {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 28
-            font.family: "JohnSans Lite Pro"
+            font.family: "Roboto Regular"
 
             Rectangle {
                 id: rectangle
@@ -88,6 +121,7 @@ ApplicationWindow {
 
         Rectangle {
             id: top_line
+            visible: false
             height: 5
             color: "#9c9c9c"
             anchors.right: parent.right
@@ -107,6 +141,7 @@ ApplicationWindow {
             anchors.bottom: bot_line.top
             anchors.left: parent.left
             anchors.topMargin: 0
+            anchors.leftMargin: 22
             clip: true
 
             contentHeight: 60*5 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -119,11 +154,13 @@ ApplicationWindow {
             Column {
                 id: menuGroup_col
                 anchors.fill: parent
-                width: 320
+                width: 328
+                spacing: 10
                 MenuGroupButton {
                     id: file
                     caption: "Файл"
                     icon: "elements/file_icon.png"
+                    icon_inverted: "elements/b_icon_inverted.png"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
                 }
@@ -132,6 +169,7 @@ ApplicationWindow {
                     id: chars
                     caption: "Числовые характеристики"
                     icon: "elements/chars_icon.png"
+                    icon_inverted: "elements/chars_icon_inverted.png"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
                 }
@@ -140,6 +178,7 @@ ApplicationWindow {
                     id: pirson
                     caption: "Критерий Пирсона"
                     icon: "elements/pirson_icon.png"
+                    icon_inverted: "elements/pirson_icon_inverted.png"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
                 }
@@ -148,6 +187,7 @@ ApplicationWindow {
                     id:regress
                     caption: "Уравнение регресии"
                     icon: "elements/Regression_icon.png"
+                    icon_inverted: "elements/Regression_icon_inverted.png"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
                 }
@@ -162,6 +202,7 @@ ApplicationWindow {
 
         Rectangle {
             id: bot_line
+            visible: false
             x: 0
             y: 657
             height: 5
@@ -210,30 +251,6 @@ ApplicationWindow {
         }
     }
 
-    Rectangle {
-        id: content
 
-        anchors.left: sidebar.right
-        anchors.leftMargin: 5
-        anchors.top: parent.top
-        anchors.topMargin: 0
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        color: "#eeeeee"
 
-        Flickable {
-            id: flickable
-            ScrollBar.vertical: ScrollBar { }
-            boundsBehavior: Flickable.StopAtBounds
-            anchors.fill: parent
-
-            contentHeight: pageLoader.height
-            Loader {
-                id: pageLoader
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-        }
-    }
 }

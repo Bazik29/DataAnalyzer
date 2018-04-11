@@ -18,7 +18,7 @@ class Presenter():
             return
 
         if not self._model.fileExist(path):
-            self._view.showMessage("Файл "{}" не найден!".format(path))
+            self._view.showMessage("Файл '{}' не найден!".format(path))
             return
 
         print("FilePath:", path)
