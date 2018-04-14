@@ -1,5 +1,5 @@
-import sys
 from PyQt5.QtWidgets import QApplication
+
 
 class Presenter():
 
@@ -9,8 +9,8 @@ class Presenter():
 
         self._view.openFileClick.connect(self._view_openFileClick)
 
-
     def _view_openFileClick(self):
+        print("_view_openFileClick")
         path = self._view.getFilePath()
 
         if path == "":
@@ -21,12 +21,22 @@ class Presenter():
             self._view.showMessage("Файл '{}' не найден!".format(path))
             return
 
-        print("FilePath:", path)
+        sep = self._view.getSeparator()
+        decimal = self._view.getDecimalSym()
+        names = None
+        header = None
+        if not self._view.haveTitle():
+            names = self._view.getNames()
+        else:
+            header = 0
 
-        self._model.loadFile(path)
+        deb_str = "Путь у файлу: {p}\nРазделитель: \"{s}\"\nДесятичный разделитель: \"{d}\"\nСтрока загловков: {h}\nЗаголовки: {n}\т".format(
+            p=path, s=sep, d=decimal, h=header, n=names)
+        print(deb_str)
+        self._model.loadFile(path, sep, decimal, header, names)
 
 
-
+import sys
 from view import View
 from model import Model
 

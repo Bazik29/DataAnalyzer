@@ -8,10 +8,8 @@ class View(QQmlApplicationEngine):
         self.load(QUrl('qml/main.qml'))
         self._root = self.rootObjects()[0]
 
-
         # Страница загрузки файла
-        self.pageLoadFile = self._root.findChild(QObject, "pageFileLoad")
-
+        self.pageLoadFile = self._root.findChild(QObject, 'pageFileLoad')
 
         # Проброс сигналов из qml в python
         self.pageLoadFile.openFileClick.connect(self.openFileClick.emit)
@@ -19,12 +17,24 @@ class View(QQmlApplicationEngine):
     # Сигналы
     openFileClick = pyqtSignal()
 
+
     def showMessage(self, message):
-        #self.pageLoadFile.showMessage(message)
-        print(message)
+        self.pageLoadFile.showMessage(message)
 
     def getFilePath(self):
-        pathFile = self.pageLoadFile.findChild(QObject, "pathFile")
-        path = pathFile.property("text")
-        return path
+        return self.pageLoadFile.getFilePath()
+
+    def getSeparator(self):
+        return self.pageLoadFile.getSeparator()
+
+    def haveTitle(self):
+        return self.pageLoadFile.haveTitle()
+
+    def getNames(self):
+        X = self.pageLoadFile.getNameX()
+        Y = self.pageLoadFile.getNameY()
+        return [X, Y]
+
+    def getDecimalSym(self):
+        return self.pageLoadFile.getDecimalSym()
 
