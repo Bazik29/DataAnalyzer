@@ -155,11 +155,11 @@ class Model():
         if n == 1:
             return stats.kurtosis(self.data[self.nameY])
 
-    def createScatter(self):
+    def createScatter(self, prefix=""):
         """
         Рисует график выборки, сохраняет его и возвращает путь до графика
         """
-        path_plot = 'plots/' + self.title + '-' + datetime.today().isoformat() + '.png'
+        path_plot = prefix + self.title + '-' + datetime.today().isoformat() + '.png'
 
         fig, ax = plt.subplots(figsize=(8, 6))
         colors = np.random.rand(50)

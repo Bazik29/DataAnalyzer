@@ -67,5 +67,8 @@ print(model.getStd())
 print(model.getVar())
 print(model.getVariation())
 
-print(model.createScatter())
+if not os.path.exists("plots"):
+    os.makedirs("plots")
+
+print(model.createScatter("plots/"))
 
