@@ -30,9 +30,19 @@ class Presenter():
         else:
             header = 0
 
-        deb_str = "Путь у файлу: {p}\nРазделитель: \"{s}\"\nДесятичный разделитель: \"{d}\"\nСтрока загловков: {h}\nЗаголовки: {n}\т".format(
-            p=path, s=sep, d=decimal, h=header, n=names)
-        print(deb_str)
+        load_str =  '''Загружается файл.../n
+            Путь к файлу: %s\n
+            Название: %s\n
+            Есть ли заголок в файле: %s\n
+            Новые заголовки (если заданы):
+            Заголовок 1: %s\n
+            Заголовок 2: %s\n
+            Разделитель: %s\n
+            Десятичный разделитель: %s\n
+        '''% (filepath, title, str(header), str(titleX), str(titleY), sep, decimal)
+
+        print(load_str)
+
         self._model.loadFile(path, sep, decimal, header, names)
 
 
