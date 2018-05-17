@@ -6,6 +6,10 @@ Item{
 	property string caption: ""
 	property string text: ""
 
+    function deselect(){
+        obj1.deselect()
+    }
+
 	Rectangle{
 		id: underline
         x: 0

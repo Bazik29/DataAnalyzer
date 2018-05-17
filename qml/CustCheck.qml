@@ -24,6 +24,7 @@ Item {
 
 
 
+
     Image {
         id: backgroundImage
         anchors.fill: check

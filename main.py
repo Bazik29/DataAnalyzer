@@ -52,7 +52,7 @@ from model import Model
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-
+	#this MVP
     view = View()
     model = Model()
 
