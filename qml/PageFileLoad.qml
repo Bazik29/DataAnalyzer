@@ -430,7 +430,11 @@ Item {
         textcolor: "white"
         posx: 117
         posy: 23
-        onClicked: { idx.deselect(); console.log(idx.text) }
+        onClicked: { 
+            idx.deselect();
+             console.log(idx.text);
+             openFileClick()
+            }
     }
 
     function get_spacer(){

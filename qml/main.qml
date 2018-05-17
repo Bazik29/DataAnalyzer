@@ -38,12 +38,18 @@ ApplicationWindow {
         id: menuGroup
         selected: file
         onChangeMenu: {
-            if (item == file) pageLoader.source = "PageFileLoad.qml"
-            if (item == chars) pageLoader.source = "PageCharact.qml"
+            if (item == file) {
+                pageFileLoad.visible = true
+                pageCharact.visible = false
+            }
+            if (item == chars) {
+                pageFileLoad.visible = false
+                pageCharact.visible = true
+            }
             //if (item == pirson) text1.text="Отобразить меню Критерий Пирсона!"
             //if (item == regress) text1.text="Отобразить меню Уравнение регрессии!"
         }
-        Component.onCompleted: pageLoader.source = "PageFileLoad.qml"
+        Component.onCompleted: pageFileLoad.visible = true
     }
 
     Rectangle {
@@ -65,10 +71,15 @@ ApplicationWindow {
             boundsBehavior: Flickable.StopAtBounds
             anchors.fill: parent
 
-            contentHeight: pageLoader.height
-            Loader {
-                id: pageLoader
-                anchors.horizontalCenter: parent.horizontalCenter
+            PageFileLoad {
+                id: pageFileLoad
+                anchors.fill: parent
+                visible: false
+            }
+            PageCharact {
+                id: pageCharact
+                anchors.fill: parent
+                visible: false
             }
         }
     }
@@ -250,7 +261,4 @@ ApplicationWindow {
             font.family: "JohnSans Lite Pro"
         }
     }
-
-
-
 }
