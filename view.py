@@ -8,23 +8,51 @@ class View(QQmlApplicationEngine):
         self.load(QUrl('qml/main.qml'))
         self._root = self.rootObjects()[0]
 
-
         # Страница загрузки файла
-        self.pageLoadFile = self._root.findChild(QObject, "pageFileLoad")
+        self.pageLoadFile = self._root.findChild(QObject, 'pageFileLoad')
 
+        self.pageCharact = self._root.findChild(QObject, 'pageCharact')
 
         # Проброс сигналов из qml в python
         self.pageLoadFile.openFileClick.connect(self.openFileClick.emit)
 
+        self.pageCharact.loadX.connect(self.loadX.emit)
+        self.pageCharact.loadY.connect(self.loadY.emit)
+        self.pageCharact.loadXY.connect(self.loadXY.emit)
+
     # Сигналы
     openFileClick = pyqtSignal()
+    loadX = pyqtSignal()
+    loadY = pyqtSignal()
+    loadXY = pyqtSignal()
+
 
     def showMessage(self, message):
-        #self.pageLoadFile.showMessage(message)
-        print(message)
+        self._root.showMessage(message)
 
-    def getFilePath(self):
-        pathFile = self.pageLoadFile.findChild(QObject, "pathFile")
-        path = pathFile.property("text")
-        return path
+    def pfl_getFilePath(self):
+        return self.pageLoadFile.getFilePath()
 
+    def pfl_getSeparator(self):
+        return self.pageLoadFile.getSeparator()
+
+    def pfl_haveTitle(self):
+        return self.pageLoadFile.haveTitle()
+
+    def pfl_getNames(self):
+        X = self.pageLoadFile.getNameX()
+        Y = self.pageLoadFile.getNameY()
+        return [X, Y]
+
+    def pfl_getDecimalSym(self):
+        return self.pageLoadFile.getDecimalSym()
+
+
+    def pch_insertlabels(self, nameX, nameY):
+        self.pageCharact.insertlabels(nameX, nameY)
+
+    def pch_insertvalues(self, mean, mode, median, std, dis, var, skew, kurt):
+        self.pageCharact.insertvalues(mean, mode, median, std, dis, var, skew, kurt)
+
+    def pch_setgraphsource(self, source):
+        self.pageCharact.setgraphsource(source)
