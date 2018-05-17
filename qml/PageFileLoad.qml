@@ -10,7 +10,9 @@ Item {
 
     signal openFileClick
 
+
     Rectangle{
+        id: rect
         x: 19
         y: 131
         width: 815
@@ -29,13 +31,13 @@ Item {
                 id: page1
 
                 Text{
-                x: 12 //-18
-                y: 28 //-131
-                text: "Путь к файлу"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
+                    x: 12 //-18
+                    y: 28 //-131
+                    text: "Путь к файлу"
+                    color: "black"
+                    font.family: robotoLight.name
+                    font.weight: Font.Light
+                    font.pixelSize: 20
                 }
 
                 Rectangle{
@@ -49,13 +51,13 @@ Item {
 
 
                 Text{
-                x: 12
-                y: 88
-                text: "Строк в файле"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
+                    x: 12
+                    y: 88
+                    text: "Строк в файле"
+                    color: "black"
+                    font.family: robotoLight.name
+                    font.weight: Font.Light
+                    font.pixelSize: 20
                 }
 
                 Rectangle{
@@ -77,34 +79,34 @@ Item {
                     clickedSrc: "elements/file_hovered.png"
                     onClicked: fileDialog.open();
 
-       FileDialog {
-            id: fileDialog
-            folder: "."
-            title: "Выберите файл для открытия"
-            selectMultiple: false
-            //nameFilters: [ "Image files (*.png *.jpg)", "All files (*)" ]
-            onAccepted: { 
-                console.log("Accepted: " + fileDialog.fileUrl)
-                pathFile.text = fileDialog.fileUrl
-            }
-        }
+                    FileDialog {
+                        id: fileDialog
+                        folder: "."
+                        title: "Выберите файл для открытия"
+                        selectMultiple: false
+                        //nameFilters: [ "Image files (*.png *.jpg)", "All files (*)" ]
+                        onAccepted: {
+                            console.log("Accepted: " + fileDialog.fileUrl)
+                            pathFile.text = fileDialog.fileUrl
+                        }
+                    }
 
-        DropArea {
-            id: drop
-            anchors.fill: parent
+                    DropArea {
+                        id: drop
+                        anchors.fill: parent
 
-            onEntered: {
-                
-                console.log("Droparea entered-- " + drag.urls[0])
-                if (drag.urls.length == 1)
-                    pathFile.text = drag.urls[0]
-                    //!!!!!!!!!!!!!!!!!!!!!!!!!!
-            }
+                        onEntered: {
 
-            onExited: console.log("Droparea exited")
+                            console.log("Droparea entered-- " + drag.urls[0])
+                            if (drag.urls.length == 1)
+                                pathFile.text = drag.urls[0]
+                            //!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        }
 
-            onDropped: console.log("Droparea dropped")
-        }
+                        onExited: console.log("Droparea exited")
+
+                        onDropped: console.log("Droparea dropped")
+                    }
                 }
 
             }
@@ -127,6 +129,7 @@ Item {
                     hoverSrc: "elements/gr_hover.png"
                     clickedSrc: "elements/gr_normal.png"
                     onClicked: { page2.unclipall(); rad1.clip();}
+                    Component.onCompleted: rad1.init();
                 }
 
                 CustRadio{
@@ -137,6 +140,7 @@ Item {
                     hoverSrc: "elements/gr_hover.png"
                     clickedSrc: "elements/gr_normal.png"
                     onClicked: {page2.unclipall(); rad2.clip();}
+                    Component.onCompleted: rad2.init();
                 }
 
                 CustRadio{
@@ -147,6 +151,7 @@ Item {
                     hoverSrc: "elements/gr_hover.png"
                     clickedSrc: "elements/gr_normal.png"
                     onClicked: {page2.unclipall(); rad3.clip();}
+                    Component.onCompleted: rad3.init();
                 }
 
                 CustRadio{
@@ -156,17 +161,19 @@ Item {
                     normalSrc: "elements/gr_normal.png"
                     hoverSrc: "elements/gr_hover.png"
                     clickedSrc: "elements/gr_normal.png"
+                    checked: true
                     onClicked: {page2.unclipall(); rad4.clip();}
+                    Component.onCompleted: rad4.init();
                 }
 
                 Text{
-                x: 68 //-18
-                y: 26 //-131
-                text: "Табуляция"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
+                    x: 68 //-18
+                    y: 26 //-131
+                    text: "Табуляция"
+                    color: "black"
+                    font.family: robotoLight.name
+                    font.weight: Font.Light
+                    font.pixelSize: 20
                 }
 
                 Rectangle{
@@ -180,13 +187,13 @@ Item {
 
 
                 Text{
-                x: 68
-                y: 94
-                text: "Пробел"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
+                    x: 68
+                    y: 94
+                    text: "Пробел"
+                    color: "black"
+                    font.family: robotoLight.name
+                    font.weight: Font.Light
+                    font.pixelSize: 20
                 }
 
                 Rectangle{
@@ -199,13 +206,13 @@ Item {
                 }
 
                 Text{
-                x: 68
-                y: 162
-                text: "Фикс. ширина"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
+                    x: 68
+                    y: 162
+                    text: "Фикс. ширина"
+                    color: "black"
+                    font.family: robotoLight.name
+                    font.weight: Font.Light
+                    font.pixelSize: 20
                 }
 
                 Rectangle{
@@ -218,13 +225,13 @@ Item {
                 }
 
                 Text{
-                x: 68
-                y: 230
-                text: "Символ"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
+                    x: 68
+                    y: 230
+                    text: "Символ"
+                    color: "black"
+                    font.family: robotoLight.name
+                    font.weight: Font.Light
+                    font.pixelSize: 20
                 }
 
                 Rectangle{
@@ -251,13 +258,13 @@ Item {
                 }
 
                 Text{
-                x: 68 //-18
-                y: 26 //-131
-                text: "Первая строка является загловком"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
+                    x: 68 //-18
+                    y: 26 //-131
+                    text: "Первая строка является загловком"
+                    color: "black"
+                    font.family: robotoLight.name
+                    font.weight: Font.Light
+                    font.pixelSize: 20
                 }
 
                 Rectangle{
@@ -279,6 +286,7 @@ Item {
                 }
 
                 Input{
+                    id: idx
                     x: 13
                     y: 100
                     caption: "Имя столбца X"
@@ -309,13 +317,13 @@ Item {
                 }
 
                 Text{
-                x: 12 //-18
-                y: 236 //-131
-                text: "Разделять доли символом:"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
+                    x: 12 //-18
+                    y: 236 //-131
+                    text: "Разделять доли символом:"
+                    color: "black"
+                    font.family: robotoLight.name
+                    font.weight: Font.Light
+                    font.pixelSize: 20
                 }
 
             }
@@ -364,12 +372,12 @@ Item {
         width: 214
         height: 62
         Text{
-        x: 14
-        y: 18
-        text: "Основные сведения"
-        color: "white"
-        font.family: "Roboto Regular"
-        font.pixelSize: 20
+            x: 14
+            y: 18
+            text: "Основные сведения"
+            color: "white"
+            font.family: "Roboto Regular"
+            font.pixelSize: 20
         }
         background: Rectangle { opacity: 0}
         onClicked: { view.currentIndex = 0; to0.start() }
@@ -381,12 +389,12 @@ Item {
         width: 214
         height: 62
         Text{
-        x: 14
-        y: 18
-        text: "Опции разделителя"
-        color: "white"
-        font.family: "Roboto Regular"
-        font.pixelSize: 20
+            x: 14
+            y: 18
+            text: "Опции разделителя"
+            color: "white"
+            font.family: "Roboto Regular"
+            font.pixelSize: 20
         }
         background: Rectangle { opacity: 0}
         onClicked: { view.currentIndex = 1; to1.start() }
@@ -398,30 +406,38 @@ Item {
         width: 214
         height: 62
         Text{
-        x: 14
-        y: 18
-        text: "Опции данных"
-        color: "white"
-        font.family: "Roboto Regular"
-        font.pixelSize: 20
+            x: 14
+            y: 18
+            text: "Опции данных"
+            color: "white"
+            font.family: "Roboto Regular"
+            font.pixelSize: 20
         }
         background: Rectangle { opacity: 0}
         onClicked: { view.currentIndex = 2; to2.start() }
     }
 
     CustButton{
-       id: load
-       x: 270
-       y: 580
-       width: 328
-       height: 68
-       normalSrc: "elements/btn_1.png"
-       hoverSrc: "elements/btn_2.png"
-       clickedSrc: "elements/btn_1.png"
-       caption: "Загрузить"
-       textcolor: "white"
-       posx: 117
-       posy: 23
+        id: load
+        x: 270
+        y: 580
+        width: 328
+        height: 68
+        normalSrc: "elements/btn_1.png"
+        hoverSrc: "elements/btn_2.png"
+        clickedSrc: "elements/btn_1.png"
+        caption: "Загрузить"
+        textcolor: "white"
+        posx: 117
+        posy: 23
+        onClicked: { idx.deselect(); console.log(idx.text) }
+    }
+
+    function get_spacer(){
+        if (rad1.checked) return '/t'
+        if (rad2.checked) return ' '
+        if (rad3.checked) return '   '
+        if (rad4.checked) return ';'
     }
 
 

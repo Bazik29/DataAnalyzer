@@ -25,6 +25,10 @@ Item {
         }
     }
 
+    function init(){
+        if (checked) large.start();
+    }
+
 
     Image {
         id: backgroundImage
