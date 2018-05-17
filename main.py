@@ -109,6 +109,8 @@ from view import View
 from model import Model
 
 if __name__ == '__main__':
+    if not os.path.exists("plots"):
+        os.makedirs("plots")
     app = QApplication(sys.argv)
 	#this MVP
     view = View()
