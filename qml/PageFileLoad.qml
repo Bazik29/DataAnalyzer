@@ -432,9 +432,8 @@ Item {
         posy: 23
         onClicked: { 
             idx.deselect();
-             console.log(idx.text);
-             openFileClick()
-            }
+            openFileClick()
+        }
     }
 
     function get_spacer(){

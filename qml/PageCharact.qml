@@ -33,9 +33,9 @@ Item {
     }
 
     function swappages(idx){
-        if (idx == 0) { chars_page.visible = true; flick.contentHeight = 1214}
-        if (idx == 1) { chars_page.visible = true; flick.contentHeight = 1214}
-        if (idx == 2) { chars_page.visible = false; flick.contentHeight = 657}
+        if (idx == 0) { loadX(); chars_page.visible = true; flick.contentHeight = 1214}
+        if (idx == 1) { loadY(); chars_page.visible = true; flick.contentHeight = 1214}
+        if (idx == 2) { loadXY(); chars_page.visible = false; flick.contentHeight = 657}
     }
 
     function insertvalues(mean, mode, median, std, dispersion, variation, skew, kurtosis){

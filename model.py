@@ -16,7 +16,7 @@ class Model():
         self.filepath = ""
         self.lenght = 0
 
-    def loadfile(self, filepath, title, header, names, sep=',', decimal='.', index_col=False, usecols=[0, 1], encoding='utf_8'):
+    def loadFile(self, filepath, title, header, names, sep=',', decimal='.', index_col=False, usecols=[0, 1], encoding='utf_8'):
         self.data = pd.read_csv(filepath_or_buffer=filepath, header=header, names=names, sep=sep,
                                 decimal=decimal, index_col=index_col, usecols=usecols, encoding=encoding)
         self.nameX = self.data.columns[0]
@@ -105,7 +105,7 @@ class Model():
         """
         Рисует график выборки, возвращает фигуру
         """
-        fig, ax = plt.subplots(figsize=(8, 6))
+        fig, ax = plt.subplots(figsize=(7.3, 3.8))
         ax.scatter(self.data[self.nameX],
                    self.data[self.nameY], marker='o', color='red')
         # шрифт цифр осей
@@ -121,13 +121,11 @@ class Model():
         """
         Рисует гистаграмму столбца name, возвращает фигуру
         """
-        fig, ax = plt.subplots(figsize=(8, 6))
+        fig, ax = plt.subplots(figsize=(7.3, 3.8))
         ax.hist(self.data[name], color='red')
         # шрифт цифр осей
         ax.tick_params(axis='both', which='major', labelsize=12)
-
         plt.grid(ls=':')
-        plt.xlabel(self.nameX, fontsize=13)
-        plt.ylabel(self.nameY, fontsize=13)
+        plt.xlabel(name, fontsize=13)
         plt.title(self.title, fontsize=20)
         return fig
