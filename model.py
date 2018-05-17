@@ -42,128 +42,72 @@ class Model():
         """
         return self.filepath, self.title, self.nameX, self.nameY, self.lenght
 
-    def getMean(self, n=2):
+    def getMean(self, name):
         """
-        Возвращает среднее значение в зависимости от n
-        n = 0 - для X
-        n = 1 - для Y
-        n = 2 - для X, Y
+        Возвращает среднее значение столбца name
         """
-        if n == 2:
-            return np.mean(self.data[self.nameX]), np.mean(self.data[self.nameY])
-        if n == 0:
-            return np.mean(self.data[self.nameX])
-        if n == 1:
-            return np.mean(self.data[self.nameY])
+        return np.mean(self.data[name])
 
-    def getMedian(self, n=2):
+    def getMedian(self, name):
         """
-        Возвращает медиану в зависимости от n
-        n = 0 - для X
-        n = 1 - для Y
-        n = 2 - для X, Y
+        Возвращает медиану столбца name
         """
-        if n == 2:
-            return np.median(self.data[self.nameX]), np.median(self.data[self.nameY])
-        if n == 0:
-            return np.median(self.data[self.nameX])
-        if n == 1:
-            return np.median(self.data[self.nameY])
+        return np.median(self.data[name])
 
-    #!!!!!!!!
-    def getMode(self, n=2):
+    def getMode(self, name):
         """
-        Возвращает моду в зависимости от n
-        n = 0 - для X
-        n = 1 - для Y
-        n = 2 - для X, Y
+        Возвращает моду столбца name
         """
-        if n == 2:
-            return stats.mode(self.data[self.nameX]), stats.mode(self.data[self.nameY])
-        if n == 0:
-            return stats.mode(self.data[self.nameX])
-        if n == 1:
-            return stats.mode(self.data[self.nameY])
+        return stats.mode(self.data[name])
 
-    def getStd(self, n=2):
+    def getStd(self, name):
         """
-        Возвращает стандартное отклонение в зависимости от n
-        n = 0 - для X
-        n = 1 - для Y
-        n = 2 - для X, Y
+        Возвращает стандартное отклонение столбца name
         """
-        if n == 2:
-            return np.std(self.data[self.nameX]), np.std(self.data[self.nameY])
-        if n == 0:
-            return np.std(self.data[self.nameX])
-        if n == 1:
-            return np.std(self.data[self.nameY])
+        return np.std(self.data[name])
 
-    def getVar(self, n=2):
+    def getDispersion(self, name):
         """
-        Возвращает дисперсию в зависимости от n
-        n = 0 - для X
-        n = 1 - для Y
-        n = 2 - для X, Y
+        Возвращает дисперсию столбца name
         """
-        if n == 2:
-            return np.var(self.data[self.nameX]), np.var(self.data[self.nameY])
-        if n == 0:
-            return np.var(self.data[self.nameX])
-        if n == 1:
-            return np.var(self.data[self.nameY])
+        return np.var(self.data[name])
 
-    def getVariation(self, n=2):
+    def getVariation(self, name):
         """
-        Возвращает коэфф вариации в зависимости от n
-        n = 0 - для X
-        n = 1 - для Y
-        n = 2 - для X, Y
+        Возвращает коэффициент вариации столбца name
         """
-        if n == 2:
-            return stats.variation(self.data[self.nameX]), stats.variation(self.data[self.nameY])
-        if n == 0:
-            return stats.variation(self.data[self.nameX])
-        if n == 1:
-            return stats.variation(self.data[self.nameY])
+        return stats.variation(self.data[name])
 
-    def getSkew(self, n=2):
+    def getSkew(self, name):
         """
-        Возвращает коэфф ассимитрии в зависимости от n
-        n = 0 - для X
-        n = 1 - для Y
-        n = 2 - для X, Y
+        Возвращает коэффициент ассимитрии столбца name
         """
-        if n == 2:
-            return stats.skew(self.data[self.nameX]), stats.skew(self.data[self.nameY])
-        if n == 0:
-            return stats.skew(self.data[self.nameX])
-        if n == 1:
-            return stats.skew(self.data[self.nameY])
+        return stats.skew(self.data[name])
 
-    def getSkew(self, n=2):
+    def getKurtosis(self, name):
         """
-        Возвращает эксцесс в зависимости от n
-        n = 0 - для X
-        n = 1 - для Y
-        n = 2 - для X, Y
+        Возвращает коэффициент эксцесса столбца name
         """
-        if n == 2:
-            return stats.kurtosis(self.data[self.nameX]), stats.kurtosis(self.data[self.nameY])
-        if n == 0:
-            return stats.kurtosis(self.data[self.nameX])
-        if n == 1:
-            return stats.kurtosis(self.data[self.nameY])
+        return stats.kurtosis(self.data[name])
 
-    def createScatter(self, prefix=""):
+    def savefig(self, fig, name, prefix=""):
         """
-        Рисует график выборки, сохраняет его и возвращает путь до графика
+        Cохраняет фигуру в файл и возвращает путь до файла
+        Добавляет к названию время создания файла
+        prefix - путь до папки
         """
-        path_plot = prefix + self.title + '-' + datetime.today().isoformat() + '.png'
+        # '-' + datetime.today().isoformat() + 
+        path_plot = prefix + name + '.png'
+        fig.savefig(path_plot)
+        return path_plot
 
+    def scatter(self):
+        """
+        Рисует график выборки, возвращает фигуру
+        """
         fig, ax = plt.subplots(figsize=(8, 6))
-        colors = np.random.rand(50)
-        ax.scatter(self.data[self.nameX], self.data[self.nameY], marker='o', color='red')
+        ax.scatter(self.data[self.nameX],
+                   self.data[self.nameY], marker='o', color='red')
         # шрифт цифр осей
         ax.tick_params(axis='both', which='major', labelsize=12)
 
@@ -171,5 +115,19 @@ class Model():
         plt.xlabel(self.nameX, fontsize=13)
         plt.ylabel(self.nameY, fontsize=13)
         plt.title(self.title, fontsize=20)
-        fig.savefig(path_plot)
-        return path_plot
+        return fig
+
+    def histogram(self, name):
+        """
+        Рисует гистаграмму столбца name, возвращает фигуру
+        """
+        fig, ax = plt.subplots(figsize=(8, 6))
+        ax.hist(self.data[name], color='red')
+        # шрифт цифр осей
+        ax.tick_params(axis='both', which='major', labelsize=12)
+
+        plt.grid(ls=':')
+        plt.xlabel(self.nameX, fontsize=13)
+        plt.ylabel(self.nameY, fontsize=13)
+        plt.title(self.title, fontsize=20)
+        return fig

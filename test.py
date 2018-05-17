@@ -17,7 +17,7 @@ import os
 
 model = Model()
 
-FILE_PATH = "/home/bazik/Projects/DataAnalyzer/test.csv"
+FILE_PATH = "/home/bazik/Projects/DataAnalyzer/lab.csv"
 HEADER = 0
 NAMES = ['Height', 'Weight']
 SEP = ';'
@@ -60,15 +60,17 @@ print(s_inf_file)
 # Эксцесс: %f
 # Коэф эксцесса: %f''' inf_data
 
-print(model.getMean())
-print(model.getMedian())
-# print(model.getModes())
-print(model.getStd())
-print(model.getVar())
-print(model.getVariation())
+# print(model.getMean(model.nameX))
+# print(model.getMedian(model.nameX))
+print(model.getMode(model.nameX))
+# print(model.getStd(model.nameX))
+# print(model.getDispersion(model.nameX))
+# print(model.getVariation(model.nameX))
 
 if not os.path.exists("plots"):
     os.makedirs("plots")
 
-print(model.createScatter("plots/"))
+model.savefig(model.scatter(), "scatter", "plots/")
+model.savefig(model.histogram(model.nameX), "histogram-X", "plots/")
+# print(model.createScatter("plots/"))
 
