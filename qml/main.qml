@@ -40,6 +40,7 @@ ApplicationWindow {
         onChangeMenu: {
             if (item == file) pageLoader.source = "PageFileLoad.qml"
             if (item == chars) pageLoader.source = "PageCharact.qml"
+            if (item == report) pageLoader.source = "reportPage.qml"
             //if (item == pirson) text1.text="Отобразить меню Критерий Пирсона!"
             //if (item == regress) text1.text="Отобразить меню Уравнение регрессии!"
         }
@@ -214,41 +215,14 @@ ApplicationWindow {
             border.width: 0
         }
 
-        MenuButton {
-            id: menuButton
-            x: 60
-            y: 660
-            caption: "Отчет..."
-            color: '#009788'
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: bot_line.bottom
-            anchors.topMargin: 0
-            anchors.left: about.right
-            anchors.leftMargin: 0
+        MenuGroupButton {
+            id: report
+            x: 20
+            y: 640
+            caption: "Отчет"
+            radioGroup: menuGroup
         }
 
-        Text {
-            id: about
-            x: 0
-            y: 660
-            width: 60
-            height: 60
-            text: "?"
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: bot_line.bottom
-            anchors.topMargin: 0
-            font.pointSize: 23
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            fontSizeMode: Text.FixedSize
-            font.family: "JohnSans Lite Pro"
-        }
     }
 
 
