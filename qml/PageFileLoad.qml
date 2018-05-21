@@ -8,8 +8,42 @@ Item {
     y: 18
     objectName: "pageFileLoad"
 
+    property string path: ""
+
     signal openFileClick
 
+
+    function getFilePath() {
+        return path
+    }
+
+    function getSeparator() {
+        if (rad1.checked) return '/t'
+        if (rad2.checked) return ' '
+        if (rad3.checked) return '   '
+        if (rad4.checked) return ';'
+        return ','
+    }    
+
+    function getDecimalSym() {
+        // body...
+        return ','
+    }
+
+    function haveTitle() {
+        // body...
+        return true
+    }
+
+    function getNameX() {
+        // body...
+        return "X"
+    }
+
+    function getNameY() {
+        // body...
+        return "Y"
+    }
 
     Rectangle{
         id: rect
@@ -31,6 +65,7 @@ Item {
                 id: page1
 
                 Text{
+                    id: pathFile
                     x: 12 //-18
                     y: 28 //-131
                     text: "Путь к файлу"
@@ -46,9 +81,7 @@ Item {
                     width: 795
                     height: 1
                     color: "#c1c1c1"
-
                 }
-
 
                 Text{
                     x: 12
@@ -84,28 +117,25 @@ Item {
                         folder: "."
                         title: "Выберите файл для открытия"
                         selectMultiple: false
-                        //nameFilters: [ "Image files (*.png *.jpg)", "All files (*)" ]
+                        nameFilters: [ "Text files (*.csv *.txt)" ]
                         onAccepted: {
-                            console.log("Accepted: " + fileDialog.fileUrl)
-                            pathFile.text = fileDialog.fileUrl
+                            //console.log("Accepted: " + fileDialog.fileUrl.toString().slice(7))
+                            path = fileDialog.fileUrl.toString().slice(7)
+                            pathFile.text = "Путь к файлу: " + path
                         }
                     }
 
                     DropArea {
                         id: drop
                         anchors.fill: parent
-
                         onEntered: {
-
-                            console.log("Droparea entered-- " + drag.urls[0])
-                            if (drag.urls.length == 1)
-                                pathFile.text = drag.urls[0]
-                            //!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            //console.log("Droparea entered-- " + drag.urls[0].toString().slice(7))
+                            if (drag.urls.length == 1) {
+                                path = drag.urls[0].toString().slice(7)
+                                pathFile.text = "Путь к файлу: " + path
+                            }
                         }
 
-                        onExited: console.log("Droparea exited")
-
-                        onDropped: console.log("Droparea dropped")
                     }
                 }
 
@@ -435,13 +465,4 @@ Item {
             openFileClick()
         }
     }
-
-    function get_spacer(){
-        if (rad1.checked) return '/t'
-        if (rad2.checked) return ' '
-        if (rad3.checked) return '   '
-        if (rad4.checked) return ';'
-    }
-
-
 }

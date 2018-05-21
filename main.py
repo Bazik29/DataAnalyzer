@@ -14,54 +14,58 @@ class Presenter():
         self._view.loadXY.connect(self._view_loadXY)
 
     def _view_openFileClick(self):
-        # path = self._view.pfl_getFilePath()
+        path = self._view.pfl_getFilePath()
 
-        # if path == "":
-        #     self._view.showMessage("Выберите файл!")
-        #     return
+        if path == "":
+            self._view.showMessage("Выберите файл!")
+            return
 
-        # if not self._model.fileExist(path):
-        #     self._view.showMessage("Файл '{}' не найден!".format(path))
-        #     return
+        if not self._model.fileExist(path):
+            self._view.showMessage("Файл '{}' не найден!".format(path))
+            return
 
-        # sep = self._view.pfl_getSeparator()
-        # decimal = self._view.pfl_getDecimalSym()
-        # names = None
-        # header = None
-        # if not self._view.pfl_haveTitle():
-        #     names = self._view.pfl_getNames()
-        # else:
-        #     header = 0
+        sep = self._view.pfl_getSeparator()
+        decimal = self._view.pfl_getDecimalSym()
+        names = None
+        header = None
+        titleX = "none"
+        titleY = "none"
+        if not self._view.pfl_haveTitle():
+            names = self._view.pfl_getNames()
+            titleX = names[0]
+            titleY = names[1]
+        else:
+            header = 0
+        title = os.path.basename(path)
 
-        # load_str =  '''Загружается файл.../n
-        #     Путь к файлу: %s\n
-        #     Название: %s\n
-        #     Есть ли заголок в файле: %s\n
-        #     Новые заголовки (если заданы):
-        #     Заголовок 1: %s\n
-        #     Заголовок 2: %s\n
-        #     Разделитель: %s\n
-        #     Десятичный разделитель: %s\n
-        # '''% (filepath, title, str(header), str(titleX), str(titleY), sep, decimal)
+        load_str =  '''Загружается файл:
+    Путь к файлу: %s
+    Название: %s
+    Есть ли заголок в файле: %s
+    Новые заголовки (если заданы):
+        Заголовок 1: %s
+        Заголовок 2: %s
+    Разделитель: %s
+    Десятичный разделитель: %s
+        '''% (path, title, str(header == 0 or "none"), str(titleX), str(titleY), sep, decimal)
 
-        # print(load_str)
+        print(load_str)
 
-        # self._model.loadFile(path, sep, decimal, header, names)
+        self._model.loadFile(path, title, header, names, sep, decimal)
 
-
-        FILE_PATH = "lab.csv"
-        HEADER = 0
-        NAMES = ['Height', 'Weight']
-        SEP = ';'
-        DECIMAL = ','
-        TITLE = "TEST"
-        if TITLE == '' or TITLE is None:
-            TITLE = os.path.basename(FILE_PATH)
-        if FILE_PATH == "":
-            print("Выберите файл!")
-        if not os.path.isfile(FILE_PATH):
-            print("Файл \"{}\" не найден!".format(FILE_PATH))
-        self._model.loadFile(FILE_PATH, TITLE, HEADER, NAMES, SEP, DECIMAL)
+        # FILE_PATH = "/home/bazik/Projects/DataAnalyzer/lab.csv"
+        # HEADER = 0
+        # NAMES = ['Height', 'Weight']
+        # SEP = ';'
+        # DECIMAL = ','
+        # TITLE = "TEST"
+        # if TITLE == '' or TITLE is None:
+        #     TITLE = os.path.basename(FILE_PATH)
+        # if FILE_PATH == "":
+        #     print("Выберите файл!")
+        # if not os.path.isfile(FILE_PATH):
+        #     print("Файл \"{}\" не найден!".format(FILE_PATH))
+        # self._model.loadFile(FILE_PATH, TITLE, HEADER, NAMES, SEP, DECIMAL)
 
 
         self._view.pch_insertlabels(self._model.nameX, self._model.nameY)
@@ -108,6 +112,7 @@ from model import Model
 if __name__ == '__main__':
     if not os.path.exists("plots"):
         os.makedirs("plots")
+
     app = QApplication(sys.argv)
 	#this MVP
     view = View()

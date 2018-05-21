@@ -2,9 +2,8 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
-
 from datetime import datetime
-
+import os
 
 class Model():
 
@@ -15,6 +14,9 @@ class Model():
         self.title = "Data"
         self.filepath = ""
         self.lenght = 0
+
+    def fileExist(srlf, path):
+        return os.path.isfile(path)
 
     def loadFile(self, filepath, title, header, names, sep=',', decimal='.', index_col=False, usecols=[0, 1], encoding='utf_8'):
         self.data = pd.read_csv(filepath_or_buffer=filepath, header=header, names=names, sep=sep,

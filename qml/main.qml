@@ -33,6 +33,9 @@ ApplicationWindow {
         source: "fonts/Roboto-Light.ttf"
     }
 
+    function showMessage(msg) {
+        console.log(msg)
+    }
 
     MenuGroup {
         id: menuGroup
