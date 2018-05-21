@@ -136,7 +136,6 @@ Item {
             y: 140
             width: 730
             height: 380
-            source: "elements/plot.png"
         }
 
 

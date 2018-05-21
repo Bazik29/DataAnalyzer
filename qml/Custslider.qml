@@ -6,11 +6,12 @@ Item {
     width: 84
     height: 42
     property bool checked: false
+    signal clicked
 
     Rectangle {
         id: rect
-        width: 84
-        height: 42
+        width: 64
+        height: 32
         smooth: true
         visible: false
         color: checked ? "#009788" : "#b1b2b5"
@@ -18,10 +19,10 @@ Item {
 
     Rectangle {
         id: ball
-        x: checked ? 45 : 5 //45
+        x: checked ? 35 : 5 //45
         y: 4
-        width: 34
-        height: 34
+        width: 25
+        height: 25
         smooth: true
         visible: false
         color: checked ? "#009788" : "#b1b2b5"
@@ -61,7 +62,7 @@ Item {
             target: ball
             property: "x"
             from: 5;
-            to: 45
+            to: 35
         }
 
         ColorAnimation {
@@ -76,7 +77,7 @@ Item {
         NumberAnimation{
             target: ball
             property: "x"
-            from: 45;
+            from: 35;
             to: 5
         }
 
@@ -90,7 +91,7 @@ Item {
     MouseArea {
         hoverEnabled: true
         anchors.fill: slider
-        onClicked:  if (checked) { checked = false; to_off.start()} else { checked = true; to_on.start()}
+        onClicked: { slider.clicked(); if (checked) { checked = false; to_off.start()} else { checked = true; to_on.start()} }
     }
 
 }

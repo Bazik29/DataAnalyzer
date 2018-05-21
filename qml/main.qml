@@ -41,13 +41,18 @@ ApplicationWindow {
             if (item == file) {
                 pageFileLoad.visible = true
                 pageCharact.visible = false
+                pageReport.visible = false
             }
             if (item == chars) {
                 pageFileLoad.visible = false
                 pageCharact.visible = true
+                pageReport.visible = false
             }
-            //if (item == pirson) text1.text="Отобразить меню Критерий Пирсона!"
-            //if (item == regress) text1.text="Отобразить меню Уравнение регрессии!"
+            if (item == report) {
+                pageFileLoad.visible = false
+                pageCharact.visible = false
+                pageReport.visible = true
+            }
         }
         Component.onCompleted: pageFileLoad.visible = true
     }
@@ -78,6 +83,18 @@ ApplicationWindow {
             }
             PageCharact {
                 id: pageCharact
+                anchors.fill: parent
+                visible: false
+            }
+            /*
+            PagePirson {
+                id: pirson
+                anchors.fill: parent
+                visible: false
+            }
+            */
+            PageReport {
+                id: pageReport
                 anchors.fill: parent
                 visible: false
             }
@@ -186,19 +203,19 @@ ApplicationWindow {
                 }
 
                 MenuGroupButton {
-                    id: pirson
-                    caption: "Критерий Пирсона"
-                    icon: "elements/pirson_icon.png"
-                    icon_inverted: "elements/pirson_icon_inverted.png"
+                    id:regress
+                    caption: "Уравнение регресии"
+                    icon: "elements/Regression_icon.png"
+                    icon_inverted: "elements/Regression_icon_inverted.png"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
                 }
 
                 MenuGroupButton {
-                    id:regress
-                    caption: "Уравнение регресии"
-                    icon: "elements/Regression_icon.png"
-                    icon_inverted: "elements/Regression_icon_inverted.png"
+                    id: pirson
+                    caption: "Критерий Пирсона"
+                    icon: "elements/pirson_icon.png"
+                    icon_inverted: "elements/pirson_icon_inverted.png"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
                 }
@@ -225,40 +242,12 @@ ApplicationWindow {
             border.width: 0
         }
 
-        MenuButton {
-            id: menuButton
-            x: 60
-            y: 660
-            caption: "Отчет..."
-            color: '#009788'
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: bot_line.bottom
-            anchors.topMargin: 0
-            anchors.left: about.right
-            anchors.leftMargin: 0
-        }
-
-        Text {
-            id: about
-            x: 0
-            y: 660
-            width: 60
-            height: 60
-            text: "?"
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: bot_line.bottom
-            anchors.topMargin: 0
-            font.pointSize: 23
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            fontSizeMode: Text.FixedSize
-            font.family: "JohnSans Lite Pro"
+        MenuGroupButton {
+            id: report
+            x: 20
+            y: 640
+            caption: "Отчет"
+            radioGroup: menuGroup
         }
     }
 }

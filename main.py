@@ -49,7 +49,7 @@ class Presenter():
         # self._model.loadFile(path, sep, decimal, header, names)
 
 
-        FILE_PATH = "/home/bazik/Projects/DataAnalyzer/lab.csv"
+        FILE_PATH = "lab.csv"
         HEADER = 0
         NAMES = ['Height', 'Weight']
         SEP = ';'
