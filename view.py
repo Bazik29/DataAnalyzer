@@ -16,12 +16,14 @@ class View(QQmlApplicationEngine):
         # Проброс сигналов из qml в python
         self.pageLoadFile.openFileClick.connect(self.openFileClick.emit)
 
+        self._root.loadCharact.connect(self.loadCharact.emit)
         self.pageCharact.loadX.connect(self.loadX.emit)
         self.pageCharact.loadY.connect(self.loadY.emit)
         self.pageCharact.loadXY.connect(self.loadXY.emit)
 
     # Сигналы
     openFileClick = pyqtSignal()
+    loadCharact = pyqtSignal()
     loadX = pyqtSignal()
     loadY = pyqtSignal()
     loadXY = pyqtSignal()
@@ -29,6 +31,12 @@ class View(QQmlApplicationEngine):
 
     def showMessage(self, message):
         self._root.showMessage(message)
+
+    def lock(self):
+        self._root.lock()
+
+    def unlock(self):
+        self._root.unlock()
 
     def pfl_getFilePath(self):
         return self.pageLoadFile.getFilePath()

@@ -13,6 +13,8 @@ ApplicationWindow {
 
     title: "Data Analyser"
 
+    signal loadCharact
+
     FontLoader {
         name: "JohnSans Lite Pro"
         source: "fonts/John_Sans_Lite_Pro.otf"
@@ -37,6 +39,20 @@ ApplicationWindow {
         console.log(msg)
     }
 
+    function lock() {
+        chars.enabled = false
+        regress.enabled = false
+        pirson.enabled = false
+        report.enabled = false
+    }
+
+    function unlock() {
+        chars.enabled = true
+        regress.enabled = true
+        pirson.enabled = true
+        report.enabled = true
+    }
+
     MenuGroup {
         id: menuGroup
         selected: file
@@ -44,20 +60,30 @@ ApplicationWindow {
             if (item == file) {
                 pageFileLoad.visible = true
                 pageCharact.visible = false
+                //padePirson.visible = false
                 pageReport.visible = false
             }
             if (item == chars) {
+                loadCharact()
                 pageFileLoad.visible = false
                 pageCharact.visible = true
+                //padePirson.visible = false
                 pageReport.visible = false
             }
             if (item == report) {
                 pageFileLoad.visible = false
                 pageCharact.visible = false
+                //padePirson.visible = false
                 pageReport.visible = true
             }
         }
-        Component.onCompleted: pageFileLoad.visible = true
+        Component.onCompleted: {
+            pageFileLoad.visible = true
+            chars.enabled = false
+            regress.enabled = false
+            pirson.enabled = false
+            report.enabled = false
+        }
     }
 
     Rectangle {
@@ -91,7 +117,7 @@ ApplicationWindow {
             }
             /*
             PagePirson {
-                id: pirson
+                id: padePirson
                 anchors.fill: parent
                 visible: false
             }

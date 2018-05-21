@@ -1,14 +1,18 @@
 from PyQt5.QtWidgets import QApplication
 import os
 
+
 class Presenter():
 
     def __init__(self, view, model):
+        if not os.path.exists("plots"):
+            os.makedirs("plots")
         self._view = view
         self._model = model
 
         self._view.openFileClick.connect(self._view_openFileClick)
 
+        self._view.loadCharact.connect(self._view_loadCharact)
         self._view.loadX.connect(self._view_loadX)
         self._view.loadY.connect(self._view_loadY)
         self._view.loadXY.connect(self._view_loadXY)
@@ -38,7 +42,7 @@ class Presenter():
             header = 0
         title = os.path.basename(path)
 
-        load_str =  '''Загружается файл:
+        load_str = '''Загружается файл:
     Путь к файлу: %s
     Название: %s
     Есть ли заголок в файле: %s
@@ -47,11 +51,17 @@ class Presenter():
         Заголовок 2: %s
     Разделитель: %s
     Десятичный разделитель: %s
-        '''% (path, title, str(header == 0 or "none"), str(titleX), str(titleY), sep, decimal)
+        ''' % (path, title, str(header == 0 or "none"), str(titleX), str(titleY), sep, decimal)
 
         print(load_str)
 
-        self._model.loadFile(path, title, header, names, sep, decimal)
+        try:
+            self._model.loadFile(path, title, header, names, sep, decimal)
+        except Exception as e:
+            self._view.showMessage("Не получилось загрузить данные из файла!")
+            self._view.lock()
+        else:
+            self._view.unlock()
 
         # FILE_PATH = "/home/bazik/Projects/DataAnalyzer/lab.csv"
         # HEADER = 0
@@ -68,40 +78,38 @@ class Presenter():
         # self._model.loadFile(FILE_PATH, TITLE, HEADER, NAMES, SEP, DECIMAL)
 
 
+    def _view_loadCharact(self):
         self._view.pch_insertlabels(self._model.nameX, self._model.nameY)
+        if (not self._model.infoX['ready']): self._model.genInfoX()
+        if (not self._model.infoY['ready']): self._model.genInfoY()
+        if (not self._model.infoXY['ready']): self._model.genInfoXY()
+        
         self._view_loadX()
 
-
     def _view_loadX(self):
-        source = "../" + self._model.savefig(self._model.histogram(self._model.nameX), self._model.title + "-histX", "plots/")
+        if (not self._model.infoX['ready']): self._model.genInfoX()
+
+        source = "../" + self._model.savefig(self._model.infoX['graph'], self._model.title + "-histX", "plots/")
         self._view.pch_setgraphsource(source)
 
-        mean = round(float(self._model.getMean(self._model.nameX)), 4)
-        mode = round(float(self._model.getMode(self._model.nameX).mode[0]), 4)
-        median = round(float(self._model.getMedian(self._model.nameX)), 4)
-        std = round(float(self._model.getStd(self._model.nameX)), 4)
-        dis = round(float(self._model.getDispersion(self._model.nameX)), 4)
-        var = round(float(self._model.getVariation(self._model.nameX)), 4)
-        skew = round(float(self._model.getSkew(self._model.nameX)), 4)
-        kurt = round(float(self._model.getKurtosis(self._model.nameX)), 4)
-        self._view.pch_insertvalues(mean, mode, median, std, dis, var, skew, kurt)
+        self._view.pch_insertvalues(self._model.infoX['mean'], self._model.infoX['mode'], self._model.infoX['median'],
+                                    self._model.infoX['std'], self._model.infoX['dis'], self._model.infoX['var'],
+                                    self._model.infoX['skew'], self._model.infoX['kurt'])
 
     def _view_loadY(self):
-        source = "../" + self._model.savefig(self._model.histogram(self._model.nameY), self._model.title + "-histY", "plots/")
+        if (not self._model.infoY['ready']): self._model.genInfoY()
+
+        source = "../" + self._model.savefig(self._model.infoY['graph'], self._model.title + "-histY", "plots/")
         self._view.pch_setgraphsource(source)
 
-        mean = round(float(self._model.getMean(self._model.nameY)), 4)
-        mode = round(float(self._model.getMode(self._model.nameY).mode[0]), 4)
-        median = round(float(self._model.getMedian(self._model.nameY)), 4)
-        std = round(float(self._model.getStd(self._model.nameY)), 4)
-        dis = round(float(self._model.getDispersion(self._model.nameY)), 4)
-        var = round(float(self._model.getVariation(self._model.nameY)), 4)
-        skew = round(float(self._model.getSkew(self._model.nameY)), 4)
-        kurt = round(float(self._model.getKurtosis(self._model.nameY)), 4)
-        self._view.pch_insertvalues(mean, mode, median, std, dis, var, skew, kurt)
+        self._view.pch_insertvalues(self._model.infoY['mean'], self._model.infoY['mode'], self._model.infoY['median'],
+                                    self._model.infoY['std'], self._model.infoY['dis'], self._model.infoY['var'],
+                                    self._model.infoY['skew'], self._model.infoY['kurt'])
 
     def _view_loadXY(self):
-        source = "../" + self._model.savefig(self._model.scatter(), self._model.title + "-scatter", "plots/")
+        if (not self._model.infoXY['ready']): self._model.genInfoXY()
+
+        source = "../" + self._model.savefig(self._model.infoXY['graph'], self._model.title + "-scatter", "plots/")
         self._view.pch_setgraphsource(source)
 
 
@@ -110,11 +118,8 @@ from view import View
 from model import Model
 
 if __name__ == '__main__':
-    if not os.path.exists("plots"):
-        os.makedirs("plots")
-
     app = QApplication(sys.argv)
-	#this MVP
+    
     view = View()
     model = Model()
     presenter = Presenter(view, model)

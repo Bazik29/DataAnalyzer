@@ -13,19 +13,82 @@ class Model():
         self.nameY = "Y"
         self.title = "Data"
         self.filepath = ""
-        self.lenght = 0
+        # self.lenght = 0
+        self.infoX = {
+            'ready': False,
+            'graph': None,
+            'mean': None,
+            'mode': None,
+            'median': None,
+            'std': None,
+            'dis': None,
+            'var': None,
+            'skew': None,
+            'kurt': None
+        }
+        self.infoY = {
+            'ready': False,
+            'graph': None,
+            'mean': None,
+            'mode': None,
+            'median': None,
+            'std': None,
+            'dis': None,
+            'var': None,
+            'skew': None,
+            'kurt': None
+        }
+        self.infoXY = {
+            'ready': False,
+            'graph': None
+        }
 
-    def fileExist(srlf, path):
+    def clean(self):
+        self.data = None
+        self.nameX = "X"
+        self.nameY = "Y"
+        self.title = "Data"
+        self.filepath = ""
+        # self.lenght = 0
+
+        self.infoX['graph'] = None
+        self.infoX['mean'] = None
+        self.infoX['mode'] = None
+        self.infoX['median'] = None
+        self.infoX['std'] = None
+        self.infoX['dis'] = None
+        self.infoX['var'] = None
+        self.infoX['skew'] = None
+        self.infoX['kurt'] = None
+        self.infoX['ready'] = True
+
+        self.infoY['graph'] = None
+        self.infoY['mean'] = None
+        self.infoY['mode'] = None
+        self.infoY['median'] = None
+        self.infoY['std'] = None
+        self.infoY['dis'] = None
+        self.infoY['var'] = None
+        self.infoY['skew'] = None
+        self.infoY['kurt'] = None
+        self.infoY['ready'] = True
+
+        self.infoXY['graph'] = None
+        self.infoXY['ready'] = True
+
+    def fileExist(self, path):
         return os.path.isfile(path)
 
     def loadFile(self, filepath, title, header, names, sep=',', decimal='.', index_col=False, usecols=[0, 1], encoding='utf_8'):
+        if (self.data):
+            self.clean()
         self.data = pd.read_csv(filepath_or_buffer=filepath, header=header, names=names, sep=sep,
                                 decimal=decimal, index_col=index_col, usecols=usecols, encoding=encoding)
         self.nameX = self.data.columns[0]
         self.nameY = self.data.columns[1]
         self.title = title
         self.filepath = filepath
-        self.lenght = len(self.data)
+        # self.lenght = len(self.data)
 
     def setNames(self, nameX, nameY):
         self.nameX = nameX
@@ -42,7 +105,7 @@ class Model():
                 -название Н
                 -размер выборки
         """
-        return self.filepath, self.title, self.nameX, self.nameY, self.lenght
+        return self.filepath, self.title, self.nameX, self.nameY #, self.lenght
 
     def getMean(self, name):
         """
@@ -60,7 +123,8 @@ class Model():
         """
         Возвращает моду столбца name
         """
-        return stats.mode(self.data[name])
+        mod = stats.mode(self.data[name])
+        return str(mod.mode[0]) + ':' + str(mod.count[0])
 
     def getStd(self, name):
         """
@@ -92,17 +156,6 @@ class Model():
         """
         return stats.kurtosis(self.data[name])
 
-    def savefig(self, fig, name, prefix=""):
-        """
-        Cохраняет фигуру в файл и возвращает путь до файла
-        Добавляет к названию время создания файла
-        prefix - путь до папки
-        """
-        # '-' + datetime.today().isoformat() + 
-        path_plot = prefix + name + '.png'
-        fig.savefig(path_plot)
-        return path_plot
-
     def scatter(self):
         """
         Рисует график выборки, возвращает фигуру
@@ -131,3 +184,43 @@ class Model():
         plt.xlabel(name, fontsize=13)
         plt.title(self.title, fontsize=20)
         return fig
+
+    def genInfoX(self, n=4):
+        self.infoX['graph'] = self.histogram(self.nameX)
+        self.infoX['mean'] = round(float(self.getMean(self.nameX)), n)
+        self.infoX['mode'] = self.getMode(self.nameX)
+        self.infoX['median'] = round(float(self.getMedian(self.nameX)), n)
+        self.infoX['std'] = round(float(self.getStd(self.nameX)), n)
+        self.infoX['dis'] = round(float(self.getDispersion(self.nameX)), n)
+        self.infoX['var'] = round(float(self.getVariation(self.nameX)), n)
+        self.infoX['skew'] = round(float(self.getSkew(self.nameX)), n)
+        self.infoX['kurt'] = round(float(self.getKurtosis(self.nameX)), n)
+        self.infoX['ready'] = True
+
+    def genInfoY(self, n=4):
+        self.infoY['graph'] = self.histogram(self.nameY)
+        self.infoY['mean'] = round(float(self.getMean(self.nameY)), n)
+        self.infoY['mode'] = self.getMode(self.nameY)
+        self.infoY['median'] = round(float(self.getMedian(self.nameY)), n)
+        self.infoY['std'] = round(float(self.getStd(self.nameY)), n)
+        self.infoY['dis'] = round(float(self.getDispersion(self.nameY)), n)
+        self.infoY['var'] = round(float(self.getVariation(self.nameY)), n)
+        self.infoY['skew'] = round(float(self.getSkew(self.nameY)), n)
+        self.infoY['kurt'] = round(float(self.getKurtosis(self.nameY)), n)
+        self.infoY['ready'] = True
+
+    def genInfoXY(self, n=4):
+        self.infoXY['graph'] = self.scatter()
+        self.infoXY['ready'] = True
+
+    def savefig(self, fig, name, prefix=""):
+        """
+        Cохраняет фигуру в файл и возвращает путь до файла
+        Добавляет к названию время создания файла
+        prefix - путь до папки
+        """
+        # '-' + datetime.today().isoformat() + 
+        path_plot = prefix + name + '.png'
+        fig.savefig(path_plot)
+        return path_plot
+
