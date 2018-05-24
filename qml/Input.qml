@@ -5,15 +5,27 @@ Item{
 
 	property string caption: ""
 	property string text: ""
+    property int line_x: 0
+    property int line_y: 32
+    property bool enabled: true
+
+    function disoren(){
+        if (obj1.enabled) obj1.enabled = false
+        else obj1.enabled = true
+    }
 
     function deselect(){
         obj1.deselect()
     }
 
+    function select(){
+        obj1.forceActiveFocus();
+    }
+
 	Rectangle{
 		id: underline
-        x: 0
-        y: 32
+        x: line_x
+        y: line_y
         width: 795
         height: 1
 		color: "#009788"
@@ -23,7 +35,7 @@ Item{
 	Text{
 		id: obj
 		text: caption
-        color: "black"
+        color: obj1.enabled ? "black" : "#c1c1c1"
         font.family: robotoLight.name
         font.weight: Font.Light
         font.pixelSize: 20
@@ -86,9 +98,10 @@ Item{
         font.family: robotoLight.name
         font.weight: Font.Light
         font.pixelSize: 20
+        enabled: sample.enabled
 
 		
-		onActiveFocusChanged:  if (obj1.activeFocus) t_anim1.start(); else if (obj1.text == "") t_anim2.start();
+        onActiveFocusChanged:  if ((obj1.activeFocus) && (obj1.text == "")) t_anim1.start(); else if (obj1.text == "") t_anim2.start();
 	
 		onEditingFinished: sample.text = obj1.text
 		//onTextEdited: sample.text = obj1.text

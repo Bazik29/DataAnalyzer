@@ -13,6 +13,12 @@ ApplicationWindow {
 
     title: "Data Analyser"
 
+    signal loadCharact
+
+    signal errorsfounded
+
+    onErrorsfounded: { err_text.text = pageFileLoad.err_text; fadein.start(); }
+
     FontLoader {
         name: "JohnSans Lite Pro"
         source: "fonts/John_Sans_Lite_Pro.otf"
@@ -38,13 +44,39 @@ ApplicationWindow {
         id: menuGroup
         selected: file
         onChangeMenu: {
-            if (item == file) pageLoader.source = "PageFileLoad.qml"
-            if (item == chars) pageLoader.source = "PageCharact.qml"
-            if (item == report) pageLoader.source = "reportPage.qml"
-            //if (item == pirson) text1.text="Отобразить меню Критерий Пирсона!"
-            //if (item == regress) text1.text="Отобразить меню Уравнение регрессии!"
+            if (item == file) {
+                pageFileLoad.visible = true
+                pageCharact.visible = false
+                padeRegress.visible = false
+                pageReport.visible = false
+            }
+            if (item == chars) {
+                loadCharact()
+                pageFileLoad.visible = false
+                pageCharact.visible = true
+                padeRegress.visible = false
+                pageReport.visible = false
+            }
+            if (item == report) {
+                pageFileLoad.visible = false
+                pageCharact.visible = false
+                padeRegress.visible = false
+                pageReport.visible = true
+            }
+            if (item == regress) {
+                pageFileLoad.visible = false
+                pageCharact.visible = false
+                pageReport.visible = false
+                padeRegress.visible = true
+            }
         }
-        Component.onCompleted: pageLoader.source = "PageFileLoad.qml"
+        Component.onCompleted: {
+            pageFileLoad.visible = true
+            chars.enabled = false
+            regress.enabled = false
+            pirson.enabled = false
+            report.enabled = false
+        }
     }
 
     Rectangle {
@@ -66,10 +98,27 @@ ApplicationWindow {
             boundsBehavior: Flickable.StopAtBounds
             anchors.fill: parent
 
-            contentHeight: pageLoader.height
-            Loader {
-                id: pageLoader
-                anchors.horizontalCenter: parent.horizontalCenter
+            PageFileLoad {
+                id: pageFileLoad
+                anchors.fill: parent
+                visible: false
+            }
+            PageCharact {
+                id: pageCharact
+                anchors.fill: parent
+                visible: false
+            }
+
+            PageRegress {
+                id: padeRegress
+                anchors.fill: parent
+                visible: false
+            }
+
+            PageReport{
+                id: pageReport
+                anchors.fill: parent
+                visible: false
             }
         }
     }
@@ -173,30 +222,35 @@ ApplicationWindow {
                     icon_inverted: "elements/chars_icon_inverted.png"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
+                    enabled: false
                 }
 
                 MenuGroupButton {
                     id: pirson
-                    caption: "Критерий Пирсона"
+                    caption: "Критерии"
                     icon: "elements/pirson_icon.png"
                     icon_inverted: "elements/pirson_icon_inverted.png"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
+                    enabled: false
                 }
 
                 MenuGroupButton {
                     id:regress
-                    caption: "Уравнение регресии"
+                    caption: "Регрессия"
                     icon: "elements/Regression_icon.png"
                     icon_inverted: "elements/Regression_icon_inverted.png"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
+                    enabled: false
                 }
 
                 MenuGroupButton {
-                    caption: "Какое-то название"
+                    id: disp
+                    caption: "Дисперсионный анализ"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
+                    enabled: false
                 }
             }
         }
@@ -220,9 +274,97 @@ ApplicationWindow {
             x: 20
             y: 640
             caption: "Отчет"
+            enabled: false
             radioGroup: menuGroup
         }
 
+    }
+
+    Item{
+        id: err_w
+        x: 1280
+        y: 560
+        width: 400
+        height: 150
+
+
+        Rectangle{
+        anchors.fill: parent
+        color: "#e9403d"
+        border.width: 3
+        border.color: '#ffa4a3'
+        }
+
+        Text{
+            x: 10
+            y: 10
+            color: "White"
+            font.family: "Roboto Regular"
+            font.pixelSize: 24
+            text: "Ошибка"
+        }
+
+        Text{
+            id: err_text
+            x: 10
+            y: 65
+            width: 380
+            color: "White"
+            font.family: robotoLight.name
+            font.weight: Font.Light
+            font.pixelSize: 20
+            wrapMode: "WordWrap"
+            text: "Загрузка файла не возможна файл не существует"
+        }
+
+        CustButton{
+            id: load
+            x: 358
+            y: 10
+            width: 32
+            height: 32
+            normalSrc: "elements/btn.png"
+            hoverSrc: "elements/btn_h.png"
+            clickedSrc: "elements/btn.png"
+            onClicked: { fadeout.start(); }
+        }
+
+        Timer{
+            id: err_time
+            interval: 5000
+            running: false
+            onTriggered:{ err_time.stop(); fadeout.start(); }
+        }
+
+        PropertyAnimation on x{
+            id: fadein
+            to: 880
+            running: false
+            onRunningChanged: {
+                if (running == true) err_time.start()
+            }
+        }
+
+        PropertyAnimation on x{
+            id: fadeout
+            to: 1280
+            running: false
+        }
+
+    }
+
+    function enablemenu(){
+        chars.enabled = true;
+        pirson.enabled = true;
+        regress.enabled = true;
+        disp.enabled = true;
+        report.enabled = true;
+}
+
+    function put_error(error){
+        err_text.text = error;
+        fadein.start();
+        err_time.start();
     }
 
 

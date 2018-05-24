@@ -5,14 +5,18 @@ Rectangle {
 	property string icon: "elements/test_icon.png"
     property string icon_inverted: "elements/test_icon.png"
 	property string caption: "Untitle"
+    property bool enabled: true
 	property MenuGroup radioGroup
 
 
     Image{
         anchors.fill: parent
         id: backgroundimg
-        source: radioGroup.selected === button ? "elements/button_clicked.png" :
-               (mouseArea.containsMouse ? "elements/button_hover.png" : "elements/button_normal.png")
+        source: { if (button.enabled) { radioGroup.selected === button ? "elements/button_clicked.png" :
+               (mouseArea.containsMouse ? "elements/button_hover.png" : "elements/button_normal.png"); } else {
+                "elements/button_disabled.png";
+            }
+        }
     }
 
     height: 76
@@ -22,8 +26,10 @@ Rectangle {
 		anchors.fill: parent
 		hoverEnabled: true
 		onClicked: {
+            if (button.enabled){
 			radioGroup.changeMenu(button)
 			button.radioGroup.selected = button
+            }
 		}
 	}
 
