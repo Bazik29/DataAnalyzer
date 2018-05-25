@@ -351,6 +351,7 @@ Item {
                     clickedSrc: "elements/check_normal_checked.png"
                     checked: true
                     onClicked: { ch1.clip(); idx.disoren(); idy.disoren(); rect.forceActiveFocus()}
+                    Component.onCompleted: ch1.init();
                 }
 
                 Text{
@@ -361,6 +362,7 @@ Item {
                     font.family: robotoLight.name
                     font.weight: Font.Light
                     font.pixelSize: 20
+
                 }
 
                 Rectangle{
