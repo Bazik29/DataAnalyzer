@@ -20,14 +20,6 @@ class Presenter():
     def _view_openFileClick(self):
         path = self._view.pfl_getFilePath()
 
-        if path == "":
-            self._view.showMessage("Выберите файл!")
-            return
-
-        if not self._model.fileExist(path):
-            self._view.showMessage("Файл по пути: '{}' не найден!".format(path))
-            return
-
         sep = self._view.pfl_getSeparator()
         decimal = self._view.pfl_getDecimalSym()
         names = None

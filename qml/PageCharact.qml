@@ -131,7 +131,7 @@ Item {
             Text{
                 x: 26
                 y: 140
-                text: "Мода"
+                text: "Среднее значение"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -139,7 +139,7 @@ Item {
             }
 
             Text{
-                id: t_mode
+                id: t_mean
                 x: 500
                 y: 140
                 text: "default"
@@ -191,7 +191,7 @@ Item {
             Text{
                 x: 26
                 y: 240
-                text: "Среднее значение"
+                text: "Мода"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -199,7 +199,7 @@ Item {
             }
 
             Text{
-                id: t_mean
+                id: t_mode
                 x: 500
                 y: 240
                 text: "default"
@@ -337,7 +337,7 @@ Item {
             Text{
                 x: 26
                 y: 490
-                text: "Эксцесс"
+                text: "Коэфициэнт эксцесса"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
