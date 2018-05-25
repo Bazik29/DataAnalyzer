@@ -80,7 +80,9 @@ Item {
 
     MouseArea {
         hoverEnabled: true
-        anchors.fill: check
+        height: check.height
+        width: 800
+        //anchors.fill: check
         onClicked: { check.clicked(); }
         onEntered: {  hoverImage.visible = true }
         onExited:  { hoverImage.visible = false }

@@ -9,6 +9,8 @@ Item {
     objectName: "pageFileLoad"
 
     property string path: ""
+    property string err_text: ""
+
 
     signal openFileClick
 
@@ -18,31 +20,88 @@ Item {
     }
 
     function getSeparator() {
-        if (rad1.checked) return '/t'
-        if (rad2.checked) return ' '
-        if (rad3.checked) return '   '
-        if (rad4.checked) return ';'
-        return ','
-    }    
+        if (rad1.checked)
+            return '/t'
+        if (rad2.checked)
+            return ' '
+        if (rad3.checked)
+            return ' '.repeat(getFiksWidth())
+        if (rad4.checked)
+            return symbol.text
+    }
+
+    function getFiksWidth(){
+        if (fiks.text == "") 
+            return 1
+        else 
+            return parseInt(fiks.text)
+    }
 
     function getDecimalSym() {
-        // body...
-        return ','
+        //!!!!!!!!!!!!!!!
+        if (symbol.text == "") return '.'
+        else return symbol.text
     }
 
     function haveTitle() {
-        // body...
-        return true
+        return name.text != ""
+    }
+
+    function getTitle() {
+        return name.text
+    }
+
+    function haveNames() {
+        return ch1.checked
     }
 
     function getNameX() {
-        // body...
-        return "X"
+        if (idx.text == "") return 'X'
+        else return idx.text
     }
 
     function getNameY() {
-        // body...
-        return "Y"
+        if (idy.text == "") return 'Y'
+        else return idy.text
+    }
+
+    function checkOnErrors(){
+        if (rad4.checked){
+        var str = symbol.text
+        console.log('разделитель '+str)
+       // for (var i in str){
+            if (!isNaN(str)){
+                err_text = "Символ разделителя не может содержать числа"
+                errorsfounded()
+                return 1
+            }
+       // }
+        }
+        if (rad3.checked){
+            str = fiks.text
+            if (isNaN(str)){
+                err_text = "Ширина не может быть символом"
+                errorsfounded()
+                return 1
+            }
+            if (str<1) {
+                err_text = "Ширина не может быть отрицательной"
+                errorsfounded()
+                return 1
+            }
+           }
+        if (sym_num.text != ""){
+           str = sym_num.text
+            for (i in str){
+                if (!isNaN(i)){
+                    err_text = "Символ разделителя не может содержать числа"
+                    errorsfounded()
+                    return 1
+                }
+            }
+        }
+
+        return 0
     }
 
     Rectangle{
@@ -52,6 +111,7 @@ Item {
         width: 815
         height: 388
         color: "#f8fafb"
+
 
         SwipeView{
             id: view
@@ -67,7 +127,7 @@ Item {
                 Text{
                     id: pathFile
                     x: 12 //-18
-                    y: 28 //-131
+                    y: 32 //-131
                     text: "Путь к файлу"
                     color: "black"
                     font.family: robotoLight.name
@@ -81,16 +141,7 @@ Item {
                     width: 795
                     height: 1
                     color: "#c1c1c1"
-                }
 
-                Text{
-                    x: 12
-                    y: 88
-                    text: "Строк в файле"
-                    color: "black"
-                    font.family: robotoLight.name
-                    font.weight: Font.Light
-                    font.pixelSize: 20
                 }
 
                 Rectangle{
@@ -99,7 +150,13 @@ Item {
                     width: 795
                     height: 1
                     color: "#c1c1c1"
+                }
 
+                Input{
+                    id: name
+                    x: 13
+                    y: 100
+                    caption: "Введите название выборки"
                 }
 
                 CustButton{
@@ -117,10 +174,11 @@ Item {
                         folder: "."
                         title: "Выберите файл для открытия"
                         selectMultiple: false
-                        nameFilters: [ "Text files (*.csv *.txt)" ]
+                        nameFilters: [ "CSV и TXT (*.csv *.txt)" ]
                         onAccepted: {
-                            //console.log("Accepted: " + fileDialog.fileUrl.toString().slice(7))
-                            path = fileDialog.fileUrl.toString().slice(7)
+                            path = fileDialog.fileUrl.toString()
+                            path = path.replace(/^(file:\/{3})/,"");
+                            path = decodeURIComponent(path);
                             pathFile.text = "Путь к файлу: " + path
                         }
                     }
@@ -129,9 +187,10 @@ Item {
                         id: drop
                         anchors.fill: parent
                         onEntered: {
-                            //console.log("Droparea entered-- " + drag.urls[0].toString().slice(7))
                             if (drag.urls.length == 1) {
-                                path = drag.urls[0].toString().slice(7)
+                                path = drag.urls[0].toString()
+                                path = path.replace(/^(file:\/{3})/,"");
+                                path = decodeURIComponent(path);
                                 pathFile.text = "Путь к файлу: " + path
                             }
                         }
@@ -149,6 +208,19 @@ Item {
                     rad2.unclip();
                     rad3.unclip();
                     rad4.unclip();
+                    rect.forceActiveFocus();
+                    rad3.setarea(800);
+                    rad4.setarea(800)
+                }
+
+                function get_fh(prop){
+                    if (prop){
+                    rad3.setarea(48);
+                    fiks.select();
+                    } else {
+                        rad4.setarea(48);
+                        symbol.select();
+                    }
                 }
 
                 CustRadio{
@@ -160,6 +232,7 @@ Item {
                     clickedSrc: "elements/gr_normal.png"
                     onClicked: { page2.unclipall(); rad1.clip();}
                     Component.onCompleted: rad1.init();
+                    checked: true
                 }
 
                 CustRadio{
@@ -173,6 +246,24 @@ Item {
                     Component.onCompleted: rad2.init();
                 }
 
+                Rectangle{
+                    x: 13
+                    y: 200
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+                Input{
+                    id: fiks
+                    x: 68
+                    y: 162
+                    line_x: -54
+                    line_y: 38
+                    caption: "Фиксированная ширина"
+                }
+
                 CustRadio{
                     id: rad3
                     x: 12
@@ -180,8 +271,26 @@ Item {
                     normalSrc: "elements/gr_normal.png"
                     hoverSrc: "elements/gr_hover.png"
                     clickedSrc: "elements/gr_normal.png"
-                    onClicked: {page2.unclipall(); rad3.clip();}
+                    onClicked: {page2.unclipall(); rad3.clip(); page2.get_fh(true);}
                     Component.onCompleted: rad3.init();
+                }
+
+                Rectangle{
+                    x: 13
+                    y: 268
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+
+                }
+
+                Input{
+                    id: symbol
+                    x: 68
+                    y: 230
+                    line_x: -54
+                    line_y: 38
+                    caption: "Символ"
                 }
 
                 CustRadio{
@@ -191,8 +300,7 @@ Item {
                     normalSrc: "elements/gr_normal.png"
                     hoverSrc: "elements/gr_hover.png"
                     clickedSrc: "elements/gr_normal.png"
-                    checked: true
-                    onClicked: {page2.unclipall(); rad4.clip();}
+                    onClicked: {page2.unclipall(); rad4.clip(); page2.get_fh(false);}
                     Component.onCompleted: rad4.init();
                 }
 
@@ -235,43 +343,6 @@ Item {
 
                 }
 
-                Text{
-                    x: 68
-                    y: 162
-                    text: "Фикс. ширина"
-                    color: "black"
-                    font.family: robotoLight.name
-                    font.weight: Font.Light
-                    font.pixelSize: 20
-                }
-
-                Rectangle{
-                    x: 13
-                    y: 200
-                    width: 795
-                    height: 1
-                    color: "#c1c1c1"
-
-                }
-
-                Text{
-                    x: 68
-                    y: 230
-                    text: "Символ"
-                    color: "black"
-                    font.family: robotoLight.name
-                    font.weight: Font.Light
-                    font.pixelSize: 20
-                }
-
-                Rectangle{
-                    x: 13
-                    y: 268
-                    width: 795
-                    height: 1
-                    color: "#c1c1c1"
-
-                }
             }
 
             Item{
@@ -284,7 +355,8 @@ Item {
                     normalSrc: "elements/check_normal_checked.png"
                     hoverSrc: "elements/hover_check.png"
                     clickedSrc: "elements/check_normal_checked.png"
-                    onClicked: { ch1.clip();}
+                    checked: true
+                    onClicked: { ch1.clip(); idx.disoren(); idy.disoren(); rect.forceActiveFocus()}
                 }
 
                 Text{
@@ -320,6 +392,7 @@ Item {
                     x: 13
                     y: 100
                     caption: "Имя столбца X"
+                    enabled: false
                 }
 
                 Rectangle{
@@ -332,9 +405,11 @@ Item {
                 }
 
                 Input{
+                    id: idy
                     x: 13
                     y: 168
                     caption: "Имя столбца Y"
+                    enabled: false
                 }
 
                 Rectangle{
@@ -346,14 +421,11 @@ Item {
 
                 }
 
-                Text{
+                Input{
+                    id: sym_num
                     x: 12 //-18
                     y: 236 //-131
-                    text: "Разделять доли символом:"
-                    color: "black"
-                    font.family: robotoLight.name
-                    font.weight: Font.Light
-                    font.pixelSize: 20
+                    caption: "Разделять доли символом:"
                 }
 
             }
@@ -461,8 +533,18 @@ Item {
         posx: 117
         posy: 23
         onClicked: { 
-            idx.deselect();
-            openFileClick()
-        }
+            rect.forceActiveFocus(); 
+            var e = checkOnErrors();
+             if (e == 0) { 
+                openFileClick() 
+            } 
+          }
+    }
+
+    function get_spacer(){
+        if (rad1.checked) return '/t'
+        if (rad2.checked) return ' '
+        if (rad3.checked) return '   '
+        if (rad4.checked) return ';'
     }
 }

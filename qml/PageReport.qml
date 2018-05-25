@@ -1,13 +1,23 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 Item {
+    objectName: "pageReport"
     width: 900
     property string vel_x: "X"
     property string vel_y: "Y"
 
-    function getlabels(lx, ly){
+    function setlabels(lx, ly){
         vel_x = lx
         vel_y = ly
+    }
+
+    function getArrayOfReport(){
+        arr = []
+        for (var item in [ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8]){
+           if (item.checked) arr.append(1)
+           else arr.append(0)
+        }
+        return arr
     }
 
 

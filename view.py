@@ -1,5 +1,6 @@
 from PyQt5.QtQml import QQmlApplicationEngine
 from PyQt5.QtCore import QObject, QUrl, pyqtSignal
+import os
 
 class View(QQmlApplicationEngine):
 
@@ -39,13 +40,21 @@ class View(QQmlApplicationEngine):
         self._root.unlock()
 
     def pfl_getFilePath(self):
-        return self.pageLoadFile.getFilePath()
+        path = self.pageLoadFile.getFilePath()
+        if os.name == "nt": return path
+        else: return '/' + path
 
     def pfl_getSeparator(self):
         return self.pageLoadFile.getSeparator()
 
     def pfl_haveTitle(self):
         return self.pageLoadFile.haveTitle()
+
+    def pfl_getTitle(self):
+        return self.pageLoadFile.getTitle()
+
+    def pfl_haveNames(self):
+        return self.pageLoadFile.haveNames()
 
     def pfl_getNames(self):
         X = self.pageLoadFile.getNameX()

@@ -13,7 +13,6 @@ class Model():
         self.nameY = "Y"
         self.title = "Data"
         self.filepath = ""
-        # self.lenght = 0
         self.infoX = {
             'ready': False,
             'graph': None,
@@ -49,7 +48,6 @@ class Model():
         self.nameY = "Y"
         self.title = "Data"
         self.filepath = ""
-        # self.lenght = 0
 
         self.infoX['graph'] = None
         self.infoX['mean'] = None
@@ -60,7 +58,7 @@ class Model():
         self.infoX['var'] = None
         self.infoX['skew'] = None
         self.infoX['kurt'] = None
-        self.infoX['ready'] = True
+        self.infoX['ready'] = False
 
         self.infoY['graph'] = None
         self.infoY['mean'] = None
@@ -71,19 +69,18 @@ class Model():
         self.infoY['var'] = None
         self.infoY['skew'] = None
         self.infoY['kurt'] = None
-        self.infoY['ready'] = True
+        self.infoY['ready'] = False
 
         self.infoXY['graph'] = None
-        self.infoXY['ready'] = True
+        self.infoXY['ready'] = False
 
     def fileExist(self, path):
         return os.path.isfile(path)
 
-    def loadFile(self, filepath, title, header, names, sep=',', decimal='.', index_col=False, usecols=[0, 1], encoding='utf_8'):
+    def loadFile(self, filepath, title, header, names, sep=',', decimal='.', index_col=False, usecols=[0, 1], encoding='utf_8', engine='python'):
         if (self.data):
             self.clean()
-        self.data = pd.read_csv(filepath_or_buffer=filepath, header=header, names=names, sep=sep,
-                                decimal=decimal, index_col=index_col, usecols=usecols, encoding=encoding)
+        self.data = pd.read_csv(filepath_or_buffer=filepath, header=header, names=names, sep=sep, decimal=decimal, index_col=index_col, usecols=usecols, encoding=encoding, engine=engine)
         self.nameX = self.data.columns[0]
         self.nameY = self.data.columns[1]
         self.title = title
@@ -170,6 +167,7 @@ class Model():
         plt.xlabel(self.nameX, fontsize=13)
         plt.ylabel(self.nameY, fontsize=13)
         plt.title(self.title, fontsize=20)
+        plt.tight_layout()
         return fig
 
     def histogram(self, name):
@@ -183,6 +181,7 @@ class Model():
         plt.grid(ls=':')
         plt.xlabel(name, fontsize=13)
         plt.title(self.title, fontsize=20)
+        plt.tight_layout()
         return fig
 
     def genInfoX(self, n=4):
