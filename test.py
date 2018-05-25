@@ -101,5 +101,63 @@
 # # ax.set_facecolor( '#e9403d') #'#fd930b') #54ad58')
 # # plt.show()
 
-from scipy import stats
-print(stats.mode([1, 1, 2, 54, 5]))
+from jinja2 import Template
+
+tmpl_file = open("templates/template.html")
+tmpl_html = tmpl_file.read()
+tmpl_file.close()
+
+template = Template(tmpl_html)
+
+
+def tmpl_img(label, src):
+	img = {
+		'type': "image",
+		'label': label,
+		'src': src
+		}
+	return img
+
+def tml_char(label, mean, mode, median, std, dis, var, skew, kurt):
+	tbl = {
+		'type': "table-charact",
+		'label': label,
+		'mean': mean,
+		'mode': mode,
+		'median': median,
+		'std': std,
+		'dis': dis,
+		'var': var,
+		'skew': skew,
+		'kurt': kurt
+	}
+	return tbl
+
+def tml_regress(label, equation, k_reg, R2, R, param1, param2):
+	tbl = {
+		'type': "table-regress",
+		'label': label,
+		'k_reg': k_reg,
+		'R2': R2,
+		'R': R,
+		'param1': param1,
+		'param2': param2
+	}
+	return tbl
+
+def tml_content(params=None):
+	content = [ 
+		tmpl_img("Ghb", "x.png"),
+		tml_char("uysff", 1, 2, 3, 4, 5, 6, 7, 8),
+		tml_char("!!!!!", 1, 2 ,3, 4, 5, 6, 7, 8),
+		tmpl_img("Ghb", "x.png")
+	]
+	return content
+
+html = template.render(name="TEST", content=tml_content())
+
+print(html)
+
+# html_file = open("file.html", 'w') 
+# html_file.write(html)
+# html_file.close()
