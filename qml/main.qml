@@ -41,6 +41,7 @@ ApplicationWindow {
 
     function showMessage(msg) {
         console.log(msg)
+        put_error(msg)
     }
 
     function put_error(error){

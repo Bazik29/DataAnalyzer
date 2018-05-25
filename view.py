@@ -47,6 +47,12 @@ class View(QQmlApplicationEngine):
     def pfl_haveTitle(self):
         return self.pageLoadFile.haveTitle()
 
+    def pfl_getTitle(self):
+        return self.pageLoadFile.getTitle()
+
+    def pfl_haveNames(self):
+        return self.pageLoadFile.haveNames()
+
     def pfl_getNames(self):
         X = self.pageLoadFile.getNameX()
         Y = self.pageLoadFile.getNameY()

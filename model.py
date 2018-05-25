@@ -13,7 +13,6 @@ class Model():
         self.nameY = "Y"
         self.title = "Data"
         self.filepath = ""
-        # self.lenght = 0
         self.infoX = {
             'ready': False,
             'graph': None,
@@ -49,7 +48,6 @@ class Model():
         self.nameY = "Y"
         self.title = "Data"
         self.filepath = ""
-        # self.lenght = 0
 
         self.infoX['graph'] = None
         self.infoX['mean'] = None
@@ -60,7 +58,7 @@ class Model():
         self.infoX['var'] = None
         self.infoX['skew'] = None
         self.infoX['kurt'] = None
-        self.infoX['ready'] = True
+        self.infoX['ready'] = False
 
         self.infoY['graph'] = None
         self.infoY['mean'] = None
@@ -71,10 +69,10 @@ class Model():
         self.infoY['var'] = None
         self.infoY['skew'] = None
         self.infoY['kurt'] = None
-        self.infoY['ready'] = True
+        self.infoY['ready'] = False
 
         self.infoXY['graph'] = None
-        self.infoXY['ready'] = True
+        self.infoXY['ready'] = False
 
     def fileExist(self, path):
         return os.path.isfile(path)

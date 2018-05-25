@@ -10,7 +10,6 @@ Item {
     property string vel_x: "X"
     property string vel_y: "Y"
 
-    property string gsource: ""
 
     signal loadX
     signal loadY
@@ -32,13 +31,25 @@ Item {
     }
 
     function setgraphsource(source) {
-        gsource = source
+        graph.source = source
     }
 
     function swappages(idx){
-        if (idx == 0) { graph.source = gsource; chars_page.visible = true; flick.contentHeight = 1214}
-        if (idx == 1) { graph.source = gsource; chars_page.visible = true; flick.contentHeight = 1214}
-        if (idx == 2) { graph.source = gsource; chars_page.visible = false; flick.contentHeight = 657}
+        if (idx == 0) { 
+            loadXY()
+            chars_page.visible = false
+            flick.contentHeight = 657
+        }
+        if (idx == 1) { 
+            loadX()
+            chars_page.visible = true
+            flick.contentHeight = 1214
+        }
+        if (idx == 2) { 
+            loadY()
+            chars_page.visible = true
+            flick.contentHeight = 1214
+        }
     }
 
     function insertvalues(mean, mode, median, std, dispersion, variation, skew, kurtosis){
@@ -78,7 +89,7 @@ Item {
             y: 45
             width: 831
             height: 442
-            source: "elements/plot.png"
+            //source: "elements/plot.png"
             property bool rounded: true
             property bool adapt: true
 
@@ -355,9 +366,9 @@ Item {
         width: 800
         height: 60
         font.pixelSize: 20
-        model: [ "Величина "+vel_x, "Величина "+vel_y, "Зависимость "+vel_x+" от "+vel_y]
+        model: ["Зависимость "+vel_x+" от "+vel_y, "Величина "+vel_x, "Величина "+vel_y]
 
-        onCurrentIndexChanged: swappages(control.currentIndex);
+        onCurrentIndexChanged: swappages(control.currentIndex)
 
         delegate: ItemDelegate {
             width: control.width

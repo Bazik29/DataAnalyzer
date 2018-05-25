@@ -38,8 +38,15 @@ Item {
     }
 
     function haveTitle() {
-        if (name.text == "") return 'Выборка'
-        else return name.text
+        return name.text != ""
+    }
+
+    function getTitle() {
+        return name.text
+    }
+
+    function haveNames() {
+        return ch1.checked
     }
 
     function getNameX() {
@@ -51,7 +58,6 @@ Item {
         if (idy.text == "") return 'Y'
         else return idy.text
     }
-
 
     function checkOnErrors(){
         if (rad4.checked){
@@ -144,7 +150,7 @@ Item {
                     id: name
                     x: 13
                     y: 100
-                    caption: "Название выборки"
+                    caption: "Введите название выборки"
                 }
 
                 CustButton{
@@ -162,10 +168,9 @@ Item {
                         folder: "."
                         title: "Выберите файл для открытия"
                         selectMultiple: false
-                        nameFilters: [ "Text files (*.csv *.txt)" ]
+                        nameFilters: [ "CSV и TXT (*.csv *.txt)" ]
                         onAccepted: {
-                            //console.log("Accepted: " + fileDialog.fileUrl.toString().slice(7))
-                            path = fileDialog.fileUrl.toString().slice(8)
+                            path = fileDialog.fileUrl.toString().slice(7)
                             pathFile.text = "Путь к файлу: " + path
                         }
                     }
@@ -174,7 +179,6 @@ Item {
                         id: drop
                         anchors.fill: parent
                         onEntered: {
-                            //console.log("Droparea entered-- " + drag.urls[0].toString().slice(7))
                             if (drag.urls.length == 1) {
                                 path = drag.urls[0].toString().slice(7)
                                 pathFile.text = "Путь к файлу: " + path
@@ -518,7 +522,13 @@ Item {
         textcolor: "white"
         posx: 117
         posy: 23
-        onClicked: { rect.forceActiveFocus(); var e = checkOnErrors(); if (e == 0) { unlock(); openFileClick() } }
+        onClicked: { 
+            rect.forceActiveFocus(); 
+            var e = checkOnErrors();
+             if (e == 0) { 
+                openFileClick() 
+            } 
+          }
     }
 
     function get_spacer(){
@@ -527,6 +537,4 @@ Item {
         if (rad3.checked) return '   '
         if (rad4.checked) return ';'
     }
-
-
 }
