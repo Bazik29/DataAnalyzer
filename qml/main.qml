@@ -68,29 +68,40 @@ ApplicationWindow {
         selected: file
         onChangeMenu: {
             if (item == file) {
-                pageFileLoad.visible = true
                 pageCharact.visible = false
-                padeRegress.visible = false
+                pageRegress.visible = false
+                pageCrits.visible = false
                 pageReport.visible = false
+                pageFileLoad.visible = true
             }
             if (item == chars) {
                 loadCharact()
+                pageCrits.visible = false
                 pageFileLoad.visible = false
-                pageCharact.visible = true
-                padeRegress.visible = false
+                pageRegress.visible = false
                 pageReport.visible = false
+                pageCharact.visible = true
             }
             if (item == report) {
                 pageFileLoad.visible = false
                 pageCharact.visible = false
-                padeRegress.visible = false
+                pageRegress.visible = false
+                pageCrits.visible = false
                 pageReport.visible = true
             }
             if (item == regress) {
                 pageFileLoad.visible = false
                 pageCharact.visible = false
                 pageReport.visible = false
-                padeRegress.visible = true
+                pageCrits.visible = false
+                pageRegress.visible = true
+            }
+            if (item == pirson) {
+                pageFileLoad.visible = false
+                pageCharact.visible = false
+                pageReport.visible = false
+                pageRegress.visible = false
+                pageCrits.visible = true
             }
         }
         Component.onCompleted: {
@@ -133,7 +144,13 @@ ApplicationWindow {
             }
 
             PageRegress {
-                id: padeRegress
+                id: pageRegress
+                anchors.fill: parent
+                visible: false
+            }
+
+            PageCrits {
+                id: pageCrits
                 anchors.fill: parent
                 visible: false
             }

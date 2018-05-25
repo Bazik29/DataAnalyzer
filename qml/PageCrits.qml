@@ -5,57 +5,12 @@ import QtGraphicalEffects 1.0
 
 Item {
     width: 900
-    objectName: "pageRegress"
-
-    Flickable{
-        id: flick
-        x: 4
-        y: 0
-        width: parent.width
-        height: 716
-        boundsBehavior: Flickable.StopAtBounds
-        contentHeight: 1214
-        ScrollBar.vertical: ScrollBar { }
-
-
-        Image{
-            x: 45
-            y: 65
-            width: 831
-            height: 442
-            id: back_graph
-            source: "elements/graph_back.png"
-        }
-
-        Image {
-            id: graph
-            x: 25
-            y: 45
-            width: 831
-            height: 442
-            source: "elements/plot.png"
-            property bool rounded: true
-            property bool adapt: true
-
-            layer.enabled: rounded
-            layer.effect: OpacityMask {
-                maskSource: Item {
-                    width: graph.width
-                    height: graph.height
-                    Rectangle {
-                       anchors.centerIn: parent
-                       width: graph.adapt ? graph.width : Math.min(graph.width, graph.height)
-                       height: graph.adapt ? graph.height : width
-                       radius: 12 //Math.min(width, height)
-                    }
-                }
-            }
-        }
+    objectName: "pageCrits"
 
         Item{
-            id: chars_page
+            id: crits_table
             x: 25
-            y: 547
+            y: 18
 
             Image{
                 width: 851
@@ -66,17 +21,21 @@ Item {
             Text{
                 y: 43
                 x: 60
-                text: "Регрессионная статистика"
+                text: "Критерии"
                 font.family: "Roboto Regular"
                 font.pixelSize: 20
                 color: "White"
             }
 
-            Text{
+            Item{
                 x: 26
-                y: 140
-                text: "Коэфициент регрессии"
-                color: "black"
+                y: 20
+
+            Text{
+                x: 0
+                y: 120
+                text: "Критерий"
+                color: "#009788"
                 font.family: robotoLight.name
                 font.weight: Font.Light
                 font.pixelSize: 20
@@ -84,7 +43,141 @@ Item {
 
             Text{
                 id: t_kr
-                x: 500
+                x: 416
+                y: 120
+                text: "D"
+                color: "#009788"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+
+            Text{
+                x: 676
+                y: 120
+                text: "p - value"
+                color: "#009788"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+            }
+
+            Item{
+                y: 150
+
+                Rectangle{
+                    x: 26
+                    y: 26
+                    width: 795
+                    height: 1
+                    color: "#c1c1c1"
+                }
+
+            Text{
+                x: 26
+                y: 40
+                text: "Критерий Колмогорова"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+
+            Text{
+                id: t_urR
+                x: 440
+                y: 40
+                text: "default"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+
+            Text{
+                id: t_urR1
+                x: 700
+                y: 40
+                text: "default"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+
+            Rectangle{
+                x: 26
+                y: 76
+                width: 795
+                height: 1
+                color: "#c1c1c1"
+            }
+
+            Text{
+                x: 26
+                y: 90
+                text: "Критерий Пирсона"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+
+            Text{
+                id: t_manyR
+                x: 440
+                y: 90
+                text: "default"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+
+            Text{
+                id: t_manyR1
+                x: 700
+                y: 90
+                text: "default"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+
+            Rectangle{
+                x: 26
+                y: 126
+                width: 795
+                height: 1
+                color: "#c1c1c1"
+            }
+
+            Text{
+                x: 26
+                y: 140
+                text: "Какой-то ещё критерий"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+
+            Text{
+                id: t_stdEr
+                x: 440
+                y: 140
+                text: "default"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+
+            Text{
+                id: t_stdEr1
+                x: 700
                 y: 140
                 text: "default"
                 color: "black"
@@ -104,123 +197,7 @@ Item {
             Text{
                 x: 26
                 y: 190
-                text: "R - квадрат"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
-            }
-
-            Text{
-                id: t_sqr
-                x: 500
-                y: 190
-                text: "default"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
-            }
-
-            Rectangle{
-                x: 26
-                y: 226
-                width: 795
-                height: 1
-                color: "#c1c1c1"
-            }
-
-            Text{
-                x: 26
-                y: 240
-                text: "Уравнение регрессии"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
-            }
-
-            Text{
-                id: t_urR
-                x: 500
-                y: 240
-                text: "default"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
-            }
-
-            Rectangle{
-                x: 26
-                y: 276
-                width: 795
-                height: 1
-                color: "#c1c1c1"
-            }
-
-            Text{
-                x: 26
-                y: 290
-                text: "Множественный R"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
-            }
-
-            Text{
-                id: t_manyR
-                x: 500
-                y: 290
-                text: "default"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
-            }
-
-            Rectangle{
-                x: 26
-                y: 326
-                width: 795
-                height: 1
-                color: "#c1c1c1"
-            }
-
-            Text{
-                x: 26
-                y: 340
-                text: "Стандартная ошибка"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
-            }
-
-            Text{
-                id: t_stdEr
-                x: 500
-                y: 340
-                text: "default"
-                color: "black"
-                font.family: robotoLight.name
-                font.weight: Font.Light
-                font.pixelSize: 20
-            }
-
-            Rectangle{
-                x: 26
-                y: 376
-                width: 795
-                height: 1
-                color: "#c1c1c1"
-            }
-
-            Text{
-                x: 26
-                y: 390
-                text: "Число наблюдений"
+                text: "И ещё какой-то критерий"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -229,8 +206,8 @@ Item {
 
             Text{
                 id: t_sees
-                x: 500
-                y: 390
+                x: 440
+                y: 190
                 text: "default"
                 color: "black"
                 font.family: robotoLight.name
@@ -238,7 +215,18 @@ Item {
                 font.pixelSize: 20
             }
 
-        }
+            Text{
+                id: t_sees1
+                x: 700
+                y: 190
+                text: "default"
+                color: "black"
+                font.family: robotoLight.name
+                font.weight: Font.Light
+                font.pixelSize: 20
+            }
+
+            }
 
     }
 }
