@@ -5,9 +5,12 @@ import QtGraphicalEffects 1.0
 
 Item {
     width: 900
+    objectName: "pageCharact"
 
     property string vel_x: "X"
     property string vel_y: "Y"
+
+    property string gsource: ""
 
     signal loadX
     signal loadY
@@ -28,10 +31,14 @@ Item {
         vel_y = ly
     }
 
+    function setgraphsource(source) {
+        gsource = source
+    }
+
     function swappages(idx){
-        if (idx == 0) { graph.source = "elements/plot.png"; chars_page.visible = true; flick.contentHeight = 1214}
-        if (idx == 1) { graph.source = "elements/plot2.png"; chars_page.visible = true; flick.contentHeight = 1214}
-        if (idx == 2) { graph.source = "elements/plot2.jpg"; chars_page.visible = false; flick.contentHeight = 657}
+        if (idx == 0) { graph.source = gsource; chars_page.visible = true; flick.contentHeight = 1214}
+        if (idx == 1) { graph.source = gsource; chars_page.visible = true; flick.contentHeight = 1214}
+        if (idx == 2) { graph.source = gsource; chars_page.visible = false; flick.contentHeight = 657}
     }
 
     function insertvalues(mean, mode, median, std, dispersion, variation, skew, kurtosis){

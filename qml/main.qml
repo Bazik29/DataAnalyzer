@@ -39,6 +39,30 @@ ApplicationWindow {
         source: "fonts/Roboto-Light.ttf"
     }
 
+    function showMessage(msg) {
+        console.log(msg)
+    }
+
+    function put_error(error){
+        err_text.text = error;
+        fadein.start();
+    }
+
+    function lock() {
+        chars.enabled = false
+        regress.enabled = false
+        //pirson.enabled = false
+        report.enabled = false
+    }
+
+    function unlock() {
+        chars.enabled = true
+        regress.enabled = true
+        pirson.enabled = true
+        report.enabled = true
+        console.log('unlocked')
+    }
+
 
     MenuGroup {
         id: menuGroup
@@ -352,21 +376,5 @@ ApplicationWindow {
         }
 
     }
-
-    function enablemenu(){
-        chars.enabled = true;
-        pirson.enabled = true;
-        regress.enabled = true;
-        disp.enabled = true;
-        report.enabled = true;
-}
-
-    function put_error(error){
-        err_text.text = error;
-        fadein.start();
-        err_time.start();
-    }
-
-
 
 }

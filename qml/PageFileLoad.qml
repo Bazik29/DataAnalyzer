@@ -4,13 +4,14 @@ import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.1
 
 Item {
-    id: pfl
     x: -425
     y: 18
     objectName: "pageFileLoad"
 
     property string path: ""
     property string err_text: ""
+
+
     signal openFileClick
 
 
@@ -36,7 +37,7 @@ Item {
         else return symbol.text
     }
 
-    function getTitle() {
+    function haveTitle() {
         if (name.text == "") return 'Выборка'
         else return name.text
     }
@@ -55,13 +56,14 @@ Item {
     function checkOnErrors(){
         if (rad4.checked){
         var str = symbol.text
-        for (var i in str){
-            if (!isNaN(i)){
+        console.log('разделитель '+str)
+       // for (var i in str){
+            if (!isNaN(str)){
                 err_text = "Символ разделителя не может содержать числа"
                 errorsfounded()
                 return 1
             }
-        }
+       // }
         }
         if (rad3.checked){
             str = fiks.text
@@ -111,6 +113,7 @@ Item {
                 id: page1
 
                 Text{
+                    id: pathFile
                     x: 12 //-18
                     y: 32 //-131
                     text: "Путь к файлу"
@@ -159,28 +162,25 @@ Item {
                         folder: "."
                         title: "Выберите файл для открытия"
                         selectMultiple: false
-                        //nameFilters: [ "Image files (*.png *.jpg)", "All files (*)" ]
+                        nameFilters: [ "Text files (*.csv *.txt)" ]
                         onAccepted: {
-                            console.log("Accepted: " + fileDialog.fileUrl)
-                            pathFile.text = fileDialog.fileUrl
+                            //console.log("Accepted: " + fileDialog.fileUrl.toString().slice(7))
+                            path = fileDialog.fileUrl.toString().slice(8)
+                            pathFile.text = "Путь к файлу: " + path
                         }
                     }
 
                     DropArea {
                         id: drop
                         anchors.fill: parent
-
                         onEntered: {
-
-                            console.log("Droparea entered-- " + drag.urls[0])
-                            if (drag.urls.length == 1)
-                                pathFile.text = drag.urls[0]
-                            //!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            //console.log("Droparea entered-- " + drag.urls[0].toString().slice(7))
+                            if (drag.urls.length == 1) {
+                                path = drag.urls[0].toString().slice(7)
+                                pathFile.text = "Путь к файлу: " + path
+                            }
                         }
 
-                        onExited: console.log("Droparea exited")
-
-                        onDropped: console.log("Droparea dropped")
                     }
                 }
 
@@ -518,7 +518,7 @@ Item {
         textcolor: "white"
         posx: 117
         posy: 23
-        onClicked: { rect.forceActiveFocus(); var e = checkOnErrors(); if (e == 0) { enablemenu(); openFileClick() } }
+        onClicked: { rect.forceActiveFocus(); var e = checkOnErrors(); if (e == 0) { unlock(); openFileClick() } }
     }
 
     function get_spacer(){
