@@ -78,7 +78,7 @@ class Model():
         return os.path.isfile(path)
 
     def loadFile(self, filepath, title, header, names, sep=',', decimal='.', index_col=False, usecols=[0, 1], encoding='utf_8', engine='python'):
-        if (self.data):
+        if (self.data is None or not self.data.empty):
             self.clean()
         self.data = pd.read_csv(filepath_or_buffer=filepath, header=header, names=names, sep=sep, decimal=decimal, index_col=index_col, usecols=usecols, encoding=encoding, engine=engine)
         self.nameX = self.data.columns[0]
