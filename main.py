@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication
-import os
 
+import os
 
 class Presenter():
 

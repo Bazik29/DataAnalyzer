@@ -170,7 +170,9 @@ Item {
                         selectMultiple: false
                         nameFilters: [ "CSV и TXT (*.csv *.txt)" ]
                         onAccepted: {
-                            path = fileDialog.fileUrl.toString().slice(7)
+                            path = fileDialog.fileUrl.toString()
+                            path = path.replace(/^(file:\/{3})/,"");
+                            path = decodeURIComponent(path);
                             pathFile.text = "Путь к файлу: " + path
                         }
                     }
@@ -180,7 +182,9 @@ Item {
                         anchors.fill: parent
                         onEntered: {
                             if (drag.urls.length == 1) {
-                                path = drag.urls[0].toString().slice(7)
+                                path = drag.urls[0].toString()
+                                path = path.replace(/^(file:\/{3})/,"");
+                                path = decodeURIComponent(path);
                                 pathFile.text = "Путь к файлу: " + path
                             }
                         }
