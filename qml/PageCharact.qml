@@ -278,7 +278,7 @@ Item {
             Text{
                 x: 26
                 y: 390
-                text: "Коэфициэнт вариации"
+                text: "Коэффициент вариации"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -307,7 +307,7 @@ Item {
             Text{
                 x: 26
                 y: 440
-                text: "Коэфициэнт ассиметрии"
+                text: "Коэффициент ассиметрии"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -337,7 +337,7 @@ Item {
             Text{
                 x: 26
                 y: 490
-                text: "Коэфициэнт эксцесса"
+                text: "Коэффициент эксцесса"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
