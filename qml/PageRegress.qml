@@ -75,7 +75,7 @@ Item {
             Text{
                 x: 26
                 y: 140
-                text: "Коэфициент регрессии"
+                text: "Коэффициент регрессии"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
