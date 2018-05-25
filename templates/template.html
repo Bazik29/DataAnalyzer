@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Отчет по выборке</title>
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      box-shadow: 0 0 5px 1px rgba(122,122,122,0.5);
+    }
+    div.main {
+      margin: 50px;
+    }
+    div.content {
+      margin: 30px auto;
+      padding: 20px;
+      width: 70%;
+      box-shadow: 0 0 10px 1px rgba(122,122,122,0.5);
+      background-color: white;
+    }
+    h2 {
+      text-align: center;
+      margin: 10px auto 0px;
+      padding: 12px;
+      width: 80%;
+      background-color: #009689;
+      border-radius: 5px;
+      box-shadow: 0 0 20px 1px rgba(122,122,122,0.5);
+      font-weight: normal;
+    }
+    h3 {
+      //display: table;
+      margin: 0px auto 20px;
+      padding: 12px;
+      background-color: #009689;
+      border-radius: 5px;
+      box-shadow: 0 0 20px 1px rgba(122,122,122,0.5);
+      font-weight: normal;
+    }
+    table {
+      width:60%;
+      margin: 0 auto;
+      border-width: 1px;
+      border-color: #009689;
+      border-collapse: collapse;
+      box-shadow: 0 0 15px 1px rgba(0,150,140,0.5);
+    }
+    table tr {
+      //background-color:#8DECE6;
+    }
+    table td {
+      border-width: 1px;
+      padding: 8px;
+      border-style: solid;
+    }
+    table tr td{
+      text-align: left;
+    }
+    table tr td ~ td{
+      text-align: center;
+    }
+    table tr:hover {
+      background-color:#8DECE6;
+    }
+  </style>
+</head>
+<header>
+    <h2>DATA ANALYZER REPORT<br><small> Выборка: {{name}}</small></h3>
+</header>
+<body>
+    {% for item in content %}
+    {% if item.type == "image" -%}
+    <div class="content">
+      <h3>{{item.label}}</h3>
+      <img src="{{item.src}}">
+    </div>
+    {%- endif -%}
+    {%- if item.type == "table-charact" -%}
+    <div class="content">
+      <h3>{{item.label}}</h3>
+      <table border="1">
+        <tr><td>Среднее значение</td><td>{{item.mean}}</td></tr>
+        <tr><td>Медиана</td><td>{{item.median}}</td></tr>
+        <tr><td>Мода</td><td>{{item.mode}}</td></tr>
+        <tr><td>Дисперсия</td><td>{{item.dis}}</td></tr>
+        <tr><td>Среднеквадратичное отклонение</td><td>{{item.std}}</td></tr>
+        <tr><td>Коэффициент вариации</td><td>{{item.var}}</td></tr>
+        <tr><td>Коэффициент асимметрии</td><td>{{item.skew}}</td></tr>
+        <tr><td>Коэффициент эксцесса</td><td>{{item.kurt}}</td></tr>
+      </table>
+    </div>
+    {%- endif %}
+    {% if item.type == "table-regress" -%}
+    <div class="content">
+      <h3>{{item.label}}</h3>
+      <table border="1">
+        <tr><td>Уравнение регрессии</td><td>{{item.equation}}</td></tr>
+        <tr><td>Коэффициент регрессии</td><td>{{item.k_reg}}</td></tr>
+        <tr><td>R-квадрат</td><td>{{item.R2}}</td></tr>
+        <tr><td>Множественный R</td><td>{{item.R2}}</td></tr>
+        <tr><td>-----</td><td>9999</td></tr>
+        <tr><td>-----</td><td>9999</td></tr>
+      </table>
+    </div>
+    {% endif -%}
+    {% endfor %}
+</body>
+</html>
