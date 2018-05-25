@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 Item {
+    x: 4
     objectName: "pageReport"
     width: 900
     property string vel_x: "X"

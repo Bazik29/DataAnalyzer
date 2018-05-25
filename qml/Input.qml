@@ -8,6 +8,7 @@ Item{
     property int line_x: 0
     property int line_y: 32
     property bool enabled: true
+    property int maxlength: 52
 
     function disoren(){
         if (obj1.enabled) obj1.enabled = false
@@ -22,6 +23,12 @@ Item{
         obj1.forceActiveFocus();
     }
 
+    function setvalidator(num){
+        if (num === 1) obj1.validator = validator1
+        if (num === 2) obj1.validator = validator2
+        if (num === 3) obj1.validator = validator3
+    }
+
 	Rectangle{
 		id: underline
         x: line_x
@@ -31,6 +38,22 @@ Item{
 		color: "#009788"
 		scale: 0
 	}
+
+    IntValidator {
+        id: validator1
+        bottom:0;
+        top: 10
+    }
+
+    RegExpValidator{
+        id: validator2
+        regExp: /[^\d]+/
+    }
+
+    RegExpValidator{
+        id: validator3
+        regExp: /[/{/,/}/,/,/./,/!/,@/,#/,$/,/%/,/^/,/&/,/*/,/(,/)/,/_/,/-/,/=/,/,/+/,/:/,/;/,/"/,/</,/>/,/`/,/~/,/'/,/|/,/?]/
+    }
 
 	Text{
 		id: obj
@@ -92,7 +115,7 @@ Item{
 	TextInput{
 		id: obj1
 		width: 835
-		maximumLength: 52
+        maximumLength: maxlength
 		height: 65
         color: "black"
         font.family: robotoLight.name
@@ -100,7 +123,6 @@ Item{
         font.pixelSize: 20
         enabled: sample.enabled
 
-		
         onActiveFocusChanged:  if ((obj1.activeFocus) && (obj1.text == "")) t_anim1.start(); else if (obj1.text == "") t_anim2.start();
 	
 		onEditingFinished: sample.text = obj1.text

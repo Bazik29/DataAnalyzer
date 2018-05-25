@@ -4,8 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.1
 
 Item {
-    x: -425
-    y: 18
+    width: 900
     objectName: "pageFileLoad"
 
     property string path: ""
@@ -31,16 +30,11 @@ Item {
     }
 
     function getFiksWidth(){
-        if (fiks.text == "") 
-            return 1
-        else 
-            return parseInt(fiks.text)
+        return fiks.text == "" ? 1 : parseInt(fiks.text)
     }
 
     function getDecimalSym() {
-        //!!!!!!!!!!!!!!!
-        if (symbol.text == "") return '.'
-        else return symbol.text
+        return sym_num.text == "" ? '.' : sym_num.text
     }
 
     function haveTitle() {
@@ -56,26 +50,21 @@ Item {
     }
 
     function getNameX() {
-        if (idx.text == "") return 'X'
-        else return idx.text
+        return idx.text == "" ? 'X' : idx.text
     }
 
     function getNameY() {
-        if (idy.text == "") return 'Y'
-        else return idy.text
+        return idy.text == "" ? 'Y' : idy.text
     }
 
     function checkOnErrors(){
         if (rad4.checked){
         var str = symbol.text
-        console.log('разделитель '+str)
-       // for (var i in str){
             if (!isNaN(str)){
                 err_text = "Символ разделителя не может содержать числа"
                 errorsfounded()
                 return 1
             }
-       // }
         }
         if (rad3.checked){
             str = fiks.text
@@ -106,7 +95,7 @@ Item {
 
     Rectangle{
         id: rect
-        x: 19
+        x: 49
         y: 131
         width: 815
         height: 388
@@ -262,6 +251,7 @@ Item {
                     line_x: -54
                     line_y: 38
                     caption: "Фиксированная ширина"
+                    Component.onCompleted: fiks.setvalidator(1)
                 }
 
                 CustRadio{
@@ -291,6 +281,8 @@ Item {
                     line_x: -54
                     line_y: 38
                     caption: "Символ"
+                    maxlength: 1
+                    Component.onCompleted: symbol.setvalidator(2);
                 }
 
                 CustRadio{
@@ -357,6 +349,7 @@ Item {
                     clickedSrc: "elements/check_normal_checked.png"
                     checked: true
                     onClicked: { ch1.clip(); idx.disoren(); idy.disoren(); rect.forceActiveFocus()}
+                    Component.onCompleted: ch1.init();
                 }
 
                 Text{
@@ -367,6 +360,7 @@ Item {
                     font.family: robotoLight.name
                     font.weight: Font.Light
                     font.pixelSize: 20
+
                 }
 
                 Rectangle{
@@ -426,6 +420,8 @@ Item {
                     x: 12 //-18
                     y: 236 //-131
                     caption: "Разделять доли символом:"
+                    maxlength: 1
+                    Component.onCompleted: sym_num.setvalidator(3)
                 }
 
             }
@@ -434,7 +430,7 @@ Item {
     }
 
     Image{
-        x: -53
+        x: -23
         y: -19
         width: 952
         height: 720
@@ -449,27 +445,27 @@ Item {
 
     Image{
         id: swipe_element
-        x: 50
+        x: 100
         y: 24
         source: "elements/table_swipe.png"
 
         NumberAnimation on x{
             id: to0
-            to: 50
+            to: 100
         }
         NumberAnimation on x{
             id: to1
-            to: 298
+            to: 348
         }
         NumberAnimation on x{
             id: to2
-            to: 540
+            to: 590
         }
     }
 
 
     Button{
-        x: 50
+        x: 100
         y: 24
         width: 214
         height: 62
@@ -486,7 +482,7 @@ Item {
     }
 
     Button{
-        x: 303
+        x: 353
         y: 24
         width: 214
         height: 62
@@ -503,7 +499,7 @@ Item {
     }
 
     Button{
-        x: 567
+        x: 617
         y: 24
         width: 214
         height: 62
@@ -521,7 +517,7 @@ Item {
 
     CustButton{
         id: load
-        x: 270
+        x: 295
         y: 580
         width: 328
         height: 68
@@ -533,7 +529,8 @@ Item {
         posx: 117
         posy: 23
         onClicked: { 
-            rect.forceActiveFocus(); 
+            rect.forceActiveFocus();
+            unlock() // Sorry, if I forgot delete this function. I know, it doesn't be here...
             var e = checkOnErrors();
              if (e == 0) { 
                 openFileClick() 

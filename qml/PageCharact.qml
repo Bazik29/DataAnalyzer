@@ -65,7 +65,7 @@ Item {
 
     Flickable{
         id: flick
-        x: 0
+        x: 4
         y: 80
         width: parent.width
         height: 716
