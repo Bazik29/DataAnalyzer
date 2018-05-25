@@ -20,19 +20,25 @@ Item {
     }
 
     function getSeparator() {
-        if (rad1.checked) return '/t'
-        if (rad2.checked) return ' '
-        if (rad3.checked) return '   '
-        if (rad4.checked) return ';'
-        return ','
+        if (rad1.checked)
+            return '/t'
+        if (rad2.checked)
+            return ' '
+        if (rad3.checked)
+            return ' '.repeat(getFiksWidth())
+        if (rad4.checked)
+            return symbol.text
     }
 
     function getFiksWidth(){
-        if (fiks.text == "") return 1
-        else return toint(fiks.text)
+        if (fiks.text == "") 
+            return 1
+        else 
+            return parseInt(fiks.text)
     }
 
     function getDecimalSym() {
+        //!!!!!!!!!!!!!!!
         if (symbol.text == "") return '.'
         else return symbol.text
     }

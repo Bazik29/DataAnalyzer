@@ -55,8 +55,8 @@ class Presenter():
         try:
             self._model.loadFile(path, title, header, names, sep, decimal)
         except Exception as e:
-            # self._view.showMessage("Не получилось загрузить данные из файла!")
-            self._view.showMessage(e)
+            self._view.showMessage("Не удалось загрузить данные из файла!")
+            print(str(e))
             self._view.lock()
         else:
             self._view.unlock()
@@ -76,8 +76,6 @@ class Presenter():
         if (not self._model.infoX['ready']): self._model.genInfoX()
         source = "../" + self._model.savefig(self._model.infoX['graph'], self._model.title + "-histX", "plots/")
         self._view.pch_setgraphsource(source)
-        print("Xself._view.pch_setgraphsource(source)")
-        print(source)
         self._view.pch_insertvalues(self._model.infoX['mean'], self._model.infoX['mode'], self._model.infoX['median'],
                                     self._model.infoX['std'], self._model.infoX['dis'], self._model.infoX['var'],
                                     self._model.infoX['skew'], self._model.infoX['kurt'])
@@ -86,8 +84,6 @@ class Presenter():
         if (not self._model.infoY['ready']): self._model.genInfoY()
         source = "../" + self._model.savefig(self._model.infoY['graph'], self._model.title + "-histY", "plots/")
         self._view.pch_setgraphsource(source)
-        print("Yself._view.pch_setgraphsource(source)")
-        print(source)
         self._view.pch_insertvalues(self._model.infoY['mean'], self._model.infoY['mode'], self._model.infoY['median'],
                                     self._model.infoY['std'], self._model.infoY['dis'], self._model.infoY['var'],
                                     self._model.infoY['skew'], self._model.infoY['kurt'])
@@ -96,8 +92,6 @@ class Presenter():
         if (not self._model.infoXY['ready']): self._model.genInfoXY()
         source = "../" + self._model.savefig(self._model.infoXY['graph'], self._model.title + "-scatter", "plots/")
         self._view.pch_setgraphsource(source)
-        print("XYself._view.pch_setgraphsource(source)")
-        print(source)
 
 
 import sys
