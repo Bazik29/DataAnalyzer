@@ -40,7 +40,6 @@ ApplicationWindow {
     }
 
     function showMessage(msg) {
-        console.log(msg)
         put_error(msg)
     }
 
@@ -61,7 +60,6 @@ ApplicationWindow {
         regress.enabled = true
         pirson.enabled = true
         report.enabled = true
-        console.log('unlocked')
     }
 
 
