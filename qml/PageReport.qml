@@ -7,18 +7,31 @@ Item {
     property string vel_x: "X"
     property string vel_y: "Y"
 
+    signal reportClick
+
     function setlabels(lx, ly){
         vel_x = lx
         vel_y = ly
     }
 
     function getArrayOfReport(){
-        arr = []
-        for (var item in [ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8]){
-           if (item.checked) arr.append(1)
-           else arr.append(0)
-        }
-        return arr
+        return {
+                    // Графики
+                    'graphX': ch1.checked,
+                    'graphY': ch2.checked,
+                    'graphXY': ch1.checked, //!
+                    // Числовые хар-ки
+                    'charX': ch3.checked,
+                    'charY': ch4.checked,
+                    // Критерии
+                    'critPir': ch5.checked,
+                    'critKol': ch6.checked,
+                    // Регрессия
+                    'regGraph': ch8.checked,
+                    'regStat': ch7.checked,
+                    // Дисперсия
+                    'dispers': ch1.checked //!
+                    }
     }
 
 
@@ -928,7 +941,7 @@ Item {
         textcolor: "white"
         posx: 100
         posy: 23
-        onClicked: {  }
+        onClicked: reportClick()
     }
 
 }

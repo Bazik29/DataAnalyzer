@@ -75,7 +75,7 @@ Item {
             Text{
                 x: 26
                 y: 140
-                text: "Коэфициент регрессии"
+                text: "Уравнение регрессии"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -104,7 +104,7 @@ Item {
             Text{
                 x: 26
                 y: 190
-                text: "R - квадрат"
+                text: "Множественный R"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -133,7 +133,7 @@ Item {
             Text{
                 x: 26
                 y: 240
-                text: "Уравнение регрессии"
+                text: "R-квадрат"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -162,7 +162,7 @@ Item {
             Text{
                 x: 26
                 y: 290
-                text: "Множественный R"
+                text: "Коэффициент регрессии"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
