@@ -7,6 +7,15 @@ Item {
     width: 900
     objectName: "pageCrits"
 
+
+    function insertvalues(D1,pvl1,D2,pvl2){
+        t1_D.text = D1
+        t1_pvl.text = pvl1
+        t2_D.text = D2
+        t2_pvl.text = pvl2
+
+    }
+
         Item{
             id: crits_table
             x: 25
@@ -85,7 +94,7 @@ Item {
             }
 
             Text{
-                id: t_urR
+                id: t1_D
                 x: 440
                 y: 40
                 text: "default"
@@ -96,7 +105,7 @@ Item {
             }
 
             Text{
-                id: t_urR1
+                id: t1_pvl
                 x: 700
                 y: 40
                 text: "default"
@@ -125,7 +134,7 @@ Item {
             }
 
             Text{
-                id: t_manyR
+                id: t2_D
                 x: 440
                 y: 90
                 text: "default"
@@ -136,7 +145,7 @@ Item {
             }
 
             Text{
-                id: t_manyR1
+                id: t2_pvl
                 x: 700
                 y: 90
                 text: "default"
@@ -165,7 +174,7 @@ Item {
             }
 
             Text{
-                id: t_stdEr
+                id: t3_D
                 x: 440
                 y: 140
                 text: "default"
@@ -176,7 +185,7 @@ Item {
             }
 
             Text{
-                id: t_stdEr1
+                id: t3_pvl
                 x: 700
                 y: 140
                 text: "default"
@@ -205,7 +214,7 @@ Item {
             }
 
             Text{
-                id: t_sees
+                id: t4_D
                 x: 440
                 y: 190
                 text: "default"
@@ -216,7 +225,7 @@ Item {
             }
 
             Text{
-                id: t_sees1
+                id: t4_pvl
                 x: 700
                 y: 190
                 text: "default"

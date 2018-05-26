@@ -7,6 +7,15 @@ Item {
     width: 900
     objectName: "pageRegress"
 
+    function insertvalues(urav, mnR, R2, stdR, coef, count){
+        t_urav.text = urav
+        t_mnR.text = mnR
+        t_rsq.text = R2
+        t_stdEr = stdR
+        t_coef = coef
+        t_sees = count
+    }
+
     Flickable{
         id: flick
         x: 4
@@ -83,7 +92,7 @@ Item {
             }
 
             Text{
-                id: t_kr
+                id: t_urav
                 x: 500
                 y: 140
                 text: "default"
@@ -112,7 +121,7 @@ Item {
             }
 
             Text{
-                id: t_sqr
+                id: t_mnR
                 x: 500
                 y: 190
                 text: "default"
@@ -141,7 +150,7 @@ Item {
             }
 
             Text{
-                id: t_urR
+                id: t_rsq
                 x: 500
                 y: 240
                 text: "default"
@@ -170,7 +179,7 @@ Item {
             }
 
             Text{
-                id: t_manyR
+                id: t_coef
                 x: 500
                 y: 290
                 text: "default"
