@@ -15,6 +15,13 @@ Item{
         else obj1.enabled = true
     }
 
+    function init(){
+        if (obj1.text != ""){
+            t_anim1.start();
+            obj1.text = text
+        }
+    }
+
     function deselect(){
         obj1.deselect()
     }
@@ -116,6 +123,7 @@ Item{
 		id: obj1
 		width: 835
         maximumLength: maxlength
+        text: sample.text
 		height: 65
         color: "black"
         font.family: robotoLight.name

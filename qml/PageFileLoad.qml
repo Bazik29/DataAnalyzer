@@ -221,7 +221,7 @@ Item {
                     clickedSrc: "elements/gr_normal.png"
                     onClicked: { page2.unclipall(); rad1.clip();}
                     Component.onCompleted: rad1.init();
-                    checked: true
+                    checked: false
                 }
 
                 CustRadio{
@@ -281,8 +281,9 @@ Item {
                     line_x: -54
                     line_y: 38
                     caption: "Символ"
+                    text: ","
                     maxlength: 1
-                    Component.onCompleted: symbol.setvalidator(2);
+                    Component.onCompleted: {symbol.init(); symbol.setvalidator(2); }
                 }
 
                 CustRadio{
@@ -294,6 +295,7 @@ Item {
                     clickedSrc: "elements/gr_normal.png"
                     onClicked: {page2.unclipall(); rad4.clip(); page2.get_fh(false);}
                     Component.onCompleted: rad4.init();
+                    checked: true
                 }
 
                 Text{

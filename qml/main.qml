@@ -60,6 +60,7 @@ ApplicationWindow {
         regress.enabled = true
         pirson.enabled = true
         report.enabled = true
+        disp.enabled = true
     }
 
 
@@ -72,6 +73,7 @@ ApplicationWindow {
                 pageRegress.visible = false
                 pageCrits.visible = false
                 pageReport.visible = false
+                pageDisp.visible = false
                 pageFileLoad.visible = true
             }
             if (item == chars) {
@@ -80,6 +82,7 @@ ApplicationWindow {
                 pageFileLoad.visible = false
                 pageRegress.visible = false
                 pageReport.visible = false
+                pageDisp.visible = false
                 pageCharact.visible = true
             }
             if (item == report) {
@@ -87,6 +90,7 @@ ApplicationWindow {
                 pageCharact.visible = false
                 pageRegress.visible = false
                 pageCrits.visible = false
+                pageDisp.visible = false
                 pageReport.visible = true
             }
             if (item == regress) {
@@ -94,6 +98,7 @@ ApplicationWindow {
                 pageCharact.visible = false
                 pageReport.visible = false
                 pageCrits.visible = false
+                pageDisp.visible = false
                 pageRegress.visible = true
             }
             if (item == pirson) {
@@ -101,7 +106,16 @@ ApplicationWindow {
                 pageCharact.visible = false
                 pageReport.visible = false
                 pageRegress.visible = false
+                pageDisp.visible = false
                 pageCrits.visible = true
+            }
+            if (item == disp) {
+                pageFileLoad.visible = false
+                pageCharact.visible = false
+                pageReport.visible = false
+                pageRegress.visible = false
+                pageCrits.visible = false
+                pageDisp.visible = true
             }
         }
         Component.onCompleted: {
@@ -157,6 +171,11 @@ ApplicationWindow {
 
             PageReport{
                 id: pageReport
+                anchors.fill: parent
+                visible: false
+            }
+            PageDisp{
+                id: pageDisp
                 anchors.fill: parent
                 visible: false
             }

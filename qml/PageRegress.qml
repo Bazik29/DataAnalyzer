@@ -7,6 +7,15 @@ Item {
     width: 900
     objectName: "pageRegress"
 
+    function insertvalues(urav, mnR, R2, stdR, coef, count){
+        t_urav.text = urav
+        t_mnR.text = mnR
+        t_rsq.text = R2
+        t_stdEr.text = stdR
+        t_coef.text = coef
+        t_sees.text = count
+    }
+
     Flickable{
         id: flick
         x: 4
@@ -16,7 +25,6 @@ Item {
         boundsBehavior: Flickable.StopAtBounds
         contentHeight: 1214
         ScrollBar.vertical: ScrollBar { }
-
 
         Image{
             x: 45
@@ -75,7 +83,7 @@ Item {
             Text{
                 x: 26
                 y: 140
-                text: "Коэффициент регрессии"
+                text: "Уравнение регрессии"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -83,7 +91,7 @@ Item {
             }
 
             Text{
-                id: t_kr
+                id: t_urav
                 x: 500
                 y: 140
                 text: "default"
@@ -104,7 +112,7 @@ Item {
             Text{
                 x: 26
                 y: 190
-                text: "R - квадрат"
+                text: "Множественный R"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -112,7 +120,7 @@ Item {
             }
 
             Text{
-                id: t_sqr
+                id: t_mnR
                 x: 500
                 y: 190
                 text: "default"
@@ -133,7 +141,7 @@ Item {
             Text{
                 x: 26
                 y: 240
-                text: "Уравнение регрессии"
+                text: "R-квадрат"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -141,7 +149,7 @@ Item {
             }
 
             Text{
-                id: t_urR
+                id: t_rsq
                 x: 500
                 y: 240
                 text: "default"
@@ -162,7 +170,7 @@ Item {
             Text{
                 x: 26
                 y: 290
-                text: "Множественный R"
+                text: "Коэффициент регрессии"
                 color: "black"
                 font.family: robotoLight.name
                 font.weight: Font.Light
@@ -170,7 +178,7 @@ Item {
             }
 
             Text{
-                id: t_manyR
+                id: t_coef
                 x: 500
                 y: 290
                 text: "default"
@@ -237,8 +245,6 @@ Item {
                 font.weight: Font.Light
                 font.pixelSize: 20
             }
-
         }
-
     }
 }
