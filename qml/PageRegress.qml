@@ -11,9 +11,9 @@ Item {
         t_urav.text = urav
         t_mnR.text = mnR
         t_rsq.text = R2
-        t_stdEr = stdR
-        t_coef = coef
-        t_sees = count
+        t_stdEr.text = stdR
+        t_coef.text = coef
+        t_sees.text = count
     }
 
     Flickable{
