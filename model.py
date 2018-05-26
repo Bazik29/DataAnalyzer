@@ -274,31 +274,8 @@ class Model():
             'param2': param2
         }
 
-    def genReport(self, name, elements, html_file):
-        # elements = {
-        # # Графики
-        # 'graphX': False,
-        # 'graphY': False,
-        # 'graphXY': False,
-        # # Числовые хар-ки
-        # 'charX': False,
-        # 'charY': False,
-        # # Критерии
-        # 'critPir': False,
-        # 'critKol': False,
-        # # Регрессия
-        # 'regGraph': False,
-        # 'regStat': False,
-        # # Дисперсия
-        # 'dispers': False
-        # }
-        content = []
-        
-
-        # TODO
-
-
-        html = template.render(name=name, content=content)
+    def genReport(self, content, html_file):
+        html = template.render(name=self.title, content=content)
         with open(html_file, 'w') as file:
             file.write(html)
 
