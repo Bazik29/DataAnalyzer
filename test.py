@@ -154,10 +154,95 @@ def tml_content(params=None):
 	]
 	return content
 
-html = template.render(name="TEST", content=tml_content())
+# html = template.render(name="TEST", content=tml_content())
 
-print(html)
+# print(html)
+
+
+import base64
+
+def encodePNG(self, img_file):
+	file = open(img_file, 'rb')
+	b64 = base64.b64encode(file.read())
+	file.close()
+	return b64.decode("utf-8")
+
+def decodePNG(self, bs64_str, img_file):
+	file = open(img_file, 'wb')
+	file.write(base64.b64decode(bs64_str))
+	file.close()
 
 # html_file = open("file.html", 'w') 
 # html_file.write(html)
 # html_file.close()
+
+
+from jinja2 import Template
+import base64
+
+class ReportConstructor():
+
+	def __init__(self, model):
+		self.template = ""
+		self._model = model
+
+	def encodePNG(self, img_file):
+		with open(img_file, 'rb') as file:
+			encode_str = base64.b64encode(file.read())
+			return encode_str.decode("utf-8")
+
+	def decodePNG(self, bs64_str, img_file):
+		with open(img_file, 'wb') as file:
+			file.write(base64.b64decode(bs64_str))
+
+	def loadTemplateFile(self, template_file):
+		with open(template_file, 'r') as file:
+			self.template = Template(file.read())
+
+	def genImg(label, src):
+		return {
+			'type': "image",
+			'label': label,
+			'src': src
+			}
+
+	def genTableChar(label, mean, mode, median, std, dis, var, skew, kurt):
+		return {
+			'type': "table-charact",
+			'label': label,
+			'mean': mean,
+			'mode': mode,
+			'median': median,
+			'std': std,
+			'dis': dis,
+			'var': var,
+			'skew': skew,
+			'kurt': kurt
+		}
+
+	def genTableRegress(label, equation, k_reg, R2, R, param1, param2):
+		return {
+			'type': "table-regress",
+			'label': label,
+			'k_reg': k_reg,
+			'R2': R2,
+			'R': R,
+			'param1': param1,
+			'param2': param2
+		}
+
+	def genContent(params=None):
+		content = []
+		content = [ 
+			tmpl_img("Ghb", "x.png"),
+			tml_char("uysff", 1, 2, 3, 4, 5, 6, 7, 8),
+			tml_char("!!!!!", 1, 2 ,3, 4, 5, 6, 7, 8),
+			tmpl_img("Ghb", "x.png")
+		]
+		return content
+
+	def genReport(self, name, elements, html_file):
+		content = genContent(elements)
+		html = template.render(name=name, content=content)
+		with open(html_file, 'w') as file:
+			file.write(html)

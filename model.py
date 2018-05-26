@@ -1,13 +1,17 @@
 import pandas as pd
 import numpy as np
-from scipy import stats
 import matplotlib.pyplot as plt
-from datetime import datetime
+from scipy import stats
+from jinja2 import Template
+
 import os
+import base64
+from datetime import datetime
 
 class Model():
 
     def __init__(self):
+        self.template = ""
         self.data = None
         self.nameX = "X"
         self.nameY = "Y"
@@ -75,6 +79,7 @@ class Model():
         self.infoXY['ready'] = False
 
     def fileExist(self, path):
+
         return os.path.isfile(path)
 
     def loadFile(self, filepath, title, header, names, sep=',', decimal='.', index_col=False, usecols=[0, 1], encoding='utf_8', engine='python'):
@@ -222,4 +227,78 @@ class Model():
         path_plot = prefix + name + '.png'
         fig.savefig(path_plot)
         return path_plot
+
+    # REPORT
+    def encodePNG(self, img_file):
+        with open(img_file, 'rb') as file:
+            encode_str = base64.b64encode(file.read())
+            return encode_str.decode("utf-8")
+
+    def decodePNG(self, bs64_str, img_file):
+        with open(img_file, 'wb') as file:
+            file.write(base64.b64decode(bs64_str))
+
+    def loadTemplateFile(self, template_file):
+        with open(template_file, 'r') as file:
+            self.template = Template(file.read())
+
+    def genImg(label, src):
+        return {
+            'type': "image",
+            'label': label,
+            'src': src
+            }
+
+    def genTableChar(label, mean, mode, median, std, dis, var, skew, kurt):
+        return {
+            'type': "table-charact",
+            'label': label,
+            'mean': mean,
+            'mode': mode,
+            'median': median,
+            'std': std,
+            'dis': dis,
+            'var': var,
+            'skew': skew,
+            'kurt': kurt
+        }
+
+    def genTableRegress(label, equation, k_reg, R2, R, param1, param2):
+        return {
+            'type': "table-regress",
+            'label': label,
+            'k_reg': k_reg,
+            'R2': R2,
+            'R': R,
+            'param1': param1,
+            'param2': param2
+        }
+
+    def genReport(self, name, elements, html_file):
+        # elements = {
+        # # Графики
+        # 'graphX': False,
+        # 'graphY': False,
+        # 'graphXY': False,
+        # # Числовые хар-ки
+        # 'charX': False,
+        # 'charY': False,
+        # # Критерии
+        # 'critPir': False,
+        # 'critKol': False,
+        # # Регрессия
+        # 'regGraph': False,
+        # 'regStat': False,
+        # # Дисперсия
+        # 'dispers': False
+        # }
+        content = []
+        
+
+        # TODO
+
+
+        html = template.render(name=name, content=content)
+        with open(html_file, 'w') as file:
+            file.write(html)
 

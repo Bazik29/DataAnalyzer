@@ -11,8 +11,8 @@ class View(QQmlApplicationEngine):
 
         # Страница загрузки файла
         self.pageLoadFile = self._root.findChild(QObject, 'pageFileLoad')
-
         self.pageCharact = self._root.findChild(QObject, 'pageCharact')
+        self.pageReport = self._root.findChild(QObject, 'pageReport')
 
         # Проброс сигналов из qml в python
         self.pageLoadFile.openFileClick.connect(self.openFileClick.emit)
@@ -22,12 +22,15 @@ class View(QQmlApplicationEngine):
         self.pageCharact.loadY.connect(self.loadY.emit)
         self.pageCharact.loadXY.connect(self.loadXY.emit)
 
+        self.pageReport.reportClick.connect(self.reportClick.emit)
+
     # Сигналы
     openFileClick = pyqtSignal()
     loadCharact = pyqtSignal()
     loadX = pyqtSignal()
     loadY = pyqtSignal()
     loadXY = pyqtSignal()
+    reportClick = pyqtSignal()
 
 
     def showMessage(self, message):
@@ -73,3 +76,7 @@ class View(QQmlApplicationEngine):
 
     def pch_setgraphsource(self, source):
         self.pageCharact.setgraphsource(source)
+
+
+    def prp_getList(self):
+        self.pageReport.getArrayOfReport().toVariant()
