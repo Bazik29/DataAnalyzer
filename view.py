@@ -9,15 +9,22 @@ class View(QQmlApplicationEngine):
         self.load(QUrl('qml/main.qml'))
         self._root = self.rootObjects()[0]
 
-        # Страница загрузки файла
+        # Страницы
         self.pageLoadFile = self._root.findChild(QObject, 'pageFileLoad')
         self.pageCharact = self._root.findChild(QObject, 'pageCharact')
+        self.pageCrits = self._root.findChild(QObject, 'pageCrits')
+        self.pageRegress = self._root.findChild(QObject, 'pageRegress')
+        self.pageDisp = self._root.findChild(QObject, 'pageDisp')
         self.pageReport = self._root.findChild(QObject, 'pageReport')
 
         # Проброс сигналов из qml в python
         self.pageLoadFile.openFileClick.connect(self.openFileClick.emit)
 
         self._root.loadCharact.connect(self.loadCharact.emit)
+        self._root.loadRegress.connect(self.loadRegress.emit)
+        self._root.loadCrits.connect(self.loadCrits.emit)
+        self._root.loadDisper.connect(self.loadDisper.emit)
+        
         self.pageCharact.loadX.connect(self.loadX.emit)
         self.pageCharact.loadY.connect(self.loadY.emit)
         self.pageCharact.loadXY.connect(self.loadXY.emit)
@@ -30,6 +37,9 @@ class View(QQmlApplicationEngine):
     loadX = pyqtSignal()
     loadY = pyqtSignal()
     loadXY = pyqtSignal()
+    loadRegress = pyqtSignal()
+    loadCrits = pyqtSignal()
+    loadDisper = pyqtSignal()
     reportClick = pyqtSignal()
 
 
@@ -78,5 +88,19 @@ class View(QQmlApplicationEngine):
         self.pageCharact.setgraphsource(source)
 
 
+    def preg_setgraphsource(self, source):
+        self.pageRegress.setgraphsource(source)
+
+    def preg_insertvalues(self, urav, mnR, R2, stdR, coef, count):
+        self.pageRegress.insertvalues(urav, mnR, R2, stdR, coef, count)
+
+
+    def pcr_insertvalues(self, D1, pvl1, D2, pvl2):
+        self.pageCrits.insertvalues(D1, pvl1, D2, pvl2)
+
+
     def prp_getList(self):
         self.pageReport.getArrayOfReport().toVariant()
+
+    def prp_getFile(self):
+        self.pageReport.getFilePath()

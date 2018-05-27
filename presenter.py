@@ -15,6 +15,10 @@ class Presenter():
         self._view.loadY.connect(self._view_loadY)
         self._view.loadXY.connect(self._view_loadXY)
 
+        self._view.loadRegress.connect(self._view_loadRegress)
+        self._view.loadCrits.connect(self._view_loadCrits)
+        self._view.loadDisper.connect(self._view_loadDisper)
+
         self._view.reportClick.connect(self._view_reportClick)
 
 
@@ -97,6 +101,33 @@ class Presenter():
         source = "../" + self._model.savefig(self._model.infoXY['graph'], self._model.title + "-scatter", "plots/")
         self._view.pch_setgraphsource(source)
 
+    def _view_loadRegress(self):
+        if (not self._model.infoReg['ready']): 
+                self._model.genInfoRegress()
+        source = "../" + self._model.savefig(self._model.infoReg['graph'], self._model.title + "-regress", "plots/")
+        self._view.preg_setgraphsource(source)
+
+        k = self._model.infoReg['coef']
+        inter = self._model.infoReg['intercept']
+        urav = "y = {k:.2}*x + {b:.2}".format(k=k, b = inter)
+        self._view.preg_insertvalues(urav, self._model.infoReg['R'], self._model.infoReg['R2'], 0, k, 0)
+
+    def _view_loadCrits(self):
+        if (not self._model.infoCrit['ready']): 
+                self._model.genInfoCrit()
+        D1 = self._model.infoCrit['kolm']['k']
+        pvl1 = self._model.infoCrit['kolm']['p']
+        D2 = self._model.infoCrit['pirs']['k']
+        pvl2 = self._model.infoCrit['pirs']['p']
+        self._view.pcr_insertvalues(D1, pvl1, D2, pvl2)
+
+    def _view_loadDisper(self):
+        if (not self._model.infoDisp['ready']): 
+            self._model.genInfoDisp()
+        pass
+
+
+
     def _view_reportClick(self):
         elements = self._view.prp_getList()
         # elements = {
@@ -108,8 +139,7 @@ class Presenter():
         # 'charX': False,
         # 'charY': False,
         # # Критерии
-        # 'critPir': False,
-        # 'critKol': False,
+        # 'crits': False,
         # # Регрессия
         # 'regGraph': False,
         # 'regStat': False,
@@ -159,15 +189,34 @@ class Presenter():
             content.append(table)
 
 
-        if elements['critPir'] :
-            pass
-        if elements['critKol'] :
-            pass
+        if elements['crits'] :
+            if (not self._model.infoCrit['ready']): 
+                self._model.genInfoCrit()
+            D1 = self.infoCrit['kolm']['k']
+            pvl1 = self.infoCrit['kolm']['p']
+            D2 = self.infoCrit['pirs']['k']
+            pvl2 = self.infoCrit['pirs']['p']
+
+            table = self._model.genTableCrits(D1, pvl1, D2, pvl2)
+            content.append(table)
+
         if elements['regGraph'] :
+            if (not self._model.infoReg['ready']): 
+                self._model.genInfoRegress()
             pass
+
         if elements['regStat'] :
-            pass
+            if (not self._model.infoReg['ready']): 
+                self._model.genInfoRegress()
+            source = "../" + self._model.savefig(self._model.infoReg['graph'], self._model.title + "-regress", "plots/")
+            src = self._model.encodePNG(source)
+            img = genImg("График регресии", src)
+            content.append(img)
+
         if elements['dispers'] :
+            # f =
+            # p =
+            # self._model.genTableDisp(f, p)
             pass
 
         self._model.genReport(content, html_file)

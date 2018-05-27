@@ -6,6 +6,7 @@ Item {
     width: 900
     property string vel_x: "X"
     property string vel_y: "Y"
+    property string path: "/"
 
     signal reportClick
 
@@ -24,14 +25,17 @@ Item {
             'charX': ch3.checked,
             'charY': ch4.checked,
             // Критерии
-            'critPir': ch5.checked,
-            'critKol': ch6.checked,
+            'crits': ch5.checked,
             // Регрессия
             'regGraph': ch8.checked,
             'regStat': ch7.checked,
             // Дисперсия
             'dispers': ch1.checked //!
             }
+    }
+
+    function getFilePath(){
+        return path
     }
 
     Image{

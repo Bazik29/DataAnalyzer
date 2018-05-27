@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
 from jinja2 import Template
+from sklearn.linear_model import LinearRegression
 
 import os
 import base64
@@ -45,6 +46,26 @@ class Model():
             'ready': False,
             'graph': None
         }
+        self.infoReg = {
+            'lr': None,
+            'coef': None,
+            'intercept': None,
+            'R2': None,
+            'R': None,
+            'graph': None,
+            'ready': False
+        }
+        self.infoCrit = {
+            'kolm': {
+                'k': 0,
+                'p': 0
+                },
+            'pirs': {
+                'k': 0,
+                'p': 0
+                },
+            'ready': False
+        }
 
     def clean(self):
         self.data = None
@@ -53,33 +74,56 @@ class Model():
         self.title = "Data"
         self.filepath = ""
 
-        self.infoX['graph'] = None
-        self.infoX['mean'] = None
-        self.infoX['mode'] = None
-        self.infoX['median'] = None
-        self.infoX['std'] = None
-        self.infoX['dis'] = None
-        self.infoX['var'] = None
-        self.infoX['skew'] = None
-        self.infoX['kurt'] = None
-        self.infoX['ready'] = False
-
-        self.infoY['graph'] = None
-        self.infoY['mean'] = None
-        self.infoY['mode'] = None
-        self.infoY['median'] = None
-        self.infoY['std'] = None
-        self.infoY['dis'] = None
-        self.infoY['var'] = None
-        self.infoY['skew'] = None
-        self.infoY['kurt'] = None
-        self.infoY['ready'] = False
-
-        self.infoXY['graph'] = None
-        self.infoXY['ready'] = False
+        self.infoX = {
+            'ready': False,
+            'graph': None,
+            'mean': None,
+            'mode': None,
+            'median': None,
+            'std': None,
+            'dis': None,
+            'var': None,
+            'skew': None,
+            'kurt': None
+        }
+        self.infoY = {
+            'ready': False,
+            'graph': None,
+            'mean': None,
+            'mode': None,
+            'median': None,
+            'std': None,
+            'dis': None,
+            'var': None,
+            'skew': None,
+            'kurt': None
+        }
+        self.infoXY = {
+            'ready': False,
+            'graph': None
+        }
+        self.infoReg = {
+            'lr': None,
+            'coef': None,
+            'intercept': None,
+            'R2': None,
+            'R': None,
+            'graph': None,
+            'ready': False
+        }
+        self.infoCrit = {
+            'kolm': {
+                'k': 0,
+                'p': 0
+                },
+            'pirs': {
+                'k': 0,
+                'p': 0
+                },
+            'ready': False
+        }
 
     def fileExist(self, path):
-
         return os.path.isfile(path)
 
     def loadFile(self, filepath, title, header, names, sep=',', decimal='.', index_col=False, usecols=[0, 1], encoding='utf_8', engine='python'):
@@ -217,6 +261,38 @@ class Model():
         self.infoXY['graph'] = self.scatter()
         self.infoXY['ready'] = True
 
+    def genInfoRegress(self):
+        self.infoReg['lr'] = LinearRegression().fit(self.data[self.nameX], self.data[self.nameY])
+        self.infoReg['coef'] = self.infoReg['lr'].coef_[0][0]
+        self.infoReg['intercept'] = self.infoReg['lr'].intercept_
+        self.infoReg['R2'] = self.infoReg['lr'].score(self.data[self.nameX], self.data[self.nameY])
+        self.infoReg['R'] = self.infoReg['R2'] ** 0.5
+
+        fig, ax = plt.subplots(figsize=(7.3, 3.8))
+        ax.scatter(self.data[self.nameX],
+                   self.data[self.nameY], marker='o', color='red')
+        plt.plot(self.data[self.nameX], self.infoReg['lr'].predict(self.data[[self.nameX]]), color='green')
+        # шрифт цифр осей
+        ax.tick_params(axis='both', which='major', labelsize=12)
+
+        plt.grid(ls=':')
+        plt.xlabel(self.nameX, fontsize=13)
+        plt.ylabel(self.nameY, fontsize=13)
+        plt.title(self.title, fontsize=20)
+        plt.tight_layout()
+        self.infoReg['graph'] = fig
+        self.infoReg['ready'] = True
+
+    def genInfoCrit(self):
+        self.infoCrit['kolm']['k'] = 1
+        self.infoCrit['kolm']['p'] = 2
+        self.infoCrit['pirs']['k'] = 3
+        self.infoCrit['pirs']['p'] = 4
+        self.infoCrit['ready'] = True
+
+    def genInfoDisp(self):
+        pass
+
     def savefig(self, fig, name, prefix=""):
         """
         Cохраняет фигуру в файл и возвращает путь до файла
@@ -263,15 +339,38 @@ class Model():
             'kurt': kurt
         }
 
-    def genTableRegress(label, equation, k_reg, R2, R, param1, param2):
+    def genTableRegress(label, equation, k_reg, R2, R, std, count):
         return {
             'type': "table-regress",
             'label': label,
-            'k_reg': k_reg,
+            'coef': k_reg,
             'R2': R2,
             'R': R,
-            'param1': param1,
-            'param2': param2
+            'std': param1,
+            'count': param2
+        }
+
+    def genTableCrits(label, D1, pvl1, D2, pvl2):
+        return {
+            'type': "table-crits",
+            'label': label,
+            'kolm': {
+                'k': D1,
+                'p': pvl1
+                },
+            'pirs': {
+                'k': D2,
+                'p': pvl2
+                }
+        }
+        
+    def genTableDisp(label, f, p):
+        return {
+            'type': "table-dispers",
+            'label': label,
+            'name': self.title,
+            'f': 
+            'p': 
         }
 
     def genReport(self, content, html_file):

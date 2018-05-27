@@ -16,6 +16,10 @@ Item {
         t_sees.text = count
     }
 
+    function setgraphsource(source) {
+        graph.source = source
+    }
+
     Flickable{
         id: flick
         x: 4
@@ -41,7 +45,7 @@ Item {
             y: 45
             width: 831
             height: 442
-            source: "elements/plot.png"
+            //source: "elements/plot.png"
             property bool rounded: true
             property bool adapt: true
 

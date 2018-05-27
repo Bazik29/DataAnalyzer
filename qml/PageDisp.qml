@@ -5,7 +5,7 @@ import QtGraphicalEffects 1.0
 
 Item {
     width: 900
-    objectName: "pageCrits"
+    objectName: "pageDisp"
 
     function insertvalues(fstv, pvlv){
         fst.text = fstv

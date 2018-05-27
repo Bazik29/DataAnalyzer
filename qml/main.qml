@@ -14,6 +14,9 @@ ApplicationWindow {
     title: "Data Analyser"
 
     signal loadCharact
+    signal loadRegress
+    signal loadCrits
+    signal loadDisper
 
     signal errorsfounded
 
@@ -94,6 +97,7 @@ ApplicationWindow {
                 pageReport.visible = true
             }
             if (item == regress) {
+                loadRegress()
                 pageFileLoad.visible = false
                 pageCharact.visible = false
                 pageReport.visible = false
@@ -102,6 +106,7 @@ ApplicationWindow {
                 pageRegress.visible = true
             }
             if (item == pirson) {
+                loadCrits()
                 pageFileLoad.visible = false
                 pageCharact.visible = false
                 pageReport.visible = false
@@ -110,6 +115,7 @@ ApplicationWindow {
                 pageCrits.visible = true
             }
             if (item == disp) {
+                loadDisper()
                 pageFileLoad.visible = false
                 pageCharact.visible = false
                 pageReport.visible = false

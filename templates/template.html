@@ -99,11 +99,20 @@
       <h3>{{item.label}}</h3>
       <table border="1">
         <tr><td>Уравнение регрессии</td><td>{{item.equation}}</td></tr>
-        <tr><td>Коэффициент регрессии</td><td>{{item.k_reg}}</td></tr>
+        <tr><td>Коэффициент регрессии</td><td>{{item.coef}}</td></tr>
         <tr><td>R-квадрат</td><td>{{item.R2}}</td></tr>
-        <tr><td>Множественный R</td><td>{{item.R2}}</td></tr>
-        <tr><td>-----</td><td>9999</td></tr>
-        <tr><td>-----</td><td>9999</td></tr>
+        <tr><td>Множественный R</td><td>{{item.R}}</td></tr>
+        <tr><td>Стандартная ошибка</td><td>{{item.std}}</td></tr>
+        <tr><td>Число наблодений</td><td>{{item.count}}</td></tr>
+      </table>
+    </div>
+    {% endif -%}
+    {% if item.type == "table-crits" -%}
+    <div class="content">
+      <h3>{{item.label}}</h3>
+      <table border="1">
+        <tr><td>Критерий Колмогорова</td><td>{{item.kolm.k}}</td><td>{{item.kolm.p}}</td></tr>
+        <tr><td>Критерий Пирсона</td><td>{{item.pirs.k}}</td><td>{{item.pirs.p}}</td></tr>
       </table>
     </div>
     {% endif -%}
