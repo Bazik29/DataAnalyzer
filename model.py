@@ -66,6 +66,11 @@ class Model():
                 },
             'ready': False
         }
+        self.infoDisp = {
+            'ready': False,
+            'f': 0,
+            'p': 0
+        }
 
     def clean(self):
         self.data = None
@@ -283,15 +288,22 @@ class Model():
         self.infoReg['graph'] = fig
         self.infoReg['ready'] = True
 
-    def genInfoCrit(self):
-        self.infoCrit['kolm']['k'] = 1
-        self.infoCrit['kolm']['p'] = 2
-        self.infoCrit['pirs']['k'] = 3
-        self.infoCrit['pirs']['p'] = 4
+    def genInfoCrit(self, n=4):
+        h = sorted(self.data[self.nameX])
+        fit = stats.norm.pdf(h, np.mean(h), np.std(h))
+        pir_k, pir_p = stats.pearsonr(h, fit)
+        kol_k, kol_p = stats.kstest(self.data[self.nameX], 'norm')
+        self.infoCrit['kolm']['k'] = round(float(kol_k), n)
+        self.infoCrit['kolm']['p'] = round(float(kol_p), n)
+        self.infoCrit['pirs']['k'] = round(float(pir_k), n)
+        self.infoCrit['pirs']['p'] = round(float(pir_p), n)
         self.infoCrit['ready'] = True
 
     def genInfoDisp(self):
-        pass
+
+        # self.infoDisp['f'] =
+        # self.infoDisp['p'] =
+        self.infoDisp['ready'] = True
 
     def savefig(self, fig, name, prefix=""):
         """
@@ -363,14 +375,14 @@ class Model():
                 'p': pvl2
                 }
         }
-        
+
     def genTableDisp(label, f, p):
         return {
             'type': "table-dispers",
             'label': label,
             'name': self.title,
-            'f': 
-            'p': 
+            'f': f,
+            'p': p
         }
 
     def genReport(self, content, html_file):

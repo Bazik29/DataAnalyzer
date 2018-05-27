@@ -54,8 +54,9 @@ ApplicationWindow {
     function lock() {
         chars.enabled = false
         regress.enabled = false
-        //pirson.enabled = false
+        pirson.enabled = false
         report.enabled = false
+        disp.enabled = false
     }
 
     function unlock() {
