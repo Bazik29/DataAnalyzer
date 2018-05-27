@@ -13,7 +13,7 @@ import base64
 class Model():
 
     def __init__(self):
-        font_dirs = ['E:/bandi/DATA/fonts/', ]
+        font_dirs = ['qml/elements/fonts/', ]
         font_files = fm.findSystemFonts(fontpaths=font_dirs)
         font_list = fm.createFontList(font_files)
         fm.fontManager.ttflist.extend(font_list)
