@@ -18,9 +18,9 @@ Item {
     function getArrayOfReport(){
         return {
             // Графики
-            'graphX': ch1.checked,
-            'graphY': ch2.checked,
-            'graphXY': ch3_.checked,
+            'graphX': ch2.checked,
+            'graphY': ch3_.checked,
+            'graphXY': ch1.checked,
             // Числовые хар-ки
             'charX': ch3.checked,
             'charY': ch4.checked,
@@ -64,7 +64,7 @@ Item {
         height: 400
         clip: true
         boundsBehavior: Flickable.StopAtBounds
-        contentHeight: 730
+        contentHeight: 630
         ScrollBar.vertical: ScrollBar { }
 
         Item{
@@ -85,8 +85,8 @@ Item {
             id: sl1
             y: -4
             checked: true
-            onClicked: { if (sl1.checked) { anim1.start(); a_00.start(); a_01_.start(); a_01.start(); a_02_.start(); a_02.start(); a_03.start(); a_04.start(); a_05.start(); chars_rep.contentHeight-=100;
-            } else { anim6.start(); a_25_.start(); a_26_.start(); a_24.start(); a_25.start(); a_26.start(); a_27.start(); a_28.start(); a_29.start(); chars_rep.contentHeight+=100; }
+            onClicked: { if (sl1.checked) { if  (ch1.checked) ch1.clip(); if  (ch2.checked) ch2.clip(); if  (ch3_.checked) ch3_.clip(); anim1.start(); a_00.start(); a_01_.start(); a_01.start(); a_02_.start(); a_02.start(); a_03.start(); a_04.start(); a_05.start(); chars_rep.contentHeight-=150;
+            } else { anim6.start(); a_25_.start(); a_26_.start(); a_24.start(); a_25.start(); a_26.start(); a_27.start(); a_28.start(); a_29.start(); chars_rep.contentHeight+=150; }
 
             }
         }
@@ -206,7 +206,7 @@ Item {
         Text{
             x: 100
             y: 100
-            text: "Распределение "+vel_x
+            text: "Гистограмма величины: "+vel_x
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light
@@ -255,7 +255,7 @@ Item {
         Text{
             x: 100
             y: 150
-            text: "Распределение "+vel_y
+            text: "Гистограмма величины: "+vel_y
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light
@@ -338,7 +338,7 @@ Item {
             id: sl2
             y: -4
             checked: true
-            onClicked: { if (sl2.checked) { anim3.start(); a_06.start(); a_07.start(); a_08.start(); a_09.start(); a_10.start(); a_11.start(); chars_rep.contentHeight-=100;
+            onClicked: { if (sl2.checked) { if  (ch3.checked) ch3.clip(); if  (ch4.checked) ch4.clip(); anim3.start(); a_06.start(); a_07.start(); a_08.start(); a_09.start(); a_10.start(); a_11.start(); chars_rep.contentHeight-=100;
             } else { anim4.start(); a_30.start(); a_31.start(); a_32.start(); a_33.start(); a_34.start(); a_35.start(); chars_rep.contentHeight+=100; }
 
             }
@@ -406,7 +406,7 @@ Item {
         Text{
             x: 100
             y: 50
-            text: "Величина "+vel_x
+            text: "Величина: "+vel_x
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light
@@ -455,7 +455,7 @@ Item {
         Text{
             x: 100
             y: 100
-            text: "Величина "+vel_y
+            text: "Величина: "+vel_y
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light
@@ -506,7 +506,7 @@ Item {
             id: criteries
             x: 20
             y: { if (anim3.running == true) chisl.y+150;
-                else if (anim8.running == true) chisl.y+50;
+                else if (anim4.running == true) chisl.y+50;
                else { sl2.checked ? chisl.y+150 : chisl.y+50 } }
 
             PropertyAnimation on y{
@@ -537,8 +537,8 @@ Item {
             id: sl4
             y: -4
             checked: true
-            onClicked: { if (sl4.checked) { anim5.start(); a_15.start(); a_16.start(); a_17.start(); chars_rep.contentHeight-=100;
-            } else { anim8.start(); a_39.start(); a_40.start(); a_41.start(); chars_rep.contentHeight+=100; }
+            onClicked: { if (sl4.checked) { anim5.start();
+            } else { anim8.start(); }
 
             }
         }
@@ -547,9 +547,9 @@ Item {
         Item{
             id: regr
             x: 20
-            y: criteries.y+50//{ if (anim5.running == true) criteries.y+150;
-                //else if (anim8.running == true) criteries.y+50;
-               //else { sl4.checked ? criteries.y+150 : criteries.y+50 } }
+            y: criteries.y+50 //{ if (anim5.running == true) criteries.y+50;
+              //  else if (anim8.running == true) criteries.y+50;
+              // else { sl4.checked ? criteries.y+150 : criteries.y+50 } }
 
             PropertyAnimation on y{
                 id: anim5
@@ -578,7 +578,7 @@ Item {
             id: sl3
             y: -4
             checked: true
-            onClicked: { if (sl3.checked) { anim10.start(); a_18.start(); a_19.start(); a_20.start(); a_21.start(); a_22.start(); a_23.start(); chars_rep.contentHeight-=100;
+            onClicked: { if (sl3.checked) { if  (ch7.checked) ch7.clip(); if  (ch8.checked) ch8.clip(); anim10.start(); a_18.start(); a_19.start(); a_20.start(); a_21.start(); a_22.start(); a_23.start(); chars_rep.contentHeight-=100;
             } else { anim9.start(); a_42.start(); a_43.start(); a_44.start(); a_45.start(); a_46.start(); a_47.start(); chars_rep.contentHeight+=100; }
 
             }
@@ -780,6 +780,8 @@ Item {
         }
 
     }
+
+
     }
 
     CustButton{

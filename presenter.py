@@ -194,7 +194,7 @@ class Presenter():
             source = self._model.savefig(
                 self._model.infoY['graph'], self._model.title + "-histY", "plots/")
             src = self._model.encodePNG(source)
-            img = self._model.genImg("Гистограмма " + self._model.nameY, src)
+            img = self._model.genImg("Гистограмма величины: " + self._model.nameY, src)
             content.append(img)
 
         if elements['charY']:
