@@ -1,10 +1,14 @@
 import os
 
+from datetime import datetime
+
 class Presenter():
 
     def __init__(self, view, model):
         if not os.path.exists("plots"):
             os.makedirs("plots")
+        if not os.path.exists("Reports"):
+            os.makedirs("Reports")
         self._view = view
         self._model = model
 
@@ -18,6 +22,7 @@ class Presenter():
         self._view.loadRegress.connect(self._view_loadRegress)
         self._view.loadCrits.connect(self._view_loadCrits)
         self._view.loadDisper.connect(self._view_loadDisper)
+        self._view.loadReport.connect(self._view_loadReport)
 
         self._view.reportClick.connect(self._view_reportClick)
 
@@ -107,10 +112,8 @@ class Presenter():
         source = "../" + self._model.savefig(self._model.infoReg['graph'], self._model.title + "-regress", "plots/")
         self._view.preg_setgraphsource(source)
 
-        k = self._model.infoReg['coef']
-        inter = self._model.infoReg['intercept']
-        urav = "y = {k:.2}*x + {b:.2}".format(k=k, b = inter)
-        self._view.preg_insertvalues(urav, self._model.infoReg['R'], self._model.infoReg['R2'], 0, k, 0)
+        urav = "y = {:.2f}*x{:+.2f}".format(self._model.infoReg['coef'], self._model.infoReg['intercept'])
+        self._view.preg_insertvalues(urav, round(self._model.infoReg['R'], 4), round(self._model.infoReg['R2'], 4), round(self._model.infoReg['std'], 4), round(self._model.infoReg['coef'], 4), self._model.infoReg['count'])
 
     def _view_loadCrits(self):
         if (not self._model.infoCrit['ready']): 
@@ -126,7 +129,8 @@ class Presenter():
             self._model.genInfoDisp()
         pass
 
-
+    def _view_loadReport(self):
+        self._view.prp_setlabels(self._model.nameX, self._model.nameY)
 
     def _view_reportClick(self):
         elements = self._view.prp_getList()
@@ -147,27 +151,26 @@ class Presenter():
         # 'dispers': False
         # }
         content = []
-
         if elements['graphXY'] :
             if (not self._model.infoXY['ready']): 
                 self._model.genInfoXY()
-            source = "../" + self._model.savefig(self._model.infoXY['graph'], self._model.title + "-scatter", "plots/")
+            source = self._model.savefig(self._model.infoXY['graph'], self._model.title + "-scatter", "plots/")
             src = self._model.encodePNG(source)
-            img = genImg("График выборки", src)
+            img = self._model.genImg("График выборки", src)
             content.append(img)
 
         if elements['graphX'] :
             if (not self._model.infoX['ready']): 
                 self._model.genInfoX()
-            source = "../" + self._model.savefig(self._model.infoX['graph'], self._model.title + "-histX", "plots/")
+            source = self._model.savefig(self._model.infoX['graph'], self._model.title + "-histX", "plots/")
             src = self._model.encodePNG(source)
-            img = genImg("Гистограмма " + self._model.nameX, src)
+            img = self._model.genImg("Гистограмма " + self._model.nameX, src)
             content.append(img)
 
         if elements['charX'] :
             if (not self._model.infoX['ready']): 
                 self._model.genInfoX()
-            table = self._model.genTableChar(self._model.infoX['mean'], self._model.infoX['mode'], self._model.infoX['median'],
+            table = self._model.genTableChar("Характеристики величины: " + self._model.nameX, self._model.infoX['mean'], self._model.infoX['mode'], self._model.infoX['median'],
                                     self._model.infoX['std'], self._model.infoX['dis'], self._model.infoX['var'],
                                     self._model.infoX['skew'], self._model.infoX['kurt'])
             content.append(table)
@@ -175,15 +178,15 @@ class Presenter():
         if elements['graphY'] :
             if (not self._model.infoY['ready']): 
                 self._model.genInfoY()
-            source = "../" + self._model.savefig(self._model.infoY['graph'], self._model.title + "-histY", "plots/")
+            source = self._model.savefig(self._model.infoY['graph'], self._model.title + "-histY", "plots/")
             src = self._model.encodePNG(source)
-            img = genImg("Гистограмма " + self._model.nameY, src)
+            img = self._model.genImg("Гистограмма " + self._model.nameY, src)
             content.append(img)
 
         if elements['charY'] :
             if (not self._model.infoY['ready']): 
                 self._model.genInfoY()
-            table = self._model.genTableChar(self._model.infoY['mean'], self._model.infoY['mode'], self._model.infoY['median'],
+            table = self._model.genTableChar("Характеристики величины: " + self._model.nameY, self._model.infoY['mean'], self._model.infoY['mode'], self._model.infoY['median'],
                         self._model.infoY['std'], self._model.infoY['dis'], self._model.infoY['var'],
                         self._model.infoY['skew'], self._model.infoY['kurt'])
             content.append(table)
@@ -192,31 +195,40 @@ class Presenter():
         if elements['crits'] :
             if (not self._model.infoCrit['ready']): 
                 self._model.genInfoCrit()
-            D1 = self.infoCrit['kolm']['k']
-            pvl1 = self.infoCrit['kolm']['p']
-            D2 = self.infoCrit['pirs']['k']
-            pvl2 = self.infoCrit['pirs']['p']
+            D1 = self._model.infoCrit['kolm']['k']
+            pvl1 = self._model.infoCrit['kolm']['p']
+            D2 = self._model.infoCrit['pirs']['k']
+            pvl2 = self._model.infoCrit['pirs']['p']
 
-            table = self._model.genTableCrits(D1, pvl1, D2, pvl2)
+            table = self._model.genTableCrits("Нормальность распределения " + self._model.nameX, D1, pvl1, D2, pvl2)
             content.append(table)
 
         if elements['regGraph'] :
             if (not self._model.infoReg['ready']): 
                 self._model.genInfoRegress()
-            pass
+            source = "../" + self._model.savefig(self._model.infoReg['graph'], self._model.title + "-regress", "plots/")
+            src = self._model.encodePNG(source)
+            img = self._model.genImg("График регрессии", src)
+            content.append(img)
 
         if elements['regStat'] :
             if (not self._model.infoReg['ready']): 
                 self._model.genInfoRegress()
-            source = "../" + self._model.savefig(self._model.infoReg['graph'], self._model.title + "-regress", "plots/")
-            src = self._model.encodePNG(source)
-            img = genImg("График регресии", src)
-            content.append(img)
+
+            self.infoReg['coef']
+            self.infoReg['intercept']
+            self.infoReg['R2']
+            self.infoReg['R']
+            equation = "y = {k}*x + {b}".format(k=self.infoReg['coef'], b = self.infoReg['intercept'])
+            table = self._model.genTableRegress(self, "Регрессионный анализ", equation, self.infoReg['coef'], self.infoReg['R2'], self.infoReg['R'], round(self._model.infoReg['std'], 4), self._model.infoReg['count'])
+            content.append(table)
 
         if elements['dispers'] :
             # f =
             # p =
             # self._model.genTableDisp(f, p)
             pass
+
+        html_file = "Reports/" + self._model.title + '-' + datetime.today().isoformat() + '.html'
 
         self._model.genReport(content, html_file)

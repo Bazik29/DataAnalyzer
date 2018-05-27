@@ -7,12 +7,11 @@ from sklearn.linear_model import LinearRegression
 
 import os
 import base64
-from datetime import datetime
 
 class Model():
 
     def __init__(self):
-        self.template = ""
+        self.template = None
         self.data = None
         self.nameX = "X"
         self.nameY = "Y"
@@ -47,7 +46,6 @@ class Model():
             'graph': None
         }
         self.infoReg = {
-            'lr': None,
             'coef': None,
             'intercept': None,
             'R2': None,
@@ -108,7 +106,6 @@ class Model():
             'graph': None
         }
         self.infoReg = {
-            'lr': None,
             'coef': None,
             'intercept': None,
             'R2': None,
@@ -267,23 +264,27 @@ class Model():
         self.infoXY['ready'] = True
 
     def genInfoRegress(self):
-        self.infoReg['lr'] = LinearRegression().fit(self.data[self.nameX], self.data[self.nameY])
-        self.infoReg['coef'] = self.infoReg['lr'].coef_[0][0]
-        self.infoReg['intercept'] = self.infoReg['lr'].intercept_
-        self.infoReg['R2'] = self.infoReg['lr'].score(self.data[self.nameX], self.data[self.nameY])
-        self.infoReg['R'] = self.infoReg['R2'] ** 0.5
+        lr = LinearRegression()
+        lr.fit(self.data[[self.nameX]], self.data[[self.nameY]])
+        self.infoReg['coef'] = float(lr.coef_[0][0])
+        self.infoReg['intercept'] = float(lr.intercept_)
+        self.infoReg['R2'] = float(lr.score(self.data[[self.nameX]], self.data[[self.nameY]]))
+        self.infoReg['R'] = float(self.infoReg['R2'] ** 0.5)
+        self.infoReg['std'] = float(self.getStd(self.nameX))
+        self.infoReg['count'] =self.data.shape[0]
+        urav = "y = {:.2f}*x{:+.2f}".format(self.infoReg['coef'], self.infoReg['intercept'])
 
         fig, ax = plt.subplots(figsize=(7.3, 3.8))
         ax.scatter(self.data[self.nameX],
                    self.data[self.nameY], marker='o', color='red')
-        plt.plot(self.data[self.nameX], self.infoReg['lr'].predict(self.data[[self.nameX]]), color='green')
+        plt.plot(self.data[self.nameX], lr.predict(self.data[[self.nameX]]), color='green')
         # шрифт цифр осей
         ax.tick_params(axis='both', which='major', labelsize=12)
 
         plt.grid(ls=':')
         plt.xlabel(self.nameX, fontsize=13)
         plt.ylabel(self.nameY, fontsize=13)
-        plt.title(self.title, fontsize=20)
+        plt.title(urav, fontsize=20)
         plt.tight_layout()
         self.infoReg['graph'] = fig
         self.infoReg['ready'] = True
@@ -316,6 +317,7 @@ class Model():
         fig.savefig(path_plot)
         return path_plot
 
+
     # REPORT
     def encodePNG(self, img_file):
         with open(img_file, 'rb') as file:
@@ -330,14 +332,14 @@ class Model():
         with open(template_file, 'r') as file:
             self.template = Template(file.read())
 
-    def genImg(label, src):
+    def genImg(self, label, src):
         return {
             'type': "image",
             'label': label,
             'src': src
             }
 
-    def genTableChar(label, mean, mode, median, std, dis, var, skew, kurt):
+    def genTableChar(self, label, mean, mode, median, std, dis, var, skew, kurt):
         return {
             'type': "table-charact",
             'label': label,
@@ -351,18 +353,18 @@ class Model():
             'kurt': kurt
         }
 
-    def genTableRegress(label, equation, k_reg, R2, R, std, count):
+    def genTableRegress(self, label, equation, k_reg, R2, R, std, count):
         return {
             'type': "table-regress",
             'label': label,
             'coef': k_reg,
             'R2': R2,
             'R': R,
-            'std': param1,
-            'count': param2
+            'std': std,
+            'count': count
         }
 
-    def genTableCrits(label, D1, pvl1, D2, pvl2):
+    def genTableCrits(self, label, D1, pvl1, D2, pvl2):
         return {
             'type': "table-crits",
             'label': label,
@@ -376,7 +378,7 @@ class Model():
                 }
         }
 
-    def genTableDisp(label, f, p):
+    def genTableDisp(self, label, f, p):
         return {
             'type': "table-dispers",
             'label': label,
@@ -386,7 +388,8 @@ class Model():
         }
 
     def genReport(self, content, html_file):
-        html = template.render(name=self.title, content=content)
+        self.loadTemplateFile("templates/template.html")
+        html = self.template.render(name=self.title, content=content)
         with open(html_file, 'w') as file:
             file.write(html)
 

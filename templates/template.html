@@ -76,7 +76,7 @@
     {% if item.type == "image" -%}
     <div class="content">
       <h3>{{item.label}}</h3>
-      <img src="{{item.src}}">
+      <img src="data:image/png;base64, {{item.src}}">
     </div>
     {%- endif -%}
     {%- if item.type == "table-charact" -%}

@@ -17,6 +17,7 @@ ApplicationWindow {
     signal loadRegress
     signal loadCrits
     signal loadDisper
+    signal loadReport
 
     signal errorsfounded
 
@@ -90,6 +91,7 @@ ApplicationWindow {
                 pageCharact.visible = true
             }
             if (item == report) {
+                loadReport()
                 pageFileLoad.visible = false
                 pageCharact.visible = false
                 pageRegress.visible = false

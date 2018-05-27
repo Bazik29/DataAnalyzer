@@ -24,7 +24,8 @@ class View(QQmlApplicationEngine):
         self._root.loadRegress.connect(self.loadRegress.emit)
         self._root.loadCrits.connect(self.loadCrits.emit)
         self._root.loadDisper.connect(self.loadDisper.emit)
-        
+        self._root.loadReport.connect(self.loadReport.emit)
+
         self.pageCharact.loadX.connect(self.loadX.emit)
         self.pageCharact.loadY.connect(self.loadY.emit)
         self.pageCharact.loadXY.connect(self.loadXY.emit)
@@ -40,6 +41,7 @@ class View(QQmlApplicationEngine):
     loadRegress = pyqtSignal()
     loadCrits = pyqtSignal()
     loadDisper = pyqtSignal()
+    loadReport = pyqtSignal()
     reportClick = pyqtSignal()
 
 
@@ -100,7 +102,10 @@ class View(QQmlApplicationEngine):
 
 
     def prp_getList(self):
-        self.pageReport.getArrayOfReport().toVariant()
+        return self.pageReport.getArrayOfReport().toVariant()
+
+    def prp_setlabels(self, lx, ly):
+        return self.pageReport.setlabels(lx, ly)
 
     def prp_getFile(self):
-        self.pageReport.getFilePath()
+        return self.pageReport.getFilePath()
