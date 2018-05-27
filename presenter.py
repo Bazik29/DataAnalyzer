@@ -150,6 +150,7 @@ class Presenter():
         # # Дисперсия
         # 'dispers': False
         # }
+        print(elements)
         content = []
         if elements['graphXY'] :
             if (not self._model.infoXY['ready']): 
@@ -200,7 +201,7 @@ class Presenter():
             D2 = self._model.infoCrit['pirs']['k']
             pvl2 = self._model.infoCrit['pirs']['p']
 
-            table = self._model.genTableCrits("Нормальность распределения " + self._model.nameX, D1, pvl1, D2, pvl2)
+            table = self._model.genTableCrits("Нормальность распределения величины " + self._model.nameX, D1, pvl1, D2, pvl2)
             content.append(table)
 
         if elements['regGraph'] :
@@ -229,6 +230,6 @@ class Presenter():
             # self._model.genTableDisp(f, p)
             pass
 
-        html_file = "Reports/" + self._model.title + '-' + datetime.today().isoformat() + '.html'
-
+        # html_file = "Reports/" + self._model.title + '-' + datetime.today().isoformat() + '.html'
+        html_file = "Reports/" + self._model.title + '.html'
         self._model.genReport(content, html_file)
