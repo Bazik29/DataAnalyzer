@@ -18,19 +18,19 @@ Item {
     function getArrayOfReport(){
         return {
             // Графики
-            'graphX': ch2.checked,
-            'graphY': ch3_.checked,
-            'graphXY': ch1.checked, //!
+            'graphX': ch1.checked,
+            'graphY': ch2.checked,
+            'graphXY': ch3_.checked, //!
             // Числовые хар-ки
             'charX': ch3.checked,
             'charY': ch4.checked,
             // Критерии
             'crits': sl4.checked,
             // Регрессия
-            'regGraph': ch8.checked,
-            'regStat': ch7.checked,
+            'regGraph': ch7.checked,
+            'regStat': ch8.checked,
             // Дисперсия
-            'dispers': sl5.checked //!
+            'dispers': sl_d.checked //!
             }
     }
 
@@ -774,7 +774,7 @@ Item {
         }
 
         Custslider{
-            id: sl5
+            id: sl_d
             y: -4
             checked: true
         }
