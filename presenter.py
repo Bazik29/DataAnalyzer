@@ -49,18 +49,18 @@ class Presenter():
         else:
             title = self._view.pfl_getTitle()
 
-        load_str = '''Загружается файл:
-        Путь к файлу: %s
-        Название: %s
-        Есть ли заголок в файле: %s
-        Новые заголовки (если заданы):
-            Заголовок 1: %s
-            Заголовок 2: %s
-        Разделитель: %s
-        Десятичный разделитель: %s
-        ''' % (path, title, str(header == 0 or "none"), str(titleX), str(titleY), sep, decimal)
+        # load_str = '''Загружается файл:
+        # Путь к файлу: %s
+        # Название: %s
+        # Есть ли заголок в файле: %s
+        # Новые заголовки (если заданы):
+        #     Заголовок 1: %s
+        #     Заголовок 2: %s
+        # Разделитель: %s
+        # Десятичный разделитель: %s
+        # ''' % (path, title, str(header == 0 or "none"), str(titleX), str(titleY), sep, decimal)
 
-        print(load_str)
+        # print(load_str)
 
         try:
             self._model.loadFile(path, title, header, names, sep, decimal)
