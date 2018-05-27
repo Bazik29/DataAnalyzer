@@ -481,6 +481,7 @@ class Model():
         return {
             'type': "table-regress",
             'label': label,
+            'equation': equation,
             'coef': k_reg,
             'R2': R2,
             'R': R,

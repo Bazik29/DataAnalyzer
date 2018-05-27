@@ -234,9 +234,9 @@ class Presenter():
             self._model.infoReg['intercept']
             self._model.infoReg['R2']
             self._model.infoReg['R']
-            equation = "y = {k}*x + {b}".format(
-                k=self._model.infoReg['coef'], b=self._model.infoReg['intercept'])
-            table = self._model.genTableRegress("Регрессионный анализ", equation, self._model.infoReg['coef'], self._model.infoReg['R2'], self._model.infoReg['R'], round(
+            equation = "y = {:.2f}*x{:+.2f}".format(
+            self._model.infoReg['coef'], self._model.infoReg['intercept'])
+            table = self._model.genTableRegress("Регрессионный анализ", equation, round(self._model.infoReg['coef'], 4), round(self._model.infoReg['R2'], 4), round(self._model.infoReg['R'], 4), round(
                 self._model.infoReg['std'], 4), self._model.infoReg['count'])
             content.append(table)
 
