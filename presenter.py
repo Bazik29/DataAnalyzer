@@ -243,7 +243,6 @@ class Presenter():
         if elements['dispers']:
             if (not self._model.infoDisp['ready']):
                 self._model.genInfoDisp()
-            print(round(self._model.infoDisp['f'], 4))
             table = self._model.genTableDisp(
                 "Дисперсионный анализ", round(self._model.infoDisp['f'], 4), round(self._model.infoDisp['p'], 4))
             content.append(table)
