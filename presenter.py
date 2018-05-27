@@ -150,7 +150,7 @@ class Presenter():
         # # Дисперсия
         # 'dispers': False
         # }
-        print(elements)
+        # print(elements)
         content = []
         if elements['graphXY'] :
             if (not self._model.infoXY['ready']): 
