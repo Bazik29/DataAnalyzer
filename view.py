@@ -101,6 +101,10 @@ class View(QQmlApplicationEngine):
         self.pageCrits.insertvalues(D1, pvl1, D2, pvl2)
 
 
+    def pdis_insertvalues(self, fstv, pvlv):
+        self.pageDisp.insertvalues(fstv, pvlv)
+
+
     def prp_getList(self):
         return self.pageReport.getArrayOfReport().toVariant()
 

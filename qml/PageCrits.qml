@@ -54,7 +54,7 @@ Item {
                 id: t_kr
                 x: 416
                 y: 120
-                text: "D"
+                text: "Коэффициент"
                 color: "#009788"
                 font.family: robotoLight.name
                 font.weight: Font.Light
