@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 from scipy import stats
 from jinja2 import Template
 from sklearn.linear_model import LinearRegression
@@ -11,6 +13,14 @@ import base64
 class Model():
 
     def __init__(self):
+        font_dirs = ['E:/bandi/DATA/fonts/', ]
+        font_files = fm.findSystemFonts(fontpaths=font_dirs)
+        font_list = fm.createFontList(font_files)
+        fm.fontManager.ttflist.extend(font_list)
+
+        font = {'family' : 'Roboto', 'size'   : 20}
+
+        matplotlib.rc('font', **font)
         self.template = None
         self.data = None
         self.nameX = "X"
@@ -213,35 +223,49 @@ class Model():
         """
         Рисует график выборки, возвращает фигуру
         """
-        fig, ax = plt.subplots(figsize=(7.3, 3.8))
+        #fig = plt.figure(facecolor = '#54ad58', figsize = (12.8, 7.2))
+        #ax  = fig.add_subplot(1, 1, 1)
+        fig, ax = plt.subplots(figsize=(12.8, 7.2), facecolor = '#01b1c8')
         ax.scatter(self.data[self.nameX],
-                   self.data[self.nameY], marker='o', color='red')
+                   self.data[self.nameY], marker='o', color='white')
         # шрифт цифр осей
-        ax.tick_params(axis='both', which='major', labelsize=12)
-
-        plt.grid(ls=':')
-        plt.xlabel(self.nameX, fontsize=13)
-        plt.ylabel(self.nameY, fontsize=13)
-        plt.title(self.title, fontsize=20)
+        ax.tick_params(axis='both', colors = 'white', which='major')
+        ax.grid(color='white', linestyle='--', linewidth=1, alpha = 0.3)
+        ax.set_axisbelow(True)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.xaxis.label.set_color('white')
+        ax.set_facecolor('#01b1c8')
+        plt.xlabel(self.nameX, color = 'white')
+        plt.ylabel(self.nameY, color = 'white')
+        plt.title(self.title, color = 'white')
         plt.tight_layout()
         return fig
 
-    def histogram(self, name):
+    def histogram(self, name, palitre):
         """
         Рисует гистаграмму столбца name, возвращает фигуру
         """
-        fig, ax = plt.subplots(figsize=(7.3, 3.8))
-        ax.hist(self.data[name], color='red')
-        # шрифт цифр осей
-        ax.tick_params(axis='both', which='major', labelsize=12)
-        plt.grid(ls=':')
-        plt.xlabel(name, fontsize=13)
-        plt.title(self.title, fontsize=20)
+        fig, ax = plt.subplots(figsize=(12.8, 7.2), facecolor = palitre)
+        ax.hist(self.data[name], color='white')
+        ax.tick_params(axis='both', colors = 'white', which='major')
+        ax.grid(color='white', linestyle='--', linewidth=1, alpha = 0.3)
+        ax.set_axisbelow(True)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.xaxis.label.set_color('white')
+        ax.set_facecolor(palitre)
+        plt.xlabel(name, color = 'white')
+        plt.title(self.title, color = 'white')
         plt.tight_layout()
         return fig
 
     def genInfoX(self, n=4):
-        self.infoX['graph'] = self.histogram(self.nameX)
+        self.infoX['graph'] = self.histogram(self.nameX, '#54ad58')
         self.infoX['mean'] = round(float(self.getMean(self.nameX)), n)
         self.infoX['mode'] = self.getMode(self.nameX)
         self.infoX['median'] = round(float(self.getMedian(self.nameX)), n)
@@ -253,7 +277,7 @@ class Model():
         self.infoX['ready'] = True
 
     def genInfoY(self, n=4):
-        self.infoY['graph'] = self.histogram(self.nameY)
+        self.infoY['graph'] = self.histogram(self.nameY, '#fd930b')
         self.infoY['mean'] = round(float(self.getMean(self.nameY)), n)
         self.infoY['mode'] = self.getMode(self.nameY)
         self.infoY['median'] = round(float(self.getMedian(self.nameY)), n)
@@ -279,17 +303,23 @@ class Model():
         self.infoReg['count'] =self.data.shape[0]
         urav = "y = {:.2f}*x{:+.2f}".format(self.infoReg['coef'], self.infoReg['intercept'])
 
-        fig, ax = plt.subplots(figsize=(7.3, 3.8))
+        fig, ax = plt.subplots(figsize=(12.8, 7.2), facecolor = '#c756f7')
         ax.scatter(self.data[self.nameX],
-                   self.data[self.nameY], marker='o', color='red')
-        plt.plot(self.data[self.nameX], lr.predict(self.data[[self.nameX]]), color='green')
+                   self.data[self.nameY], marker='o', color='white')
+        plt.plot(self.data[self.nameX], lr.predict(self.data[[self.nameX]]), color='#f7f94d')
         # шрифт цифр осей
-        ax.tick_params(axis='both', which='major', labelsize=12)
-
-        plt.grid(ls=':')
-        plt.xlabel(self.nameX, fontsize=13)
-        plt.ylabel(self.nameY, fontsize=13)
-        plt.title(urav, fontsize=20)
+        ax.tick_params(axis='both', colors = 'white', which='major')
+        ax.grid(color='white', linestyle='--', linewidth=1, alpha = 0.3)
+        ax.set_axisbelow(True)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.xaxis.label.set_color('white')
+        ax.set_facecolor('#c756f7')
+        plt.xlabel(self.nameX, color = 'white')
+        plt.ylabel(self.nameY, color = 'white')
+        plt.title(urav, color = 'white')
         plt.tight_layout()
         self.infoReg['graph'] = fig
         self.infoReg['ready'] = True
@@ -408,7 +438,7 @@ class Model():
         """
         # '-' + datetime.today().isoformat() + 
         path_plot = prefix + name + '.png'
-        fig.savefig(path_plot)
+        fig.savefig(path_plot, facecolor=fig.get_facecolor(), edgecolor='none')
         return path_plot
 
 
