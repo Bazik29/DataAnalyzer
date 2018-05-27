@@ -25,6 +25,14 @@ Item {
         }
     }
 
+    function init(){
+        if (checked) large.start();
+    }
+
+    function setarea(prop){
+        area.width = prop
+    }
+
 
     Image {
         id: backgroundImage
@@ -58,8 +66,11 @@ Item {
     }
 
     MouseArea {
+        id: area
         hoverEnabled: true
-        anchors.fill: radio
+        height: radio.height
+        width: 800
+        //anchors.fill: radio
         onClicked: { radio.clicked(); }
         onEntered: { if (!checked) backgroundImage.source = hoverSrc; }
         onExited:  { if (!checked) backgroundImage.source = normalSrc; }

@@ -5,21 +5,67 @@ Item{
 
 	property string caption: ""
 	property string text: ""
+    property int line_x: 0
+    property int line_y: 32
+    property bool enabled: true
+    property int maxlength: 52
+
+    function disoren(){
+        if (obj1.enabled) obj1.enabled = false
+        else obj1.enabled = true
+    }
+
+    function init(){
+        if (obj1.text != ""){
+            t_anim1.start();
+            obj1.text = text
+        }
+    }
+
+    function deselect(){
+        obj1.deselect()
+    }
+
+    function select(){
+        obj1.forceActiveFocus();
+    }
+
+    function setvalidator(num){
+        if (num === 1) obj1.validator = validator1
+        if (num === 2) obj1.validator = validator2
+        if (num === 3) obj1.validator = validator3
+    }
 
 	Rectangle{
 		id: underline
-        x: 0
-        y: 32
+        x: line_x
+        y: line_y
         width: 795
         height: 1
 		color: "#009788"
 		scale: 0
 	}
 
+    IntValidator {
+        id: validator1
+        bottom:0;
+        top: 10
+    }
+
+    RegExpValidator{
+        id: validator2
+        regExp: /[^\d]+/
+    }
+
+    RegExpValidator{
+        id: validator3
+        regExp: /[/{/,/}/,/,/./,/!/,@/,#/,$/,/%/,/^/,/&/,/*/,/(,/)/,/_/,/-/,/=/,/,/+/,/:/,/;/,/"/,/</,/>/,/`/,/~/,/'/,/|/,/?]/
+    }
+
 	Text{
 		id: obj
 		text: caption
-        color: "black"
+        color: obj1.enabled ? "black" : "#c1c1c1"
         font.family: robotoLight.name
         font.weight: Font.Light
         font.pixelSize: 20
@@ -76,15 +122,16 @@ Item{
 	TextInput{
 		id: obj1
 		width: 835
-		maximumLength: 52
+        maximumLength: maxlength
+        text: sample.text
 		height: 65
         color: "black"
         font.family: robotoLight.name
         font.weight: Font.Light
         font.pixelSize: 20
+        enabled: sample.enabled
 
-		
-		onActiveFocusChanged:  if (obj1.activeFocus) t_anim1.start(); else if (obj1.text == "") t_anim2.start();
+        onActiveFocusChanged:  if ((obj1.activeFocus) && (obj1.text == "")) t_anim1.start(); else if (obj1.text == "") t_anim2.start();
 	
 		onEditingFinished: sample.text = obj1.text
 		//onTextEdited: sample.text = obj1.text
