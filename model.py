@@ -502,11 +502,10 @@ class Model():
                 }
         }
 
-    def genTableDisp(self, label, name, f, p):
+    def genTableDisp(self, label, f, p):
         return {
             'type': "table-dispers",
             'label': label,
-            'name': name,
             'f': f,
             'p': p
         }

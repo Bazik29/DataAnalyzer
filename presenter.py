@@ -243,8 +243,10 @@ class Presenter():
         if elements['dispers']:
             if (not self._model.infoDisp['ready']):
                 self._model.genInfoDisp()
-            self._model.genTableDisp(
-                "Дисперсионный анализ", self._model.title, self._model.infoDisp['f'], self._model.infoDisp['p'])
+            print(round(self._model.infoDisp['f'], 4))
+            table = self._model.genTableDisp(
+                "Дисперсионный анализ", round(self._model.infoDisp['f'], 4), round(self._model.infoDisp['p'], 4))
+            content.append(table)
 
         # html_file = "Reports/" + self._model.title + '-' + datetime.today().isoformat() + '.html'
         html_file = "Reports/" + self._model.title + '.html'
