@@ -6,6 +6,7 @@ Item {
     width: 900
     property string vel_x: "X"
     property string vel_y: "Y"
+    property string path: "/"
 
     signal reportClick
 
@@ -16,24 +17,26 @@ Item {
 
     function getArrayOfReport(){
         return {
-                    // Графики
-                    'graphX': ch1.checked,
-                    'graphY': ch2.checked,
-                    'graphXY': ch1.checked, //!
-                    // Числовые хар-ки
-                    'charX': ch3.checked,
-                    'charY': ch4.checked,
-                    // Критерии
-                    'critPir': ch5.checked,
-                    'critKol': ch6.checked,
-                    // Регрессия
-                    'regGraph': ch8.checked,
-                    'regStat': ch7.checked,
-                    // Дисперсия
-                    'dispers': ch1.checked //!
-                    }
+            // Графики
+            'graphX': ch1.checked,
+            'graphY': ch2.checked,
+            'graphXY': ch1.checked, //!
+            // Числовые хар-ки
+            'charX': ch3.checked,
+            'charY': ch4.checked,
+            // Критерии
+            'crits': ch5.checked,
+            // Регрессия
+            'regGraph': ch8.checked,
+            'regStat': ch7.checked,
+            // Дисперсия
+            'dispers': ch1.checked //!
+            }
     }
 
+    function getFilePath(){
+        return path
+    }
 
     Image{
         id: t_rep
@@ -71,7 +74,7 @@ Item {
 
         Text{
             x: 76
-            text: "Гистограммы"
+            text: "Графики:"
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light
@@ -82,8 +85,8 @@ Item {
             id: sl1
             y: -4
             checked: true
-            onClicked: { if (sl1.checked) { anim1.start(); a_00.start(); a_01.start(); a_02.start(); a_03.start(); a_04.start(); a_05.start(); chars_rep.contentHeight-=100;
-            } else { anim6.start(); a_24.start(); a_25.start(); a_26.start(); a_27.start(); a_28.start(); a_29.start(); chars_rep.contentHeight+=100; }
+            onClicked: { if (sl1.checked) { anim1.start(); a_00.start(); a_01_.start(); a_01.start(); a_02_.start(); a_02.start(); a_03.start(); a_04.start(); a_05.start(); chars_rep.contentHeight-=100;
+            } else { anim6.start(); a_25_.start(); a_26_.start(); a_24.start(); a_25.start(); a_26.start(); a_27.start(); a_28.start(); a_29.start(); chars_rep.contentHeight+=100; }
 
             }
         }
@@ -148,10 +151,36 @@ Item {
             }
         }
 
+        CustCheck{
+            id: ch3_
+            x: 50
+            y: 140
+            normalSrc: "elements/check_normal_checked.png"
+            hoverSrc: "elements/hover_check.png"
+            clickedSrc: "elements/check_normal_checked.png"
+            onClicked: { ch3_.clip();}
+
+            PropertyAnimation on opacity{
+                id: a_01_
+                running: false
+                from: 1
+                to: 0
+                duration: 500
+            }
+
+            PropertyAnimation on opacity{
+                id: a_25_
+                running: false
+                from: 0
+                to: 1
+                duration: 500
+            }
+        }
+
         Text{
             x: 100
             y: 50
-            text: "Распределение "+vel_x
+            text: "График выборки "
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light
@@ -167,6 +196,32 @@ Item {
 
             PropertyAnimation on opacity{
                 id: a_26
+                running: false
+                from: 0
+                to: 1
+                duration: 500
+            }
+        }
+
+        Text{
+            x: 100
+            y: 100
+            text: "Распределение "+vel_x
+            color: "black"
+            font.family: robotoLight.name
+            font.weight: Font.Light
+            font.pixelSize: 20
+
+            PropertyAnimation on opacity{
+                id: a_02_
+                running: false
+                from: 1
+                to: 0
+                duration: 500
+            }
+
+            PropertyAnimation on opacity{
+                id: a_26_
                 running: false
                 from: 0
                 to: 1
@@ -199,7 +254,7 @@ Item {
 
         Text{
             x: 100
-            y: 100
+            y: 150
             text: "Распределение "+vel_y
             color: "black"
             font.family: robotoLight.name
@@ -251,7 +306,7 @@ Item {
         Item{
             id: chisl
             x: 20
-            y: hists.y+150
+            y: hists.y+200
 
 
         PropertyAnimation on y{
@@ -266,7 +321,7 @@ Item {
         PropertyAnimation on y{
             id: anim6
             running: false
-            to: hists.y+150
+            to: hists.y+200
             duration: 500
         }
 
@@ -283,8 +338,8 @@ Item {
             id: sl2
             y: -4
             checked: true
-            onClicked: { if (sl2.checked) { anim2.start(); a_06.start(); a_07.start(); a_08.start(); a_09.start(); a_10.start(); a_11.start(); chars_rep.contentHeight-=100;
-            } else { anim7.start(); a_30.start(); a_31.start(); a_32.start(); a_33.start(); a_34.start(); a_35.start(); chars_rep.contentHeight+=100; }
+            onClicked: { if (sl2.checked) { anim3.start(); a_06.start(); a_07.start(); a_08.start(); a_09.start(); a_10.start(); a_11.start(); chars_rep.contentHeight-=100;
+            } else { anim4.start(); a_30.start(); a_31.start(); a_32.start(); a_33.start(); a_34.start(); a_35.start(); chars_rep.contentHeight+=100; }
 
             }
         }
@@ -351,7 +406,7 @@ Item {
         Text{
             x: 100
             y: 50
-            text: vel_x
+            text: "Величина"+vel_x
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light
@@ -400,7 +455,7 @@ Item {
         Text{
             x: 100
             y: 100
-            text: vel_y
+            text: "Величина"+vel_y
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light
@@ -448,65 +503,23 @@ Item {
         }
 
         Item{
-            id: zavi
+            id: criteries
             x: 20
-            y: { if (anim2.running == true) chisl.y+150;
-                 else if (anim7.running == true) chisl.y+50;
-                else { sl2.checked ? chisl.y+150 : chisl.y+50 } }
+            y: { if (anim3.running == true) chisl.y+150;
+                else if (anim8.running == true) chisl.y+50;
+               else { sl2.checked ? chisl.y+150 : chisl.y+50 } }
 
             PropertyAnimation on y{
-                id: anim2
+                id: anim3
                 running: false
                 to: chisl.y+50
                 duration: 500
             }
 
             PropertyAnimation on y{
-                id: anim7
-                running: false
-                to: chisl.y+150
-                duration: 500
-            }
-
-        Text{
-            x: 76
-            text: "Зависимость "+vel_x+" от "+vel_y
-            color: "black"
-            font.family: robotoLight.name
-            font.weight: Font.Light
-            font.pixelSize: 20
-        }
-
-        Rectangle{
-            y: 36
-            width: 795
-            height: 1
-            color: "#c1c1c1"
-        }
-
-        Custslider{
-            y: -4
-            checked: true
-        }
-
-        }
-
-        Item{
-            id: criteries
-            x: 20
-            y: zavi.y+50
-
-            PropertyAnimation on y{
-                id: anim3
-                running: false
-                to: zavi.y+50
-                duration: 500
-            }
-
-            PropertyAnimation on y{
                 id: anim4
                 running: false
-                to: zavi.y+50
+                to: chisl.y+150
                 duration: 500
             }
 
@@ -524,177 +537,19 @@ Item {
             id: sl4
             y: -4
             checked: true
-            onClicked: { if (sl4.checked) { anim5.start(); a_12.start(); a_13.start(); a_14.start(); a_15.start(); a_16.start(); a_17.start(); chars_rep.contentHeight-=100;
-            } else { anim8.start(); a_36.start(); a_37.start(); a_38.start(); a_39.start(); a_40.start(); a_41.start(); chars_rep.contentHeight+=100; }
+            onClicked: { if (sl4.checked) { anim5.start(); a_15.start(); a_16.start(); a_17.start(); chars_rep.contentHeight-=100;
+            } else { anim8.start(); a_39.start(); a_40.start(); a_41.start(); chars_rep.contentHeight+=100; }
 
             }
         }
-
-        Rectangle{
-            y: 36
-            width: 795
-            height: 1
-            color: "#c1c1c1"
-        }
-
-        CustCheck{
-            id: ch5
-            x: 50
-            y: 40
-            normalSrc: "elements/check_normal_checked.png"
-            hoverSrc: "elements/hover_check.png"
-            clickedSrc: "elements/check_normal_checked.png"
-            onClicked: { ch5.clip();}
-
-            PropertyAnimation on opacity{
-                id: a_12
-                running: false
-                from: 1
-                to: 0
-                duration: 500
-            }
-
-            PropertyAnimation on opacity{
-                id: a_36
-                running: false
-                from: 0
-                to: 1
-                duration: 500
-            }
-        }
-
-        CustCheck{
-            id: ch6
-            x: 50
-            y: 90
-            normalSrc: "elements/check_normal_checked.png"
-            hoverSrc: "elements/hover_check.png"
-            clickedSrc: "elements/check_normal_checked.png"
-            onClicked: { ch6.clip();}
-
-            PropertyAnimation on opacity{
-                id: a_13
-                running: false
-                from: 1
-                to: 0
-                duration: 500
-            }
-
-            PropertyAnimation on opacity{
-                id: a_37
-                running: false
-                from: 0
-                to: 1
-                duration: 500
-            }
-        }
-
-        Text{
-            x: 100
-            y: 50
-            text: "Пирсона"
-            color: "black"
-            font.family: robotoLight.name
-            font.weight: Font.Light
-            font.pixelSize: 20
-
-            PropertyAnimation on opacity{
-                id: a_14
-                running: false
-                from: 1
-                to: 0
-                duration: 500
-            }
-
-            PropertyAnimation on opacity{
-                id: a_38
-                running: false
-                from: 0
-                to: 1
-                duration: 500
-            }
-        }
-
-        Rectangle{
-            y: 86
-            width: 795
-            height: 1
-            color: "#c1c1c1"
-
-            PropertyAnimation on opacity{
-                id: a_15
-                running: false
-                from: 1
-                to: 0
-                duration: 500
-            }
-
-            PropertyAnimation on opacity{
-                id: a_39
-                running: false
-                from: 0
-                to: 1
-                duration: 500
-            }
-        }
-
-        Text{
-            x: 100
-            y: 100
-            text: "Колмогорова"
-            color: "black"
-            font.family: robotoLight.name
-            font.weight: Font.Light
-            font.pixelSize: 20
-
-            PropertyAnimation on opacity{
-                id: a_16
-                running: false
-                from: 1
-                to: 0
-                duration: 500
-            }
-
-            PropertyAnimation on opacity{
-                id: a_40
-                running: false
-                from: 0
-                to: 1
-                duration: 500
-            }
-        }
-
-        Rectangle{
-            y: 136
-            width: 795
-            height: 1
-            color: "#c1c1c1"
-
-            PropertyAnimation on opacity{
-                id: a_17
-                running: false
-                from: 1
-                to: 0
-                duration: 500
-            }
-
-            PropertyAnimation on opacity{
-                id: a_41
-                running: false
-                from: 0
-                to: 1
-                duration: 500
-            }
-        }
-
         }
 
         Item{
             id: regr
             x: 20
-            y: { if (anim5.running == true) criteries.y+150;
-                else if (anim8.running == true) criteries.y+50;
-               else { sl4.checked ? criteries.y+150 : criteries.y+50 } }
+            y: criteries.y+50//{ if (anim5.running == true) criteries.y+150;
+                //else if (anim8.running == true) criteries.y+50;
+               //else { sl4.checked ? criteries.y+150 : criteries.y+50 } }
 
             PropertyAnimation on y{
                 id: anim5
@@ -706,13 +561,13 @@ Item {
             PropertyAnimation on y{
                 id: anim8
                 running: false
-                to: criteries.y+150
+                to: criteries.y+50
                 duration: 500
             }
 
         Text{
             x: 76
-            text: "Регрессия"
+            text: "Регрессионный анализ"
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light
@@ -791,7 +646,7 @@ Item {
         Text{
             x: 100
             y: 50
-            text: "Статистика"
+            text: "График регрессии"
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light
@@ -840,7 +695,7 @@ Item {
         Text{
             x: 100
             y: 100
-            text: "График"
+            text: "Параметры"
             color: "black"
             font.family: robotoLight.name
             font.weight: Font.Light

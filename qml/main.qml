@@ -309,6 +309,8 @@ ApplicationWindow {
                     caption: "Дисперсионный анализ"
                     anchors { left: parent.left; right: parent.right }
                     radioGroup: menuGroup
+                    icon: "elements/d_icon.png"
+                    icon_inverted: "elements/d_icon_inverted.png"
                     enabled: false
                 }
             }
@@ -334,6 +336,8 @@ ApplicationWindow {
             y: 640
             caption: "Отчет"
             enabled: false
+            icon: "elements/rep_icon.png"
+            icon_inverted: "elements/rep_icon_inverted.png"
             radioGroup: menuGroup
         }
 
