@@ -65,11 +65,12 @@ class Presenter():
         try:
             self._model.loadFile(path, title, header, names, sep, decimal)
         except Exception as e:
-            self._view.showMessage("Не удалось загрузить данные из файла!")
+            self._view.showError("Не удалось загрузить данные из файла!")
             print(str(e))
             self._view.lock()
         else:
             self._view.unlock()
+            self._view.showMessage("Выборка загружена")
 
     def _view_loadCharact(self):
         if (not self._model.infoX['ready']):
@@ -250,3 +251,4 @@ class Presenter():
         # html_file = "Reports/" + self._model.title + '-' + datetime.today().isoformat() + '.html'
         html_file = "Reports/" + self._model.title + '.html'
         self._model.genReport(content, html_file)
+        self._view.showMessage("Отчёт сформирован")

@@ -1,9 +1,17 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <title>РћС‚С‡РµС‚ РїРѕ РІС‹Р±РѕСЂРєРµ</title>
+  <meta charset="Windows-1251">
+  <title>Отчет по выборке</title>
   <style type="text/css">
+    @charset "UTF-8";
+    @font-face {
+    font-family: myFont;
+    src: url(../qml/fonts/Roboto-Regular.ttf);
+    }
+    html *{
+      font-family: myFont !important;
+    }
     body {
       background-color: #eeeeee;
     }
@@ -74,7 +82,7 @@
   </style>
 </head>
 <header>
-    <h2>DATA ANALYZER REPORT<br><small> Р’С‹Р±РѕСЂРєР°: {{name}}</small></h3>
+    <h2>DATA ANALYZER REPORT<br><small> Выборка: {{name}}</small></h3>
 </header>
 <body>
       {% for item in content %}
@@ -88,15 +96,15 @@
     <div class="content">
       <h3>{{item.label}}</h3>
       <table border="1">
-        <tr><th>Р’РµР»РёС‡РёРЅР°</th><th>Р—РЅР°С‡РµРЅРёРµ</th></tr>
-        <tr><td>РЎСЂРµРґРЅРµРµ Р·РЅР°С‡РµРЅРёРµ</td><td>{{item.mean}}</td></tr>
-        <tr><td>РњРµРґРёР°РЅР°</td><td>{{item.median}}</td></tr>
-        <tr><td>РњРѕРґР°</td><td>{{item.mode}}</td></tr>
-        <tr><td>Р”РёСЃРїРµСЂСЃРёСЏ</td><td>{{item.dis}}</td></tr>
-        <tr><td>РЎСЂРµРґРЅРµРєРІР°РґСЂР°С‚РёС‡РЅРѕРµ РѕС‚РєР»РѕРЅРµРЅРёРµ</td><td>{{item.std}}</td></tr>
-        <tr><td>РљРѕСЌС„С„РёС†РёРµРЅС‚ РІР°СЂРёР°С†РёРё</td><td>{{item.var}}</td></tr>
-        <tr><td>РљРѕСЌС„С„РёС†РёРµРЅС‚ Р°СЃРёРјРјРµС‚СЂРёРё</td><td>{{item.skew}}</td></tr>
-        <tr><td>РљРѕСЌС„С„РёС†РёРµРЅС‚ СЌРєСЃС†РµСЃСЃР°</td><td>{{item.kurt}}</td></tr>
+        <tr><th>Величина</th><th>Значение</th></tr>
+        <tr><td>Среднее значение</td><td>{{item.mean}}</td></tr>
+        <tr><td>Медиана</td><td>{{item.median}}</td></tr>
+        <tr><td>Мода</td><td>{{item.mode}}</td></tr>
+        <tr><td>Дисперсия</td><td>{{item.dis}}</td></tr>
+        <tr><td>Среднеквадратичное отклонение</td><td>{{item.std}}</td></tr>
+        <tr><td>Коэффициент вариации</td><td>{{item.var}}</td></tr>
+        <tr><td>Коэффициент асимметрии</td><td>{{item.skew}}</td></tr>
+        <tr><td>Коэффициент эксцесса</td><td>{{item.kurt}}</td></tr>
       </table>
     </div>
     {%- endif %}
@@ -104,13 +112,13 @@
     <div class="content">
       <h3>{{item.label}}</h3>
       <table border="1">
-        <tr><th>Р’РµР»РёС‡РёРЅР°</th><th>Р—РЅР°С‡РµРЅРёРµ</th></tr>
-        <tr><td>РЈСЂР°РІРЅРµРЅРёРµ СЂРµРіСЂРµСЃСЃРёРё</td><td>{{item.equation}}</td></tr>
-        <tr><td>РљРѕСЌС„С„РёС†РёРµРЅС‚ СЂРµРіСЂРµСЃСЃРёРё</td><td>{{item.coef}}</td></tr>
-        <tr><td>R-РєРІР°РґСЂР°С‚</td><td>{{item.R2}}</td></tr>
-        <tr><td>РњРЅРѕР¶РµСЃС‚РІРµРЅРЅС‹Р№ R</td><td>{{item.R}}</td></tr>
-        <tr><td>РЎС‚Р°РЅРґР°СЂС‚РЅР°СЏ РѕС€РёР±РєР°</td><td>{{item.std}}</td></tr>
-        <tr><td>Р§РёСЃР»Рѕ РЅР°Р±Р»РѕРґРµРЅРёР№</td><td>{{item.count}}</td></tr>
+        <tr><th>Величина</th><th>Значение</th></tr>
+        <tr><td>Уравнение регрессии</td><td>{{item.equation}}</td></tr>
+        <tr><td>Коэффициент регрессии</td><td>{{item.coef}}</td></tr>
+        <tr><td>R-квадрат</td><td>{{item.R2}}</td></tr>
+        <tr><td>Множественный R</td><td>{{item.R}}</td></tr>
+        <tr><td>Стандартная ошибка</td><td>{{item.std}}</td></tr>
+        <tr><td>Число наблодений</td><td>{{item.count}}</td></tr>
       </table>
     </div>
     {% endif -%}
@@ -118,9 +126,9 @@
     <div class="content">
       <h3>{{item.label}}</h3>
       <table border="1">
-        <tr><th>РќР°Р·РІР°РЅРёРµ</th><th>РљРѕСЌС„С„РёС†РёРµРЅС‚</th><th>p-value</th></tr>
-        <tr><td>РљСЂРёС‚РµСЂРёР№ РљРѕР»РјРѕРіРѕСЂРѕРІР°</td><td>{{item.kolm.k}}</td><td>{{item.kolm.p}}</td></tr>
-        <tr><td>РљСЂРёС‚РµСЂРёР№ РџРёСЂСЃРѕРЅР°</td><td>{{item.pirs.k}}</td><td>{{item.pirs.p}}</td></tr>
+        <tr><th>Название</th><th>Коэффициент</th><th>p-value</th></tr>
+        <tr><td>Критерий Колмогорова</td><td>{{item.kolm.k}}</td><td>{{item.kolm.p}}</td></tr>
+        <tr><td>Критерий Пирсона</td><td>{{item.pirs.k}}</td><td>{{item.pirs.p}}</td></tr>
       </table>
     </div>
     {% endif -%}
@@ -128,8 +136,8 @@
     <div class="content">
       <h3>{{item.label}}</h3>
       <table border="1">
-        <tr><th>РќР°Р·РІР°РЅРёРµ РІС‹Р±РѕСЂРєРё</th><th>F-СЃС‚Р°С‚РёСЃС‚РёРєР°</th><th>p-value</th></tr>
-        <tr><td>Р’С‹Р±РѕСЂРєР°</td><td>{{item.f}}</td><td>{{item.p}}</td></tr>
+        <tr><th>Название выборки</th><th>F-статистика</th><th>p-value</th></tr>
+        <tr><td>Выборка</td><td>{{item.f}}</td><td>{{item.p}}</td></tr>
       </table>
     </div>
     {% endif -%}

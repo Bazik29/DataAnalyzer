@@ -45,8 +45,11 @@ class View(QQmlApplicationEngine):
     reportClick = pyqtSignal()
 
 
-    def showMessage(self, message):
+    def showError(self, message):
         self._root.showMessage(message)
+
+    def showMessage(self, message):
+        self._root.showUved(message)
 
     def lock(self):
         self._root.lock()

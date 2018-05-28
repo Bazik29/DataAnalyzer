@@ -47,6 +47,11 @@ ApplicationWindow {
         put_error(msg)
     }
 
+    function showUved(msg){
+        err_text1.text = msg
+        fadein1.start();
+    }
+
     function put_error(error){
         err_text.text = error;
         fadein.start();
@@ -348,6 +353,79 @@ ApplicationWindow {
             radioGroup: menuGroup
             icon: "elements/rep_icon.png"
             icon_inverted: "elements/rep_icon_inverted.png"
+        }
+
+    }
+
+    Item{
+        id: err_u
+        x: 1280
+        y: 560
+        width: 400
+        height: 150
+
+
+        Rectangle{
+        anchors.fill: parent
+        color: "#4286f4"
+        border.width: 3
+        border.color: '#337ef7'
+        }
+
+        Text{
+            x: 10
+            y: 10
+            color: "White"
+            font.family: "Roboto Regular"
+            font.pixelSize: 24
+            text: "Уведомление"
+        }
+
+        Text{
+            id: err_text1
+            x: 10
+            y: 65
+            width: 380
+            color: "White"
+            font.family: robotoLight.name
+            font.weight: Font.Light
+            font.pixelSize: 20
+            wrapMode: "WordWrap"
+            text: "Загрузка файла не возможна файл не существует"
+        }
+
+        CustButton{
+            id: load1
+            x: 358
+            y: 10
+            width: 32
+            height: 32
+            normalSrc: "elements/btn1.png"
+            hoverSrc: "elements/btn_h.png"
+            clickedSrc: "elements/btn1.png"
+            onClicked: { fadeout1.start(); }
+        }
+
+        Timer{
+            id: err_time1
+            interval: 5000
+            running: false
+            onTriggered:{ err_time1.stop(); fadeout1.start(); }
+        }
+
+        PropertyAnimation on x{
+            id: fadein1
+            to: 880
+            running: false
+            onRunningChanged: {
+                if (running == true) err_time1.start()
+            }
+        }
+
+        PropertyAnimation on x{
+            id: fadeout1
+            to: 1280
+            running: false
         }
 
     }
